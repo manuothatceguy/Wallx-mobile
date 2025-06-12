@@ -60,7 +60,6 @@ fun MainAppWithBottomBar() {
     var selectedItemIndex by remember { mutableIntStateOf(0) }
 
     Scaffold(
-        // En el slot de la barra inferior, colocamos nuestra nueva composición personalizada
         bottomBar = {
             CradledBottomNavBar(
                 selectedItemIndex = selectedItemIndex,
