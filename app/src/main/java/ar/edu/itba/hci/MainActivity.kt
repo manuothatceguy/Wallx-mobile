@@ -82,9 +82,7 @@ fun CradledBottomNavBar(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.TopCenter
     ) {
-        // --- ORDEN CORREGIDO ---
 
-        // 1. DIBUJAMOS LA BARRA INFERIOR PRIMERO (quedará al fondo)
         BottomAppBar(
             modifier = Modifier
                 .height(60.dp)
@@ -96,7 +94,6 @@ fun CradledBottomNavBar(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Ítem de la izquierda
                 BottomBarItem(
                     text = "Menú",
                     icon = Icons.Default.Menu,
@@ -104,10 +101,8 @@ fun CradledBottomNavBar(
                     onClick = { onItemSelected(0) }
                 )
 
-                // El espacio vacío para el botón
                 Spacer(modifier = Modifier.weight(1f))
 
-                // Ítem de la derecha
                 BottomBarItem(
                     text = "Gastos",
                     icon = Icons.Default.History,
@@ -117,7 +112,6 @@ fun CradledBottomNavBar(
             }
         }
 
-        // 2. DIBUJAMOS EL BOTÓN GRANDE AL FINAL (quedará encima de todo)
         Button(
             onClick = onQrClick,
             modifier = Modifier
@@ -146,7 +140,6 @@ fun RowScope.BottomBarItem(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
-    // NOTA: Añadido RowScope. para poder usar Modifier.weight()
     val contentColor =
         if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
     val fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
@@ -176,7 +169,7 @@ fun RowScope.BottomBarItem(
 @Preview(showBackground = true)
 @Composable
 fun AppPreview() {
-    WallxTheme {
+    WallxTheme(dynamicColor = false) {
         MainAppWithBottomBar()
     }
 }
