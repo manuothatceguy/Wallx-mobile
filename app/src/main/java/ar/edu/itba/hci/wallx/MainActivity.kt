@@ -1,4 +1,4 @@
-package ar.edu.itba.hci
+package ar.edu.itba.hci.wallx
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -39,8 +39,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ar.edu.itba.hci.ui.screens.dashboard.DashboardScreen
-import ar.edu.itba.hci.ui.theme.WallxTheme
+import ar.edu.itba.hci.wallx.ui.screens.dashboard.DashboardScreen
+import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {

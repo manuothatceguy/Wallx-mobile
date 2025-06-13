@@ -1,4 +1,4 @@
-package ar.edu.itba.hci.ui.screens.dashboard
+package ar.edu.itba.hci.wallx.ui.screens.dashboard
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,7 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import ar.edu.itba.hci.ui.theme.Secondary
+import ar.edu.itba.hci.wallx.ui.theme.Secondary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

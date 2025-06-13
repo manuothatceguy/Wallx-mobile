@@ -1,4 +1,4 @@
-package ar.edu.itba.hci.ui.screens.servicios
+package ar.edu.itba.hci.wallx.ui.screens.servicios
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text

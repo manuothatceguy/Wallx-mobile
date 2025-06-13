@@ -1,4 +1,4 @@
-package ar.edu.itba.hci.ui.theme
+package ar.edu.itba.hci.wallx.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

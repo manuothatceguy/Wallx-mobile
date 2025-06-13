@@ -1,4 +1,4 @@
-package ar.edu.itba.hci.ui.components
+package ar.edu.itba.hci.wallx.ui.components
 
 import java.util.Date
 

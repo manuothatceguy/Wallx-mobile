@@ -1,4 +1,4 @@
-package ar.edu.itba.hci.ui.screens.movimientos
+package ar.edu.itba.hci.wallx.ui.screens.movimientos
 
 
 //data class movement(val destinatario: String, val detalle: String, val metodo: Integer, val monto: Integer, val pagador: String)

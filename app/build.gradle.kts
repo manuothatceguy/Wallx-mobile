@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "ar.edu.itba.hci"
+    namespace = "ar.edu.itba.hci.wallx"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "ar.edu.itba.hci"
+        applicationId = "ar.edu.itba.hci.wallx"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -58,4 +58,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.androidx.material.icons.extended)
+    implementation(libs.okhttp)
 }
