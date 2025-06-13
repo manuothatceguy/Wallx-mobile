@@ -39,7 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ar.edu.itba.hci.wallx.ui.screens.dashboard.DashboardScreen
+import ar.edu.itba.hci.wallx.ui.screens.movimientos.MovimientosScreen
 import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -68,7 +68,7 @@ fun MainAppWithBottomBar() {
             )
         }
     ) { innerPadding ->
-        DashboardScreen(modifier = Modifier.padding(innerPadding))
+        MovimientosScreen(modifier = Modifier.padding(innerPadding))
     }
 }
 
