@@ -61,4 +61,10 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
+    implementation(libs.retrofit)
+    implementation(libs.kotlinx)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.retrofit.serialization)
+
 }
