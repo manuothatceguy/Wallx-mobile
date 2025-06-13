@@ -66,5 +66,7 @@ dependencies {
     implementation(libs.kotlinx)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.retrofit.serialization)
+    implementation(libs.androidx.navigation.compose)
+
 
 }
