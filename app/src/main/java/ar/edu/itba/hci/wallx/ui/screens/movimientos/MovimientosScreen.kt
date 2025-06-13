@@ -64,7 +64,7 @@ fun MovimientosScreen(modifier: Modifier = Modifier) {
                 Icon(
                     imageVector = Icons.Default.History,
                     contentDescription = "Historial",
-                    tint = Color(0xFF2F8F75)
+                    tint = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
@@ -107,7 +107,7 @@ fun MovementOverview(movement: movement) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp)
-            .background(Color(0xFFD1EDE2), shape = RoundedCornerShape(8.dp)) // verde suave
+            .background(MaterialTheme.colorScheme.background, shape = RoundedCornerShape(8.dp)) // verde suave
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -123,7 +123,7 @@ fun MovementOverview(movement: movement) {
         )
         Box(
             modifier = Modifier
-                .background(Color(0xFF2F8F75), shape = RoundedCornerShape(6.dp))
+                .background(MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(6.dp))
                 .padding(horizontal = 12.dp, vertical = 6.dp)
         ) {
             Text("Detalle", color = Color.White, fontSize = 12.sp)
