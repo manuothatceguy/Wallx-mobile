@@ -69,6 +69,7 @@ fun DashboardScreen(modifier: Modifier) {
                 }
             }
         )
+        //Dinero disponible
         Card(
             modifier = Modifier
                 .padding(horizontal = 24.dp, vertical = 16.dp)
@@ -95,14 +96,18 @@ fun DashboardScreen(modifier: Modifier) {
                     Text(
                         text = "Dinero disponible",
                         fontSize = androidx.compose.material3.MaterialTheme.typography.headlineLarge.fontSize,
-
                     )
                 }
 
-                MoneyVisibility()
+               MoneyVisibility()
+
             }
+
         }
+        CreditCards()
+        LastMovements()
     }
+
 }
 
 
@@ -135,3 +140,64 @@ fun MoneyVisibility() {
     }
 }
 
+@Composable
+fun CreditCards(){
+    Card(
+        modifier = Modifier
+            .padding(horizontal = 24.dp, vertical = 16.dp)
+            .fillMaxWidth()
+            .height(160.dp),
+        colors = CardDefaults.cardColors(containerColor = Secondary) // o Secondary, si querés un bloque destacado
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+
+                Text(
+                    text = "Tarjetas",
+                    fontSize = androidx.compose.material3.MaterialTheme.typography.headlineLarge.fontSize,
+                )
+            }
+
+        }
+    }
+}
+
+@Composable
+fun LastMovements(){
+    Card(
+        modifier = Modifier
+            .padding(horizontal = 24.dp, vertical = 16.dp)
+            .fillMaxWidth()
+            .height(280.dp),
+        colors = CardDefaults.cardColors(containerColor = Secondary) // o Secondary, si querés un bloque destacado
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+
+                Text(
+                    text = "Ultimos movimentos",
+                    fontSize = androidx.compose.material3.MaterialTheme.typography.headlineLarge.fontSize,
+                )
+            }
+
+        }
+    }
+}
