@@ -1,4 +1,4 @@
-package ar.edu.itba.hci.wallx.model.user
+package ar.edu.itba.hci.wallx.data.model.user
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

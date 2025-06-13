@@ -31,9 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lint.kotlin.metadata.Visibility
 import ar.edu.itba.hci.wallx.ui.theme.Secondary
-import com.google.rpc.Help
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -107,14 +105,6 @@ fun DashboardScreen(modifier: Modifier) {
         CreditCards()
         LastMovements()
     }
-
-}
-
-
-@Composable
-fun SeeNoSee(
-
-) {
 
 }
 

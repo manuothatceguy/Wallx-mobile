@@ -1,4 +1,4 @@
-package ar.edu.itba.hci.wallx.model.payment
+package ar.edu.itba.hci.wallx.data.model.payment
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

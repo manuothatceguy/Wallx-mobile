@@ -1,4 +1,4 @@
-package ar.edu.itba.hci.wallx.model.card
+package ar.edu.itba.hci.wallx.data.model.card
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
