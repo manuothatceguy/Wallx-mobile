@@ -70,5 +70,7 @@ dependencies {
     implementation(libs.compose.material3.icons.extended)
 
 
+    implementation(libs.androidx.material.icons.extended)
+    implementation(libs.compose.material3.icons.extended)
 
 }
