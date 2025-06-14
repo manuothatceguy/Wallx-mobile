@@ -3,6 +3,7 @@ package ar.edu.itba.hci.wallx.ui.navigation
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Login
+import androidx.compose.material.icons.filled.CheckBox
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Payments
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -21,5 +22,5 @@ enum class AppDestinations(
     NUEVA_TRANSFERENCIA(R.string.nueva_transferencia, Icons.Filled.Payments, "nueva_transferencia"),
     SERVICIOS(R.string.servicios, Icons.Filled.Payments, "servicios"),
     TARJETAS(R.string.tarjetas, Icons.Filled.Payments, "tarjetas"),
-
+    VERIFICAR(R.string.verificar_cuenta, Icons.Filled.CheckBox, "verificar")
 }

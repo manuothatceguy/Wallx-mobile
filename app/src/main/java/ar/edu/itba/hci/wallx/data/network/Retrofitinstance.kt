@@ -16,18 +16,18 @@ object RetrofitInstance {
     }
 
     interface TokenProvider {
-        fun getToken(): String?
+        fun getAuthToken(): String?
     }
 
     // TokenProvider
     object SimpleTokenProvider : TokenProvider {
-        private var token: String? = null
-        override fun getToken() = token
+        var _token: String? = null
+        override fun getAuthToken() = _token
     }
 
     private val authInterceptor = Interceptor { chain ->
         val request = chain.request()
-        val token = SimpleTokenProvider.getToken()
+        val token = SimpleTokenProvider.getAuthToken()
 
         val newRequest = if (token != null) {
             request.newBuilder()
