@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dashboard">Home</string>
+    <string name="movimientos">Movements</string>
+    <string name="transferencias">Transfers</string>
+    <string name="nueva_transferencia">New transfer</string>
+    <string name="dinero_disponible">Balance</string>
+    <string name="ultimos_movimientos">Recent movements</string>
+    <string name="inicio_de_sesión">Log in</string>
+    <string name="recuperar_contraseña">Password recovery</string>
+    <string name="verificar_cuenta">Verify account</string>
+    <string name="no_tenés_una_cuenta">Don\'t have an account?</string>
+    <string name="tu_información">Your information</string>
+    <string name="ingresar">Deposit</string>
+    <string name="transferir">Transfer</string>
+    <string name="información">Information</string>
+    <string name="registrate">Sign up</string>
+</resources>
