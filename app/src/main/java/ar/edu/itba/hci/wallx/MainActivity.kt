@@ -39,7 +39,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ar.edu.itba.hci.wallx.ui.screens.movimientos.MovimientosScreen
 import ar.edu.itba.hci.wallx.ui.screens.tarjetas.TarjetasScreen
 import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 
@@ -69,7 +68,7 @@ fun MainAppWithBottomBar() {
             )
         }
     ) { innerPadding ->
-        MovimientosScreen(modifier = Modifier.padding(innerPadding))
+        TarjetasScreen(modifier = Modifier.padding(innerPadding))
     }
 }
 
