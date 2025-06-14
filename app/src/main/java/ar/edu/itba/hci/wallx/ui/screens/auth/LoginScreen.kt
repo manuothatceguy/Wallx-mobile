@@ -35,7 +35,8 @@ import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 
 @OptIn(InternalTextApi::class)
 @Composable
-fun LoginScreen(modifier: Modifier
+fun LoginScreen(
+    modifier: Modifier
                 ) {
     Column(modifier = modifier.fillMaxSize()) {
         Row(modifier = modifier,
@@ -43,8 +44,8 @@ fun LoginScreen(modifier: Modifier
             Card(
                 modifier = modifier
                     .padding(horizontal = 120.dp, vertical = 16.dp)
-                    .fillMaxWidth().
-                    height(60.dp),
+                    .fillMaxWidth()
+                    .height(60.dp),
                 colors = CardDefaults.cardColors(containerColor = Secondary)
             ){
                 Box(
