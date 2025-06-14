@@ -12,7 +12,7 @@
     <string name="no_tenés_una_cuenta">¿No tenés una cuenta?</string>
     <string name="tu_información">Tu información</string>
     <string name="ingresar">Ingresar</string>
-    <string name="transferir">Transfer</string>
+    <string name="transferir">transfer</string>
     <string name="información">Información</string>
     <string name="registrate">Registrate</string>
     <string name="servicios">Servicios</string>
@@ -21,4 +21,7 @@
     <string name="buscar_movimientos">Buscar movimientos</string>
     <string name="agregar">Agregar</string>
     <string name="escanear">Escanear</string>
+    <string name="usuario">Usuario</string>
+    <string name="contraseña">Contraseña</string>
+    <string name="inicio_sesion">" Log in"</string>
 </resources>

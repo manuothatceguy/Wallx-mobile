@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Surface
@@ -20,18 +22,34 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.TextFieldDefaults
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.InternalTextApi
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ar.edu.itba.hci.wallx.R
+import ar.edu.itba.hci.wallx.ui.theme.Accent
+import ar.edu.itba.hci.wallx.ui.theme.Background
+import ar.edu.itba.hci.wallx.ui.theme.Interactive
 import ar.edu.itba.hci.wallx.ui.theme.Primary
+import ar.edu.itba.hci.wallx.ui.theme.PrimaryDarken1
 import ar.edu.itba.hci.wallx.ui.theme.Secondary
+import ar.edu.itba.hci.wallx.ui.theme.SecondaryDarken1
+import ar.edu.itba.hci.wallx.ui.theme.SurfaceLight
+import ar.edu.itba.hci.wallx.ui.theme.SurfaceVariant
+import ar.edu.itba.hci.wallx.ui.theme.Error
+import ar.edu.itba.hci.wallx.ui.theme.Info
 import ar.edu.itba.hci.wallx.ui.theme.Typography
 import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
+import ar.edu.itba.hci.wallx.ui.theme.White
+
 
 @OptIn(InternalTextApi::class)
 @Composable
@@ -39,7 +57,8 @@ fun LoginScreen(
     modifier: Modifier
                 ) {
     Column(modifier = modifier.fillMaxSize()) {
-        Row(modifier = modifier,
+        Row(
+            modifier = modifier,
         ) {
             Card(
                 modifier = modifier
@@ -54,7 +73,7 @@ fun LoginScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "WallX",
+                        text = stringResource(R.string.app_name),
                         modifier = Modifier.padding(16.dp),
                         style = Typography.titleLarge
                     )
@@ -92,38 +111,111 @@ fun LoginScreen(
                         ) {
                             // Título centrado
                             Text(
-                                text = "Inicio de sesión",
+                                text = stringResource(R.string.inicio_de_sesión),
                                 style = Typography.titleLarge
                             )
 
-                            // Subtítulo y TextField: Usuario
+                            var user by remember { mutableStateOf("") }
                             Column(modifier = Modifier.fillMaxWidth()) {
                                 Text(
-                                    text = "Usuario",
+                                    text = stringResource(R.string.usuario),
                                     style = Typography.bodyMedium,
                                     modifier = Modifier.padding(bottom = 4.dp)
                                 )
-                                TextField(
-                                    value = "",
-                                    onValueChange = {},
-                                    modifier = Modifier.fillMaxWidth(),
-                                    singleLine = true
+                                OutlinedTextField(
+                                    value = user,
+                                    onValueChange = { newUser -> user = newUser },
+                                    placeholder = { Text(text = stringResource(R.string.usuario),
+                                                    color = Info
+                                                        ) },
+                                    colors = OutlinedTextFieldDefaults.colors(
+                                        focusedTextColor = Primary,
+                                        unfocusedTextColor = Info,
+                                        disabledTextColor = SurfaceVariant,
+                                        errorTextColor = Error,
+
+                                        focusedContainerColor = Secondary,
+                                        unfocusedContainerColor = Background,
+                                        disabledContainerColor = SurfaceLight,
+                                        errorContainerColor = Error.copy(alpha = 0.1f),
+
+                                        cursorColor = Secondary,
+
+                                        focusedBorderColor = SecondaryDarken1,
+                                        unfocusedBorderColor = Interactive,
+                                        disabledBorderColor = SurfaceVariant,
+                                        errorBorderColor = Error,
+
+                                        focusedLeadingIconColor = SecondaryDarken1,
+                                        unfocusedLeadingIconColor = Interactive.copy(alpha = 0.7f),
+
+                                        focusedTrailingIconColor = SecondaryDarken1,
+                                        unfocusedTrailingIconColor = Interactive.copy(alpha = 0.7f),
+                                    )
+
                                 )
                             }
 
                             Spacer(modifier = Modifier.height(16.dp))
-
+                            var password by remember { mutableStateOf("") }
                             // Subtítulo y TextField: Contraseña
                             Column(modifier = Modifier.fillMaxWidth()) {
                                 Text(
-                                    text = "Contraseña",
+                                    text = stringResource(R.string.contraseña),
                                     style = Typography.bodyMedium,
                                     modifier = Modifier.padding(bottom = 4.dp)
                                 )
+                                OutlinedTextField(
+                                    value = password,
+                                    onValueChange = { newPassword -> password = newPassword },
+                                    placeholder = { Text(text = stringResource(R.string.contraseña),
+                                                        color = Info) },
+                                    colors = OutlinedTextFieldDefaults.colors(
+                                        focusedTextColor = Primary,
+                                        unfocusedTextColor = Info,
+                                        disabledTextColor = SurfaceVariant,
+                                        errorTextColor = Error,
+
+                                        focusedContainerColor = Secondary,
+                                        unfocusedContainerColor = Background,
+                                        disabledContainerColor = SurfaceLight,
+                                        errorContainerColor = Error.copy(alpha = 0.1f),
+
+                                        cursorColor = Secondary,
+
+                                        focusedBorderColor = SecondaryDarken1,
+                                        unfocusedBorderColor = Interactive,
+                                        disabledBorderColor = SurfaceVariant,
+                                        errorBorderColor = Error,
+
+                                        focusedLeadingIconColor = SecondaryDarken1,
+                                        unfocusedLeadingIconColor = Interactive.copy(alpha = 0.7f),
+
+                                        focusedTrailingIconColor = SecondaryDarken1,
+                                        unfocusedTrailingIconColor = Interactive.copy(alpha = 0.7f),
+                                    )
+                                )
+                            }
+                        }
+                        Button(
+                            onClick = { /* Acción al hacer clic en el botón */ },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                                .height(50.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Accent,
+                                contentColor = White
+                            )
+                        ){
+                            Box(){
+                                Text(text=stringResource(R.string.inicio_sesion))
                             }
                         }
                     }
+
                 }
+
             }
         }
     }
@@ -136,41 +228,3 @@ fun LoginScreenPreview() {
         LoginScreen(modifier = Modifier)
     }
 }
-
-
-/*fun SimpleTextInputComponent() {
-    // Surface is a composable provided to fulfill the needs of the "Surface" metaphor from the
-    // Material Design specification. It's generally used to change the background color, add
-    // elevation, clip or add background shape to its children composables.
-
-    // You can think of Modifiers as implementations of the decorators pattern that are used to
-    // modify the composable that its applied to. In this example, we assign a padding of
-    // 16dp to the Surface.
-    Surface(color = Color.LightGray, modifier = Modifier.padding(16.dp)) {
-        // BasicTextField is a composable that is capable of accepting text user input. It renders the
-        // value that you pass to the "value" field. In order to update this as the user is
-        // typing a new string, we make use of the state delegate.
-
-        // Reacting to state changes is the core behavior of Compose. You will notice a couple new
-        // keywords that are compose related - remember & mutableStateOf.remember{} is a helper
-        // composable that calculates the value passed to it only during the first composition. It then
-        // returns the same value for every subsequent composition. Next, you can think of
-        // mutableStateOf as an observable value where updates to this variable will redraw all
-        // the composable functions that access it. We don't need to explicitly subscribe at all. Any
-        // composable that reads its value will be recomposed any time the value
-        // changes. This ensures that only the composables that depend on this will be redraw while the
-        // rest remain unchanged. This ensures efficiency and is a performance optimization. It
-        // is inspired from existing frameworks like React.
-        var textValue by remember { mutableStateOf(TextFieldValue("Enter your text here")) }
-        BasicTextField(
-            value = textValue,
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-            // Update value of textValue with the latest value of the text field
-            onValueChange = {
-                textValue = it
-            }
-        )
-    }
-}*/

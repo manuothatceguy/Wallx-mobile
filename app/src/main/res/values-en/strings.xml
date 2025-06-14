@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="dashboard">Home</string>
-    <string name="movimientos">Transactions</string>
+    <string name="movimientos">Movements</string>
     <string name="transferencias">Transfers</string>
     <string name="nueva_transferencia">New transfer</string>
     <string name="dinero_disponible">Balance</string>
-    <string name="ultimos_movimientos">Recent transactions</string>
+    <string name="ultimos_movimientos">Recent movements</string>
     <string name="inicio_de_sesión">Log in</string>
     <string name="recuperar_contraseña">Password recovery</string>
     <string name="verificar_cuenta">Verify account</string>
@@ -21,4 +21,7 @@
     <string name="buscar_movimientos">Lookup transactions</string>
     <string name="agregar">Add</string>
     <string name="escanear">Scan</string>
+    <string name="usuario">User</string>
+    <string name="contraseña">Password</string>
+    <string name="inicio_sesion">Iniciar sesión</string>
 </resources>
