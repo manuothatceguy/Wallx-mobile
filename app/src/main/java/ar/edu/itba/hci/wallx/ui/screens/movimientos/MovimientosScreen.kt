@@ -1,15 +1,19 @@
 package ar.edu.itba.hci.wallx.ui.screens.movimientos
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.History
@@ -22,9 +26,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ar.edu.itba.hci.wallx.R
+
 
 
 data class movement(
@@ -38,7 +45,6 @@ data class movement(
 
 @Composable
 fun MovimientosScreen(modifier: Modifier = Modifier) {
-    //desp cambiar a la API
     val dummyMovements = listOf(
         movement("Juan Pérez", "Pago de servicio", "Transferencia", "$10.000,00", "María"),
         movement("Ana Gómez", "Compra online", "Tarjeta", "$25.000,50", "Ana"),
@@ -46,12 +52,6 @@ fun MovimientosScreen(modifier: Modifier = Modifier) {
         movement("Empresa SA", "Sueldo", "Depósito", "$120.000,00", "Empresa SA"),
         movement("Marta López", "Regalo", "Transferencia", "$5.500,00", "Pedro")
     )
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-    ) {}
 
     Box(
         modifier = Modifier
@@ -68,7 +68,7 @@ fun MovimientosScreen(modifier: Modifier = Modifier) {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    "Últimos movimientos",
+                    stringResource(R.string.ultimos_movimientos),
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
                 )
@@ -80,7 +80,10 @@ fun MovimientosScreen(modifier: Modifier = Modifier) {
                 value = "",
                 onValueChange = {},
                 placeholder = {
-                    Text("Buscar movimientos", color = MaterialTheme.colorScheme.primary)
+                    Text(
+                        stringResource(R.string.buscar_movimientos),
+                        color = MaterialTheme.colorScheme.primary
+                    )
                 },
                 leadingIcon = {
                     Icon(
@@ -96,11 +99,18 @@ fun MovimientosScreen(modifier: Modifier = Modifier) {
 
             Spacer(modifier = Modifier.height(12.dp))
 
-
-            Movements(dummyMovements)
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.fillMaxHeight()
+            ) {
+                items(dummyMovements) { movement ->
+                    MovementOverview(movement)
+                }
+            }
         }
     }
 }
+
 @Composable
 fun MovementOverview(movement: movement) {
     Row(
@@ -126,7 +136,7 @@ fun MovementOverview(movement: movement) {
                 .background(MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(6.dp))
                 .padding(horizontal = 12.dp, vertical = 6.dp)
         ) {
-            Text("Detalle", color = Color.White, fontSize = 12.sp)
+            Text(stringResource(R.string.detalle), color = Color.White, fontSize = 12.sp)
         }
     }
 }

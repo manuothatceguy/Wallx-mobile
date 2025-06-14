@@ -21,7 +21,7 @@ object RetrofitInstance {
 
     // TokenProvider
     object SimpleTokenProvider : TokenProvider {
-        var token: String? = null
+        private var token: String? = null
         override fun getToken() = token
     }
 

@@ -120,7 +120,6 @@ fun LoginScreen(
                                     style = Typography.bodyMedium,
                                     modifier = Modifier.padding(bottom = 4.dp)
                                 )
-                                SimpleTextInputComponent()
                             }
                         }
                     }
@@ -138,9 +137,8 @@ fun LoginScreenPreview() {
     }
 }
 
-@InternalTextApi
-@Composable
-fun SimpleTextInputComponent() {
+
+/*fun SimpleTextInputComponent() {
     // Surface is a composable provided to fulfill the needs of the "Surface" metaphor from the
     // Material Design specification. It's generally used to change the background color, add
     // elevation, clip or add background shape to its children composables.
@@ -175,4 +173,4 @@ fun SimpleTextInputComponent() {
             }
         )
     }
-}
+}*/

@@ -69,7 +69,7 @@ fun MainAppWithBottomBar() {
             )
         }
     ) { innerPadding ->
-        TarjetasScreen(modifier = Modifier.padding(innerPadding))
+        MovimientosScreen(modifier = Modifier.padding(innerPadding))
     }
 }
 

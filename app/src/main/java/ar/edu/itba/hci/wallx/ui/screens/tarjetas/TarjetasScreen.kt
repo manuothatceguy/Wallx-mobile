@@ -1,5 +1,6 @@
 package ar.edu.itba.hci.wallx.ui.screens.tarjetas
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,92 +15,142 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ar.edu.itba.hci.wallx.R
 
-data class CardData(val lastDigits: String, val brand: String, val backgroundColor: Color)
+data class CardData(
+    val lastDigits: String,
+    val brand: String,
+    val backgroundColor: Color,
+    val owner: String,
+    val expiryDate: String
+)
 
 @Composable
 fun TarjetasScreen(modifier: Modifier = Modifier) {
-    //queda setear los colores y las imagenes de los logos de las tarjetas lol!!
     val dummyCards = listOf(
-        CardData("1234", "visa", Color(0xFF1A1A1A)),
-        CardData("5678", "mastercard", Color(0xFF7E7B7B)),
-        CardData("9876", "amex", Color(0xFFD3D3D3))
+        CardData("4123", detectCardBrandFromNumber("4123"), Color(0xFF1A1A1A), "Juan Pérez", "12/26"),
+        CardData("5234", detectCardBrandFromNumber("5234"), Color(0xFF7E7B7B), "Ana López", "03/27"),
+        CardData("3765", detectCardBrandFromNumber("3765"), Color(0xFFD3D3D3), "Carlos Ruiz", "08/25")
     )
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .padding(horizontal = 16.dp, vertical = 24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(16.dp)
     ) {
-        // Botones centrados
+        // Botones arriba
         Row(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Button(onClick = { /* TODO */ }) {
+            Button(onClick = { /* TODO */ }, modifier = Modifier.weight(1f)) {
                 Icon(Icons.Default.Add, contentDescription = "Agregar")
-                Spacer(modifier = Modifier.width(4.dp))
-                Text("Agregar")
+                Spacer(Modifier.width(4.dp))
+                Text(stringResource(R.string.agregar))
             }
 
-            Button(onClick = { /* TODO */ }) {
+            Button(onClick = { /* TODO */ }, modifier = Modifier.weight(1f)) {
                 Icon(Icons.Default.PhotoCamera, contentDescription = "Escanear")
-                Spacer(modifier = Modifier.width(4.dp))
-                Text("Escanear")
+                Spacer(Modifier.width(4.dp))
+                Text(stringResource(R.string.escanear))
             }
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(Modifier.height(24.dp))
+
 
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
         ) {
             items(dummyCards) { card ->
-                CreditCardItem(card)
+                CardItem(card)
             }
         }
     }
 }
 
 @Composable
-fun CreditCardItem(card: CardData) {
+fun CardItem(card: CardData) {
+    val brandLogo = getBrandLogo(card.brand)
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp) // más padding en los costados
             .aspectRatio(1.586f)
-            .background(card.backgroundColor, shape = RoundedCornerShape(16.dp))
+            .background(card.backgroundColor, RoundedCornerShape(16.dp))
             .padding(16.dp)
     ) {
-        Column(modifier = Modifier.align(Alignment.BottomStart)) {
-            Text("**** ${card.lastDigits}", color = Color.White, fontSize = 16.sp)
-        }
 
+        Text(
+            text = "${card.lastDigits}********${card.lastDigits}",//ver como mostrar primeros y ultimos de un solo string de nums
+            color = Color.White,
+            fontSize = 18.sp,
+            modifier = Modifier.align(Alignment.CenterStart)
+        )
+
+        Text(
+            text = card.owner,
+            color = Color.White,
+            fontSize = 14.sp,
+            modifier = Modifier.align(Alignment.BottomStart)
+        )
+
+        Text(
+            text = card.expiryDate,
+            color = Color.White,
+            fontSize = 14.sp,
+            modifier = Modifier.align(Alignment.BottomEnd)
+        )
+
+        // Logo arriba a la izquierda
+        Image(
+            painter = painterResource(id = brandLogo),
+            contentDescription = null,
+            modifier = Modifier
+                .size(48.dp)
+                .align(Alignment.TopStart)
+        )
+
+        // Botón eliminar (si querés mantenerlo)
         Icon(
             imageVector = Icons.Default.Delete,
             contentDescription = "Eliminar",
             tint = Color.White,
-            modifier = Modifier.align(Alignment.TopEnd)
+            modifier = Modifier
+                .align(Alignment.TopEnd)
         )
+    }
+}
 
-        //falta importar imagenes de las marcas de las tarjetas y poner las imagenes en vez de texto lol!!!
-        Text(
-            text = when (card.brand.lowercase()) {
-                "visa" -> "VISA"
-                "mastercard" -> "MASTERCARD"
-                "amex" -> "AMEX"
-                else -> "OTRO"
-            },
-            color = Color.White,
-            fontWeight = FontWeight.Bold,
-            fontSize = 20.sp,
-            modifier = Modifier.align(Alignment.BottomEnd)
-        )
+
+
+fun detectCardBrandFromNumber(cardNumber: String?): String {
+    if (cardNumber.isNullOrEmpty()) return ""
+    return when (cardNumber[0]) {
+        '4' -> "visa"
+        '5', '2' -> "mastercard"
+        '3' -> "amex"
+        '6' -> "maestro"
+        else -> ""
+    }
+}
+
+fun getBrandLogo(brand: String?): Int {
+    return when (brand?.lowercase()) {
+        "visa" -> R.drawable.visa
+        "mastercard" -> R.drawable.mastercard
+        "amex" -> R.drawable.amex
+        "maestro" -> R.drawable.maestro
+        else -> R.drawable.visa // ver q hacemos cuando no detecta
     }
 }

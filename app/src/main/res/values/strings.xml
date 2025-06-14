@@ -17,5 +17,9 @@
     <string name="registrate">Registrate</string>
     <string name="servicios">Servicios</string>
     <string name="tarjetas">Tarjetas</string>
+    <string name="detalle">Detalle</string>
+    <string name="buscar_movimientos">Buscar movimientos</string>
+    <string name="agregar">Agregar</string>
+    <string name="escanear">Escanear</string>
 
 </resources>
