@@ -15,6 +15,10 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.filled.Wallet
+import androidx.compose.material.icons.filled.Add
+
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Output
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -68,44 +72,95 @@ fun DashboardScreen(modifier: Modifier) {
             }
         )
         //Dinero disponible
-        Card(
-            modifier = Modifier
-                .padding(horizontal = 24.dp, vertical = 16.dp)
-                .fillMaxWidth()
-                .height(160.dp),
-            colors = CardDefaults.cardColors(containerColor = Secondary) // o Secondary, si querés un bloque destacado
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.SpaceBetween
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Icon(
-                        Icons.Filled.Wallet,
-                        contentDescription = "Wallet",
-                        modifier = Modifier.size(40.dp)
-                    )
-                    Text(
-                        text = "Dinero disponible",
-                        fontSize = androidx.compose.material3.MaterialTheme.typography.headlineLarge.fontSize,
-                    )
-                }
-
-               MoneyVisibility()
-
-            }
-
-        }
-        CreditCards()
+        AvailableMoney()
+        YourInfo()
         LastMovements()
     }
 
+}
+
+@Composable
+fun AvailableMoney(){
+    var see by remember { mutableStateOf(true) }
+
+    Card(
+        modifier = Modifier
+            .padding(horizontal = 24.dp, vertical = 16.dp)
+            .fillMaxWidth()
+            .height(160.dp),
+        colors = CardDefaults.cardColors(containerColor = Secondary) // o Secondary, si querés un bloque destacado
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(
+                    Icons.Filled.Wallet,
+                    contentDescription = "Wallet",
+                    modifier = Modifier.size(40.dp)
+                )
+                Text(
+                    text = "Dinero disponible",
+                    fontSize = androidx.compose.material3.MaterialTheme.typography.headlineLarge.fontSize,
+                )
+            }
+            Row (  verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            )
+            {  Text(
+                text = if (see) "$10000" else "****",
+                fontSize = androidx.compose.material3.MaterialTheme.typography.headlineMedium.fontSize,
+            )
+                Button(onClick = { see = !see }) {
+                    Icon(
+                        imageVector = if (see) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
+                        contentDescription = if (see) "Ocultar saldo" else "Mostrar saldo"
+                    )
+                }
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                ActionIconButton(icon = Icons.Filled.Add, label = "Ingresar") {
+                    // Acción de ingresar dinero
+                }
+                ActionIconButton(icon = Icons.Filled.Output , label = "Transferir") {
+                    // acción
+                }
+                ActionIconButton(icon = Icons.Filled.Info, label = "Información") {
+                    // Mostrar info o navegar
+                }
+            }
+
+        }
+
+    }
+}
+
+@Composable
+fun ActionIconButton(icon: androidx.compose.ui.graphics.vector.ImageVector, label: String,    onClick: () -> Unit) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Button(onClick = onClick, modifier = Modifier.size(60.dp)) {
+            Icon(
+                icon,
+                contentDescription = label,
+                modifier = Modifier.size(24.dp)
+            )
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(label)
+    }
 }
 
 @Composable
@@ -131,7 +186,7 @@ fun MoneyVisibility() {
 }
 
 @Composable
-fun CreditCards(){
+fun YourInfo(){
     Card(
         modifier = Modifier
             .padding(horizontal = 24.dp, vertical = 16.dp)
@@ -152,7 +207,7 @@ fun CreditCards(){
             ) {
 
                 Text(
-                    text = "Tarjetas",
+                    text = "Tu informacion",
                     fontSize = androidx.compose.material3.MaterialTheme.typography.headlineLarge.fontSize,
                 )
             }
