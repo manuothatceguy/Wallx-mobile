@@ -4,13 +4,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import ar.edu.itba.hci.wallx.ui.screens.auth.LoginScreen
 import ar.edu.itba.hci.wallx.ui.screens.auth.RegisterScreen
+import ar.edu.itba.hci.wallx.ui.screens.auth.VerifyScreen
 import ar.edu.itba.hci.wallx.ui.screens.dashboard.DashboardScreen
 import ar.edu.itba.hci.wallx.ui.viewmodel.UserViewModel
 
@@ -26,11 +33,57 @@ fun AppNavGraph(
         navController = navController,
         startDestination = if (isLoggedIn) AppDestinations.DASHBOARD.route else AppDestinations.INICIO_DE_SESION.route
     ) {
-        composable(AppDestinations.INICIO_DE_SESION.route) {
-            LoginScreen(modifier)
+        composable(
+            route = AppDestinations.INICIO_DE_SESION.route + "?redirectTo={redirectTo}",
+            arguments = listOf(
+                navArgument("redirectTo") {
+                    type = NavType.StringType; nullable = true; defaultValue = null
+                }
+            )
+        ) { backStackEntry ->
+            val redirectTo = backStackEntry.arguments?.getString("redirectTo")
+            LoginScreen(
+                modifier,
+                userViewModel,
+                onLoginSuccess = {
+                    if (!redirectTo.isNullOrEmpty()) {
+                        navController.navigate(redirectTo) {
+                            popUpTo(AppDestinations.INICIO_DE_SESION.route) { inclusive = true }
+                        }
+                    } else {
+                        navController.navigate(AppDestinations.DASHBOARD.route) {
+                            popUpTo(AppDestinations.INICIO_DE_SESION.route) { inclusive = true }
+                        }
+                    }
+                }
+            )
         }
         composable(AppDestinations.REGISTRO.route) {
-            RegisterScreen(modifier)
+            var showSuccess by remember { mutableStateOf(false) }
+            val navControllerLocal = navController
+            RegisterScreen(
+                modifier,
+                userViewModel,
+                onRegisterSuccess = {
+                    showSuccess = true
+                }
+            )
+            if (showSuccess) {
+                androidx.compose.runtime.LaunchedEffect(Unit) {
+                    kotlinx.coroutines.delay(1200)
+                    showSuccess = false
+                    navControllerLocal.navigate(AppDestinations.VERIFICAR.route) {
+                        popUpTo(AppDestinations.REGISTRO.route) { inclusive = true }
+                    }
+                }
+                androidx.compose.material3.Snackbar(
+                    action = {},
+                    containerColor = ar.edu.itba.hci.wallx.ui.theme.Success,
+                    contentColor = ar.edu.itba.hci.wallx.ui.theme.White
+                ) {
+                    androidx.compose.material3.Text("¡Registro exitoso! Ahora verificá tu email.")
+                }
+            }
         }
         composable(AppDestinations.DASHBOARD.route) {
             DashboardScreen(modifier)
@@ -51,14 +104,30 @@ fun AppNavGraph(
             // TarjetasScreen(modifier)
         }
         composable(AppDestinations.VERIFICAR.route) {
-            // VerificarCuentaScreen(modifier)
+            VerifyScreen(
+                modifier,
+                userViewModel,
+                onVerifySuccess = {
+                    navController.navigate(AppDestinations.INICIO_DE_SESION.route) {
+                        popUpTo(AppDestinations.VERIFICAR.route) { inclusive = true }
+                    }
+                }
+            )
         }
     }
 
-    LaunchedEffect(isLoggedIn) {
+    LaunchedEffect(isLoggedIn, navController.currentBackStackEntryAsState().value) {
         if (!isLoggedIn) {
-            navController.navigate(AppDestinations.INICIO_DE_SESION.route) {
-                popUpTo(0) { inclusive = true }
+            val currentRoute = navController.currentBackStackEntry?.destination?.route
+            if (currentRoute != AppDestinations.INICIO_DE_SESION.route && currentRoute != AppDestinations.REGISTRO.route) {
+                val destination =
+                    if (currentRoute != null && currentRoute != AppDestinations.DASHBOARD.route)
+                        AppDestinations.INICIO_DE_SESION.route + "?redirectTo=" + currentRoute
+                    else
+                        AppDestinations.INICIO_DE_SESION.route
+                navController.navigate(destination) {
+                    popUpTo(navController.graph.startDestinationId) { inclusive = true }
+                }
             }
         }
     }

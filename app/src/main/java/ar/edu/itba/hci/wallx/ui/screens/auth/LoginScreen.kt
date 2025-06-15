@@ -16,8 +16,13 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,153 +51,175 @@ import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 import ar.edu.itba.hci.wallx.ui.theme.White
 import ar.edu.itba.hci.wallx.ui.viewmodel.UserViewModel
 
-
 @OptIn(InternalTextApi::class)
 @Composable
 fun LoginScreen(
     modifier: Modifier,
     userViewModel: UserViewModel,
+    onLoginSuccess: () -> Unit
 ) {
     var user by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    Column(modifier = modifier.fillMaxSize()) {
-        Row(
-            modifier = modifier,
-        ) {
-            Card(
-                modifier = modifier
-                    .padding(horizontal = 120.dp, vertical = 16.dp)
-                    .fillMaxWidth()
-                    .height(60.dp),
-                colors = CardDefaults.cardColors(containerColor = Secondary)
-            ){
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = stringResource(R.string.app_name),
-                        modifier = Modifier.padding(16.dp),
-                        style = Typography.titleLarge
-                    )
-                }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+    val snackbarHostState = remember { SnackbarHostState() }
+    Scaffold(
+        snackbarHost = {
+            SnackbarHost(snackbarHostState) { data ->
+                Snackbar(
+                    snackbarData = data,
+                    containerColor = Error
+                )
             }
         }
-        Row(modifier = modifier.padding(horizontal = 30.dp, vertical = 10.dp)){
-            Card(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 30.dp, vertical = 10.dp)
-                    .heightIn(min = 300.dp), // opcional: para que se ajuste al contenido
-                colors = CardDefaults.cardColors(containerColor = Secondary)
+    ) { innerPadding ->
+        Column(modifier = modifier
+            .fillMaxSize()
+            .padding(innerPadding)) {
+            Row(
+                modifier = modifier,
             ) {
-                Column(
-                    modifier = Modifier
+                Card(
+                    modifier = modifier
+                        .padding(horizontal = 120.dp, vertical = 16.dp)
                         .fillMaxWidth()
-                        .padding(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-
+                        .height(60.dp),
+                    colors = CardDefaults.cardColors(containerColor = Secondary)
                 ) {
-                    Card(
+                    Box(
                         modifier = Modifier
-                            .padding(5.dp)
-                            .height(300.dp)
                             .fillMaxSize(),
-                        colors = CardDefaults.cardColors(containerColor = Primary)
-                    ){
-                        Column(
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = stringResource(R.string.app_name),
+                            modifier = Modifier.padding(16.dp),
+                            style = Typography.titleLarge
+                        )
+                    }
+                }
+            }
+            Row(modifier = modifier.padding(horizontal = 30.dp, vertical = 10.dp)) {
+                Card(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 30.dp, vertical = 10.dp)
+                        .heightIn(min = 300.dp), // opcional: para que se ajuste al contenido
+                    colors = CardDefaults.cardColors(containerColor = Secondary)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
 
+                    ) {
+                        Card(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
+                                .padding(5.dp)
+                                .height(300.dp)
+                                .fillMaxSize(),
+                            colors = CardDefaults.cardColors(containerColor = Primary)
                         ) {
-                            // Título centrado
-                            Text(
-                                text = stringResource(R.string.inicio_de_sesión),
-                                style = Typography.titleLarge
-                            )
+                            Column(
 
-                            Column(modifier = Modifier.fillMaxWidth()) {
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                // Título centrado
                                 Text(
-                                    text = stringResource(R.string.usuario),
-                                    style = Typography.bodyMedium,
-                                    modifier = Modifier.padding(bottom = 4.dp)
+                                    text = stringResource(R.string.inicio_de_sesión),
+                                    style = Typography.titleLarge
                                 )
-                                OutlinedTextField(
-                                    value = user,
-                                    onValueChange = { newUser -> user = newUser },
-                                    placeholder = { Text(text = stringResource(R.string.usuario),
-                                                    color = Info
-                                                        ) },
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        focusedTextColor = Primary,
-                                        unfocusedTextColor = Info,
-                                        disabledTextColor = SurfaceVariant,
-                                        errorTextColor = Error,
 
-                                        focusedContainerColor = Secondary,
-                                        unfocusedContainerColor = Background,
-                                        disabledContainerColor = SurfaceLight,
-                                        errorContainerColor = Error.copy(alpha = 0.1f),
-
-                                        cursorColor = Secondary,
-
-                                        focusedBorderColor = SecondaryDarken1,
-                                        unfocusedBorderColor = Interactive,
-                                        disabledBorderColor = SurfaceVariant,
-                                        errorBorderColor = Error,
-
-                                        focusedLeadingIconColor = SecondaryDarken1,
-                                        unfocusedLeadingIconColor = Interactive.copy(alpha = 0.7f),
-
-                                        focusedTrailingIconColor = SecondaryDarken1,
-                                        unfocusedTrailingIconColor = Interactive.copy(alpha = 0.7f),
+                                Column(modifier = Modifier.fillMaxWidth()) {
+                                    Text(
+                                        text = stringResource(R.string.usuario),
+                                        style = Typography.bodyMedium,
+                                        modifier = Modifier.padding(bottom = 4.dp)
                                     )
+                                    OutlinedTextField(
+                                        value = user,
+                                        onValueChange = { newUser -> user = newUser },
+                                        placeholder = {
+                                            Text(
+                                                text = stringResource(R.string.usuario),
+                                                color = Info
+                                            )
+                                        },
+                                        colors = OutlinedTextFieldDefaults.colors(
+                                            focusedTextColor = Primary,
+                                            unfocusedTextColor = Info,
+                                            disabledTextColor = SurfaceVariant,
+                                            errorTextColor = Error,
 
-                                )
-                            }
+                                            focusedContainerColor = Secondary,
+                                            unfocusedContainerColor = Background,
+                                            disabledContainerColor = SurfaceLight,
+                                            errorContainerColor = Error.copy(alpha = 0.1f),
 
-                            Spacer(modifier = Modifier.height(16.dp))
+                                            cursorColor = Secondary,
 
-                            // Subtítulo y TextField: Contraseña
-                            Column(modifier = Modifier.fillMaxWidth()) {
-                                Text(
-                                    text = stringResource(R.string.contraseña),
-                                    style = Typography.bodyMedium,
-                                    modifier = Modifier.padding(bottom = 4.dp)
-                                )
-                                OutlinedTextField(
-                                    value = password,
-                                    onValueChange = { newPassword -> password = newPassword },
-                                    placeholder = { Text(text = stringResource(R.string.contraseña),
-                                                        color = Info) },
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        focusedTextColor = Primary,
-                                        unfocusedTextColor = Info,
-                                        disabledTextColor = SurfaceVariant,
-                                        errorTextColor = Error,
+                                            focusedBorderColor = SecondaryDarken1,
+                                            unfocusedBorderColor = Interactive,
+                                            disabledBorderColor = SurfaceVariant,
+                                            errorBorderColor = Error,
 
-                                        focusedContainerColor = Secondary,
-                                        unfocusedContainerColor = Background,
-                                        disabledContainerColor = SurfaceLight,
-                                        errorContainerColor = Error.copy(alpha = 0.1f),
+                                            focusedLeadingIconColor = SecondaryDarken1,
+                                            unfocusedLeadingIconColor = Interactive.copy(alpha = 0.7f),
 
-                                        cursorColor = Secondary,
+                                            focusedTrailingIconColor = SecondaryDarken1,
+                                            unfocusedTrailingIconColor = Interactive.copy(alpha = 0.7f),
+                                        )
 
-                                        focusedBorderColor = SecondaryDarken1,
-                                        unfocusedBorderColor = Interactive,
-                                        disabledBorderColor = SurfaceVariant,
-                                        errorBorderColor = Error,
-
-                                        focusedLeadingIconColor = SecondaryDarken1,
-                                        unfocusedLeadingIconColor = Interactive.copy(alpha = 0.7f),
-
-                                        focusedTrailingIconColor = SecondaryDarken1,
-                                        unfocusedTrailingIconColor = Interactive.copy(alpha = 0.7f),
                                     )
-                                )
+                                }
+
+                                Spacer(modifier = Modifier.height(16.dp))
+
+                                // Subtítulo y TextField: Contraseña
+                                Column(modifier = Modifier.fillMaxWidth()) {
+                                    Text(
+                                        text = stringResource(R.string.contraseña),
+                                        style = Typography.bodyMedium,
+                                        modifier = Modifier.padding(bottom = 4.dp)
+                                    )
+                                    OutlinedTextField(
+                                        value = password,
+                                        onValueChange = { newPassword -> password = newPassword },
+                                        placeholder = {
+                                            Text(
+                                                text = stringResource(R.string.contraseña),
+                                                color = Info
+                                            )
+                                        },
+                                        colors = OutlinedTextFieldDefaults.colors(
+                                            focusedTextColor = Primary,
+                                            unfocusedTextColor = Info,
+                                            disabledTextColor = SurfaceVariant,
+                                            errorTextColor = Error,
+
+                                            focusedContainerColor = Secondary,
+                                            unfocusedContainerColor = Background,
+                                            disabledContainerColor = SurfaceLight,
+                                            errorContainerColor = Error.copy(alpha = 0.1f),
+
+                                            cursorColor = Secondary,
+
+                                            focusedBorderColor = SecondaryDarken1,
+                                            unfocusedBorderColor = Interactive,
+                                            disabledBorderColor = SurfaceVariant,
+                                            errorBorderColor = Error,
+
+                                            focusedLeadingIconColor = SecondaryDarken1,
+                                            unfocusedLeadingIconColor = Interactive.copy(alpha = 0.7f),
+
+                                            focusedTrailingIconColor = SecondaryDarken1,
+                                            unfocusedTrailingIconColor = Interactive.copy(alpha = 0.7f),
+                                        )
+                                    )
+                                }
                             }
                         }
                         Button(
@@ -200,10 +227,10 @@ fun LoginScreen(
                                 userViewModel.login(
                                     CredentialsData(email = user, password = password),
                                     onSuccess = {
-                                        println("Inicio de sesión exitoso")
+                                        onLoginSuccess()
                                     },
                                     onError = {
-                                        println("Error en el inicio de sesión: $it")
+                                        errorMessage = it.message ?: "Error desconocido"
                                     }
                                 )
                             },
@@ -223,7 +250,12 @@ fun LoginScreen(
                     }
 
                 }
-
+            }
+            if (errorMessage != null) {
+                LaunchedEffect(errorMessage) {
+                    snackbarHostState.showSnackbar(errorMessage!!)
+                    errorMessage = null
+                }
             }
         }
     }
@@ -237,6 +269,7 @@ fun LoginScreenPreview() {
         LoginScreen(
             modifier = Modifier,
             userViewModel = UserViewModel(UserRepository()),
+            onLoginSuccess = {}
         )
     }
 }

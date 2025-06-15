@@ -24,4 +24,19 @@
     <string name="usuario">User</string>
     <string name="contraseña">Password</string>
     <string name="inicio_sesion">Iniciar sesión</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="nombre">First name</string>
+    <string name="apellido">Last name</string>
+    <string name="fecha_nacimiento">Birth date</string>
+    <string name="fecha_nacimiento_placeholder">Birth date (YYYY-MM-DD)</string>
+    <string name="formato_fecha_invalido">Invalid date format (YYYY-MM-DD)</string>
+    <string name="codigo_verificacion">Verification code</string>
+    <string name="registro_exitoso">Sign up successful! Now check your email to verify.</string>
+    <string name="error_completar_campos">Please complete all fields correctly.</string>
+    <string name="error_desconocido">Unknown error</string>
+    <string name="verificar">Verify</string>
+    <string name="wallx">WallX</string>
+    <string name="wallx_verificacion">WallX - Verification</string>
+    <string name="registrarse">Sign up</string>
 </resources>

@@ -24,4 +24,19 @@
     <string name="usuario">Usuario</string>
     <string name="contraseña">Contraseña</string>
     <string name="inicio_sesion">" Log in"</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellido">Apellido</string>
+    <string name="email">Email</string>
+    <string name="password">Contraseña</string>
+    <string name="fecha_nacimiento">Fecha de nacimiento</string>
+    <string name="fecha_nacimiento_placeholder">Fecha de nacimiento (YYYY-MM-DD)</string>
+    <string name="formato_fecha_invalido">Formato de fecha inválido (YYYY-MM-DD)</string>
+    <string name="codigo_verificacion">Código de verificación</string>
+    <string name="registro_exitoso">¡Registro exitoso! Ahora verificá tu email.</string>
+    <string name="error_completar_campos">Por favor, completá todos los campos correctamente.</string>
+    <string name="error_desconocido">Error desconocido</string>
+    <string name="verificar">Verificar</string>
+    <string name="wallx">WallX</string>
+    <string name="wallx_verificacion">WallX - Verificación</string>
+    <string name="registrarse">Registrarse</string>
 </resources>
