@@ -1,5 +1,6 @@
 package ar.edu.itba.hci.wallx.ui.screens.auth
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,53 +10,51 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Surface
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.TextFieldDefaults
-
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.InternalTextApi
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ar.edu.itba.hci.wallx.R
+import ar.edu.itba.hci.wallx.data.model.user.CredentialsData
+import ar.edu.itba.hci.wallx.data.repository.UserRepository
 import ar.edu.itba.hci.wallx.ui.theme.Accent
 import ar.edu.itba.hci.wallx.ui.theme.Background
+import ar.edu.itba.hci.wallx.ui.theme.Error
+import ar.edu.itba.hci.wallx.ui.theme.Info
 import ar.edu.itba.hci.wallx.ui.theme.Interactive
 import ar.edu.itba.hci.wallx.ui.theme.Primary
-import ar.edu.itba.hci.wallx.ui.theme.PrimaryDarken1
 import ar.edu.itba.hci.wallx.ui.theme.Secondary
 import ar.edu.itba.hci.wallx.ui.theme.SecondaryDarken1
 import ar.edu.itba.hci.wallx.ui.theme.SurfaceLight
 import ar.edu.itba.hci.wallx.ui.theme.SurfaceVariant
-import ar.edu.itba.hci.wallx.ui.theme.Error
-import ar.edu.itba.hci.wallx.ui.theme.Info
 import ar.edu.itba.hci.wallx.ui.theme.Typography
 import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 import ar.edu.itba.hci.wallx.ui.theme.White
+import ar.edu.itba.hci.wallx.ui.viewmodel.UserViewModel
 
 
 @OptIn(InternalTextApi::class)
 @Composable
 fun LoginScreen(
-    modifier: Modifier
-                ) {
+    modifier: Modifier,
+    userViewModel: UserViewModel,
+) {
+    var user by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
     Column(modifier = modifier.fillMaxSize()) {
         Row(
             modifier = modifier,
@@ -115,7 +114,6 @@ fun LoginScreen(
                                 style = Typography.titleLarge
                             )
 
-                            var user by remember { mutableStateOf("") }
                             Column(modifier = Modifier.fillMaxWidth()) {
                                 Text(
                                     text = stringResource(R.string.usuario),
@@ -157,7 +155,7 @@ fun LoginScreen(
                             }
 
                             Spacer(modifier = Modifier.height(16.dp))
-                            var password by remember { mutableStateOf("") }
+
                             // Subtítulo y TextField: Contraseña
                             Column(modifier = Modifier.fillMaxWidth()) {
                                 Text(
@@ -198,7 +196,17 @@ fun LoginScreen(
                             }
                         }
                         Button(
-                            onClick = { /* Acción al hacer clic en el botón */ },
+                            onClick = {
+                                userViewModel.login(
+                                    CredentialsData(email = user, password = password),
+                                    onSuccess = {
+                                        println("Inicio de sesión exitoso")
+                                    },
+                                    onError = {
+                                        println("Error en el inicio de sesión: $it")
+                                    }
+                                )
+                            },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(16.dp)
@@ -221,10 +229,14 @@ fun LoginScreen(
     }
 }
 
+@SuppressLint("ViewModelConstructorInComposable") // para el preview
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
     WallxTheme(dynamicColor = false) {
-        LoginScreen(modifier = Modifier)
+        LoginScreen(
+            modifier = Modifier,
+            userViewModel = UserViewModel(UserRepository()),
+        )
     }
 }
