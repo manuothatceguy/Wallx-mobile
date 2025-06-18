@@ -1,44 +1,29 @@
 package ar.edu.itba.hci.wallx.data.repository
 
-import ar.edu.itba.hci.wallx.data.network.model.card.CardData
+import ar.edu.itba.hci.wallx.data.model.Card
+import ar.edu.itba.hci.wallx.data.network.CardRemoteDataSource
 import ar.edu.itba.hci.wallx.data.network.model.card.NewCardData
-import ar.edu.itba.hci.wallx.data.network.RetrofitInstance
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
-class CardRepository {
-
-    private val _cards = MutableStateFlow<List<CardData>>(emptyList())
-    val cards: StateFlow<List<CardData>> = _cards.asStateFlow()
-
-    suspend fun refreshCards() {
-        val result = withContext(Dispatchers.IO) {
-            RetrofitInstance.cardApi.getCards()
+class CardRepository(
+    private val remoteDataSource: CardRemoteDataSource
+) {
+    val cardsStream: Flow<List<Card>> =
+        remoteDataSource.getCardsStream.map { list ->
+            list.map { it.asModel() }.toList<Card>()
         }
-        _cards.value = result
-    }
 
-    suspend fun addCard(newCard: NewCardData): CardData {
-        val card = withContext(Dispatchers.IO) {
-            RetrofitInstance.cardApi.addCard(newCard)
-        }
-        refreshCards()
-        return card
-    }
-
-    suspend fun getCard(id: Int): CardData {
-        return withContext(Dispatchers.IO) {
-            RetrofitInstance.cardApi.getCard(id)
-        }
+    suspend fun addCard(card: NewCardData) {
+        remoteDataSource.addCard(card)
     }
 
     suspend fun deleteCard(id: Int) {
-        withContext(Dispatchers.IO) {
-            RetrofitInstance.cardApi.deleteCard(id)
-        }
-        refreshCards()
+        remoteDataSource.deleteCard(id)
     }
+
+    suspend fun getCard(id: Int) : Card {
+        return remoteDataSource.getCard(id).asModel()
+    }
+
 }

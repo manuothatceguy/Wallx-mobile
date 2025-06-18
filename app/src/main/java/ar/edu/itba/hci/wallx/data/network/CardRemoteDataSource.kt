@@ -1,6 +1,6 @@
 package ar.edu.itba.hci.wallx.data.network
 
-import ar.edu.itba.hci.wallx.data.model.card.Card
+import ar.edu.itba.hci.wallx.data.model.Card
 import ar.edu.itba.hci.wallx.data.network.api.CardApiService
 import ar.edu.itba.hci.wallx.data.network.model.card.CardData
 import ar.edu.itba.hci.wallx.data.network.model.card.NewCardData
@@ -12,7 +12,7 @@ class CardRemoteDataSource(
     private val cardApiService: CardApiService
 ) : RemoteDataSource() {
 
-    val getCardsStream : Flow<Array<CardData>> = flow {
+    val getCardsStream : Flow<List<CardData>> = flow {
         while (true) {
             val cards = handleApiResponse {
                 cardApiService.getCards()

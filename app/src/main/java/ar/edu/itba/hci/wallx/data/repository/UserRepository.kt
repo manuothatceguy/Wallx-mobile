@@ -23,5 +23,29 @@ class UserRepository(
         remoteDataSource.logout()
     }
 
+    suspend fun register(firstName : String, lastName : String, birthDate : String, email : String, password : String) {
+        remoteDataSource.register(firstName, lastName, birthDate, email, password)
+    }
+
+    suspend fun getUser() : UserData {
+        return remoteDataSource.getUser()
+    }
+
+    suspend fun verifyUser(code : String, email : String) {
+        remoteDataSource.verifyUser(code, email)
+    }
+
+    suspend fun resendVerification(email : String) {
+        remoteDataSource.resendVerification(email)
+    }
+
+    suspend fun resetPassword(email : String) {
+        remoteDataSource.resetPassword(email)
+    }
+
+    suspend fun changePassword(oldPassword : String, newPassword : String) {
+        remoteDataSource.changePassword(oldPassword, newPassword)
+    }
+
 
 }

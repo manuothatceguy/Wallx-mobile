@@ -12,7 +12,7 @@ import retrofit2.http.Path
 interface CardApiService {
 
     @GET("/card/")
-    suspend fun getCards(): Response<Array<CardData>>
+    suspend fun getCards(): Response<List<CardData>>
 
     @POST("/card/")
     suspend fun addCard(

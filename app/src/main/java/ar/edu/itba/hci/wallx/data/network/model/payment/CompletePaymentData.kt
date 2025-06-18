@@ -1,5 +1,6 @@
 package ar.edu.itba.hci.wallx.data.network.model.payment
 
+import ar.edu.itba.hci.wallx.data.model.Payment
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -8,24 +9,10 @@ import kotlinx.serialization.Serializable
 data class CompletePaymentData(
 
     @SerialName("paging") var paging: PagingData,
-    @SerialName("results") var results: Array<PaymentData>
+    @SerialName("results") var results: List<PaymentData>
 
 ) {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as CompletePaymentData
-
-        if (paging != other.paging) return false
-        if (!results.contentEquals(other.results)) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = paging.hashCode()
-        result = 31 * result + results.contentHashCode()
-        return result
+    fun asModel() : List<Payment> {
+        return results.map { it.asModel() }.toList()
     }
 }

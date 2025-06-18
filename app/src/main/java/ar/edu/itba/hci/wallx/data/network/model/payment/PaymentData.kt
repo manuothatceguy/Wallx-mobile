@@ -1,5 +1,6 @@
 package ar.edu.itba.hci.wallx.data.network.model.payment
 
+import ar.edu.itba.hci.wallx.data.model.Payment
 import ar.edu.itba.hci.wallx.data.network.model.account.AccountUserData
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -19,4 +20,18 @@ data class PaymentData(
     @SerialName("card") var card: SimpleCardData? = null,
     @SerialName("metadata") var metadata: Metadata? = Metadata()
 
-)
+) {
+    fun asModel() : Payment {
+        return Payment(
+            id = id,
+            description = description,
+            amount = amount,
+            pending = pending,
+            uuid = uuid,
+            method = method,
+            payer = payer?.asModel(),
+            receiver = receiver?.asModel(),
+            card = card?.asModel()
+        )
+    }
+}
