@@ -34,6 +34,7 @@ import androidx.compose.ui.text.InternalTextApi
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ar.edu.itba.hci.wallx.R
+import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.data.network.model.user.CredentialsData
 import ar.edu.itba.hci.wallx.data.repository.UserRepository
 import ar.edu.itba.hci.wallx.ui.theme.Accent
@@ -49,13 +50,13 @@ import ar.edu.itba.hci.wallx.ui.theme.SurfaceVariant
 import ar.edu.itba.hci.wallx.ui.theme.Typography
 import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 import ar.edu.itba.hci.wallx.ui.theme.White
-import ar.edu.itba.hci.wallx.ui.viewmodel.UserViewModel
+
 
 @OptIn(InternalTextApi::class)
 @Composable
 fun LoginScreen(
     modifier: Modifier,
-    userViewModel: UserViewModel,
+    wallXViewModel: WallXViewModel,
     onLoginSuccess: () -> Unit
 ) {
     var user by remember { mutableStateOf("") }
@@ -224,14 +225,9 @@ fun LoginScreen(
                         }
                         Button(
                             onClick = {
-                                userViewModel.login(
-                                    CredentialsData(email = user, password = password),
-                                    onSuccess = {
-                                        onLoginSuccess()
-                                    },
-                                    onError = {
-                                        errorMessage = it.message ?: "Error desconocido"
-                                    }
+                                wallXViewModel.login(
+                                    user = user,
+                                    password = password
                                 )
                             },
                             modifier = Modifier
@@ -268,7 +264,7 @@ fun LoginScreenPreview() {
     WallxTheme(dynamicColor = false) {
         LoginScreen(
             modifier = Modifier,
-            userViewModel = UserViewModel(UserRepository()),
+            wallXViewModel = WallXViewModel(),
             onLoginSuccess = {}
         )
     }
