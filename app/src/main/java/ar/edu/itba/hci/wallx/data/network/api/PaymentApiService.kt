@@ -4,6 +4,7 @@ import ar.edu.itba.hci.wallx.data.network.model.payment.CompletePaymentData
 import ar.edu.itba.hci.wallx.data.network.model.payment.NewPaymentData
 import ar.edu.itba.hci.wallx.data.network.model.payment.PaymentData
 import ar.edu.itba.hci.wallx.data.network.model.payment.PendingPaymentData
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -15,34 +16,34 @@ interface PaymentApiService {
     @POST("/payment/pull")
     suspend fun pullPayment(
         @Body newPayment: NewPaymentData
-    ): PendingPaymentData
+    ): Response<PendingPaymentData>
 
     @PUT("/payment/push")
     suspend fun pushPayment(
         @Query("uuid") uuid: String,
         @Query("cardId") cardId: Int?
-    ): PendingPaymentData
+    ): Response<PendingPaymentData>
 
     @POST("/payment/transfer-email")
     suspend fun transferEmail(
         @Query("email") email: String,
         @Query("cardId") cardId: Int?,
         @Body newPayment: NewPaymentData
-    ): PendingPaymentData
+    ): Response<PendingPaymentData>
 
     @POST("/payment/transfer-cvu")
     suspend fun transferCvu(
         @Query("cvu") cvu: String,
         @Query("cardId") cardId: Int?,
         @Body newPayment: NewPaymentData
-    ): PendingPaymentData
+    ): Response<PendingPaymentData>
 
     @POST("/payment/transfer-alias")
     suspend fun transferAlias(
         @Query("alias") alias: String,
         @Query("cardId") cardId: Int?,
         @Body newPayment: NewPaymentData
-    ): PendingPaymentData
+    ): Response<PendingPaymentData>
 
     @GET("/payment/payment")
     suspend fun getAllPayments(
@@ -53,10 +54,10 @@ interface PaymentApiService {
         @Query("range") range: String? = null,
         @Query("role") role: String? = null,
         @Query("cardId") cardId: Int? = null
-    ): CompletePaymentData
+    ): Response<CompletePaymentData>
 
     @GET("/payment/payment")
     suspend fun getPaymentById(
         @Query("id") id: Int
-    ): PaymentData
+    ): Response<PaymentData>
 }
