@@ -37,7 +37,7 @@ import androidx.compose.ui.text.InternalTextApi
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ar.edu.itba.hci.wallx.R
-import ar.edu.itba.hci.wallx.data.model.user.NewUserData
+import ar.edu.itba.hci.wallx.data.network.model.user.NewUserData
 import ar.edu.itba.hci.wallx.data.repository.UserRepository
 import ar.edu.itba.hci.wallx.ui.theme.Background
 import ar.edu.itba.hci.wallx.ui.theme.Error

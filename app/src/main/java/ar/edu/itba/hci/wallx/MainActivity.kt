@@ -22,7 +22,6 @@ import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -42,7 +41,6 @@ import androidx.compose.ui.unit.sp
 import ar.edu.itba.hci.wallx.ui.screens.dashboard.DashboardScreen
 import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +53,6 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
 fun MainAppWithBottomBar() {
     var selectedItemIndex by remember { mutableIntStateOf(0) }
 

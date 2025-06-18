@@ -1,7 +1,7 @@
 package ar.edu.itba.hci.wallx.data.repository
 
-import ar.edu.itba.hci.wallx.data.model.card.CardData
-import ar.edu.itba.hci.wallx.data.model.card.NewCardData
+import ar.edu.itba.hci.wallx.data.network.model.card.CardData
+import ar.edu.itba.hci.wallx.data.network.model.card.NewCardData
 import ar.edu.itba.hci.wallx.data.network.RetrofitInstance
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

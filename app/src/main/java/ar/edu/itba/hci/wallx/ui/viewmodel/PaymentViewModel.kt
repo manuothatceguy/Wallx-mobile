@@ -2,9 +2,9 @@ package ar.edu.itba.hci.wallx.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import ar.edu.itba.hci.wallx.data.model.payment.NewPaymentData
-import ar.edu.itba.hci.wallx.data.model.payment.PaymentData
-import ar.edu.itba.hci.wallx.data.model.payment.PendingPaymentData
+import ar.edu.itba.hci.wallx.data.network.model.payment.NewPaymentData
+import ar.edu.itba.hci.wallx.data.network.model.payment.PaymentData
+import ar.edu.itba.hci.wallx.data.network.model.payment.PendingPaymentData
 import ar.edu.itba.hci.wallx.data.repository.PaymentRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

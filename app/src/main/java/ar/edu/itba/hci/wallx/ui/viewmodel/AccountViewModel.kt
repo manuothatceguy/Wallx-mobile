@@ -2,8 +2,8 @@ package ar.edu.itba.hci.wallx.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import ar.edu.itba.hci.wallx.data.model.account.AccountData
-import ar.edu.itba.hci.wallx.data.model.account.AccountUserData
+import ar.edu.itba.hci.wallx.data.network.model.account.AccountData
+import ar.edu.itba.hci.wallx.data.network.model.account.AccountUserData
 import ar.edu.itba.hci.wallx.data.repository.AccountRepository
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

@@ -2,8 +2,8 @@ package ar.edu.itba.hci.wallx.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import ar.edu.itba.hci.wallx.data.model.card.CardData
-import ar.edu.itba.hci.wallx.data.model.card.NewCardData
+import ar.edu.itba.hci.wallx.data.network.model.card.CardData
+import ar.edu.itba.hci.wallx.data.network.model.card.NewCardData
 import ar.edu.itba.hci.wallx.data.repository.CardRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

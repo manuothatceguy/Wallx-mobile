@@ -2,10 +2,10 @@ package ar.edu.itba.hci.wallx.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import ar.edu.itba.hci.wallx.data.model.user.ChangePasswordData
-import ar.edu.itba.hci.wallx.data.model.user.CredentialsData
-import ar.edu.itba.hci.wallx.data.model.user.NewUserData
-import ar.edu.itba.hci.wallx.data.model.user.UserData
+import ar.edu.itba.hci.wallx.data.network.model.user.ChangePasswordData
+import ar.edu.itba.hci.wallx.data.network.model.user.CredentialsData
+import ar.edu.itba.hci.wallx.data.network.model.user.NewUserData
+import ar.edu.itba.hci.wallx.data.network.model.user.UserData
 import ar.edu.itba.hci.wallx.data.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

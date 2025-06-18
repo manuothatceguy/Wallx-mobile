@@ -1,8 +1,8 @@
 package ar.edu.itba.hci.wallx.data.repository
 
-import ar.edu.itba.hci.wallx.data.model.payment.NewPaymentData
-import ar.edu.itba.hci.wallx.data.model.payment.PaymentData
-import ar.edu.itba.hci.wallx.data.model.payment.PendingPaymentData
+import ar.edu.itba.hci.wallx.data.network.model.payment.NewPaymentData
+import ar.edu.itba.hci.wallx.data.network.model.payment.PaymentData
+import ar.edu.itba.hci.wallx.data.network.model.payment.PendingPaymentData
 import ar.edu.itba.hci.wallx.data.network.RetrofitInstance
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
