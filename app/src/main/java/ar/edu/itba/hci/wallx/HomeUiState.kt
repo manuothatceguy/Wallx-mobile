@@ -15,3 +15,4 @@ data class HomeUiState(
     val paymentsDetail: List<Payment>? = listOf(),
     val error: Error? = null
 )
+
