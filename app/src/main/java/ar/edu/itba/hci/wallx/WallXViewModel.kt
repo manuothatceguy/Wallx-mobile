@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import ar.edu.itba.hci.wallx.data.DataSourceException
+import ar.edu.itba.hci.wallx.data.model.CompleteUser
 import ar.edu.itba.hci.wallx.data.repository.AccountRepository
 import ar.edu.itba.hci.wallx.data.repository.CardRepository
 import ar.edu.itba.hci.wallx.data.repository.PaymentRepository
@@ -43,9 +44,9 @@ class WallXViewModel (
         }
     }
 
-    fun register(user : String, password : String) = runOnViewModelScope(
+    fun register(firstName : String, lastName: String, birthDate : String, email : String, password : String) = runOnViewModelScope(
         {
-            userRepository.login(user, password)
+            userRepository.register(firstName, lastName, birthDate, email, password)
         },
         {
             state, _ -> state.copy()
@@ -81,6 +82,26 @@ class WallXViewModel (
             )
         }
     )
+
+    fun verifyUser(code : String, email : String) = runOnViewModelScope(
+        {
+            userRepository.verifyUser(code, email)
+        },
+        {
+            state, _ -> state.copy()
+        }
+    )
+
+    fun getUser()  = runOnViewModelScope(
+        {
+            userRepository.getUser()
+        },
+        {
+            state, response -> state.copy(completeUserDetail = response)
+
+        }
+    )
+
 
     private fun observeAccountStream() {
         accountStreamJob = collectOnViewModelScope(
