@@ -29,6 +29,7 @@ class WallXViewModel (
 ) : ViewModel() {
 
     private var accountStreamJob: Job? = null
+    private var paymentsStreamJob: Job? = null
     private var cardsStreamJob: Job? = null
     private val _uiState =
         MutableStateFlow(HomeUiState(isAuthenticated = sessionManager.loadAuthToken() != null))
@@ -38,6 +39,7 @@ class WallXViewModel (
         if (_uiState.value.isAuthenticated) {
             observeAccountStream()
             observeCardsStream()
+            observePaymentsStream()
         }
     }
 
@@ -55,6 +57,7 @@ class WallXViewModel (
             userRepository.login(user, password)
             observeAccountStream()
             observeCardsStream()
+            observePaymentsStream()
         },
         {
             state, _ -> state.copy()
@@ -83,6 +86,12 @@ class WallXViewModel (
         accountStreamJob = collectOnViewModelScope(
             accountRepository.accountDetailStream
         ) { state, response -> state.copy(accountDetail = response) }
+    }
+
+    private fun observePaymentsStream() {
+        paymentsStreamJob = collectOnViewModelScope(
+            paymentRepository.getAllPaymentsStream
+        ) { state, response -> state.copy(paymentsDetail = response) }
     }
 
     private fun observeCardsStream() {
