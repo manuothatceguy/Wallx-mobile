@@ -41,4 +41,6 @@
     <string name="registrarse">Sign up</string>
     <string name="agregarTarjeta">Add card</string>
     <string name="olvidaste_contra">Forgot password?</string>
+    <string name="saludo">Hi</string>
+    <string name="cerrar_sesion">Log out</string>
 </resources>

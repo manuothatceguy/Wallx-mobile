@@ -40,5 +40,7 @@
     <string name="wallx_verificacion">WallX - Verificación</string>
     <string name="registrarse">Registrarse</string>
     <string name="agregarTarjeta">Agregar tarjeta</string>
+    <string name="saludo">Hola</string>
+    <string name="cerrar_sesion">Cerrar sesión</string>
     <string name="olvidaste_contra">¿Olvidaste tu constraseña?</string>
 </resources>
