@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ar.edu.itba.hci.wallx.data.model.Error
+import ar.edu.itba.hci.wallx.data.network.model.card.NewCardData
 
 class WallXViewModel (
     sessionManager: SessionManager,
@@ -61,7 +62,10 @@ class WallXViewModel (
             observePaymentsStream()
         },
         {
-            state, _ -> state.copy()
+            state, _ -> state.copy(
+                isAuthenticated = true
+
+            )
         }
     )
 
@@ -101,6 +105,18 @@ class WallXViewModel (
 
         }
     )
+
+    fun addCard(card : NewCardData) = runOnViewModelScope(
+        {
+            cardRepository.addCard(card)
+        },
+        {
+            state, _ -> state.copy()
+
+        }
+    )
+
+
 
 
     private fun observeAccountStream() {

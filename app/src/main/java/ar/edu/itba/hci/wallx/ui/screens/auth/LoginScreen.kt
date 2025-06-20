@@ -40,6 +40,7 @@ import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.data.network.model.user.CredentialsData
 import ar.edu.itba.hci.wallx.data.repository.UserRepository
+import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
 import ar.edu.itba.hci.wallx.ui.theme.Accent
 import ar.edu.itba.hci.wallx.ui.theme.Background
 import ar.edu.itba.hci.wallx.ui.theme.Error
@@ -61,7 +62,7 @@ import com.google.api.ResourceReference
 fun LoginScreen(
     modifier: Modifier = Modifier,
     wallXViewModel: WallXViewModel? = null,
-    onLoginSuccess: () -> Unit
+    onNavigateTo: (String) -> Unit
 ) {
     var user by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -243,7 +244,9 @@ fun LoginScreen(
                                     user = user,
                                     password = password
                                 )
-                                onLoginSuccess()
+                                wallXViewModel?.getUser()
+                                onNavigateTo(AppDestinations.DASHBOARD.route)
+
                             },
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -282,11 +285,3 @@ fun LoginScreen(
     }
 }
 
-@Preview
-@Composable
-fun DashboardPreview() {
-    WallxTheme { LoginScreen(
-        modifier = Modifier,
-        onLoginSuccess = {}
-    ) }
-}

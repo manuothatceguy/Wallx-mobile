@@ -22,8 +22,8 @@ class UserRepository(
     }
 
     suspend fun getUser() : CompleteUser {
-        user = remoteDataSource.getUser().asModel()
-        return user!!
+        return remoteDataSource.getUser().asModel()
+
     }
 
     suspend fun verifyUser(code : String, email : String) {

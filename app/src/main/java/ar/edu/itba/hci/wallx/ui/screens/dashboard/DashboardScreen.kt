@@ -61,9 +61,8 @@ import androidx.compose.ui.text.font.FontWeight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(modifier: Modifier=Modifier)
-{
-
+fun DashboardScreen(modifier: Modifier, onNavigate: (String) -> Unit, viewModel : WallXViewModel) {
+    viewModel.getUser()
     Column(modifier = modifier.fillMaxSize()) {
         //Dinero disponible
         AvailableMoney()

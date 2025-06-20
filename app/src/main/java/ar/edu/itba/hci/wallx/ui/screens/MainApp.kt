@@ -159,7 +159,7 @@ fun TopBar(
                         imageVector = Icons.Filled.AccountCircle,
                         contentDescription = "Perfil"
                     )
-                    Text("${stringResource(R.string.saludo)} ${(", " + uiState.completeUserDetail?.firstName)}")
+                    Text("${stringResource(R.string.saludo)}${(", " + uiState.completeUserDetail?.firstName)}")
                 }
             }
         },
