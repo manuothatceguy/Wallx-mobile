@@ -17,9 +17,7 @@ data class PaymentData(
     @SerialName("method") var method: String? = null,
     @SerialName("payer") var payer: AccountUserData? = null,
     @SerialName("receiver") var receiver: AccountUserData? = null,
-    @SerialName("card") var card: SimpleCardData? = null,
-    @SerialName("metadata") var metadata: Metadata? = Metadata()
-
+    @SerialName("card") var card: SimpleCardData? = null
 ) {
     fun asModel() : Payment {
         return Payment(

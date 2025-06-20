@@ -10,5 +10,4 @@ data class NewCardData(
     @SerialName("expirationDate") var expirationDate: String? = null,
     @SerialName("fullName") var fullName: String? = null,
     @SerialName("cvv") var cvv: String? = null,
-    @SerialName("metadata") var metadata: Metadata? = Metadata()
 )

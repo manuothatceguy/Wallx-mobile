@@ -25,7 +25,8 @@ class WallXApplication : Application() {
     private val paymentRemoteDataSource: PaymentRemoteDataSource
         get() = PaymentRemoteDataSource(RetrofitClient.getPaymentApiService(this))
 
-    val sessionManager: SessionManager by lazy { SessionManager(applicationContext) }
+    val sessionManager: SessionManager
+        get() = SessionManager(this)
 
     val userRepository: UserRepository
         get() = UserRepository(userRemoteDataSource)

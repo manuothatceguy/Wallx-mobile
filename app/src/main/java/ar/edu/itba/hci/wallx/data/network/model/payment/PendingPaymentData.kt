@@ -13,7 +13,5 @@ data class PendingPaymentData(
     @SerialName("amount") var amount: Double? = null,
     @SerialName("pending") var pending: Boolean? = null,
     @SerialName("uuid") var uuid: String? = null,
-    @SerialName("receiver") var receiver: AccountUserData? = null,
-    @SerialName("metadata") var metadata: Metadata? = Metadata()
-
+    @SerialName("receiver") var receiver: AccountUserData? = null
 )

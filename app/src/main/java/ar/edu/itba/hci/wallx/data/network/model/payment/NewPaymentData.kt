@@ -8,7 +8,5 @@ import kotlinx.serialization.Serializable
 data class NewPaymentData(
 
     @SerialName("description") var description: String? = null,
-    @SerialName("amount") var amount: Double? = null,
-    @SerialName("metadata") var metadata: Metadata? = Metadata()
-
+    @SerialName("amount") var amount: Double? = null
 )

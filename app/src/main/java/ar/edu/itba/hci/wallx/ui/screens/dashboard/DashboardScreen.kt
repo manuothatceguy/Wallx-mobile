@@ -103,11 +103,11 @@ fun AvailableMoney(){
                     modifier = Modifier.padding(start=15.dp)
                 )
             }
-            Divider(
-                color = Color(0xFF5c978c),
-                thickness = 1.dp,
+            HorizontalDivider(
                 modifier = Modifier
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = 16.dp),
+                thickness = 1.dp,
+                color = Color(0xFF5c978c)
             )
 
             Row (
@@ -283,12 +283,6 @@ fun LastMovements(){
 
         }
     }
-}
-
-@Preview
-@Composable
-fun DashboardPreview() {
-    WallxTheme { DashboardScreen( ) }
 }
 
 

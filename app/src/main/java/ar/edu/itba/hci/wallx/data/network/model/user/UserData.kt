@@ -14,8 +14,7 @@ data class UserData(
     @SerialName("firstName") var firstName: String? = null,
     @SerialName("lastName") var lastName: String? = null,
     @SerialName("birthdate") var birthdate: String? = null,
-    @SerialName("email") var email: String? = null,
-    @SerialName("metadata") var metadata: Metadata? = Metadata()
+    @SerialName("email") var email: String? = null
 ) {
     fun asModel(): CompleteUser {
         return CompleteUser(
