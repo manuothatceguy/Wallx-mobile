@@ -376,4 +376,3 @@ fun Single_movement(account: String, date: String, amount: String, isPositive: B
 
 }
 
-
