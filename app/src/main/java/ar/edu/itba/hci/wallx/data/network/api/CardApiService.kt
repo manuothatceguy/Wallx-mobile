@@ -11,20 +11,20 @@ import retrofit2.http.Path
 
 interface CardApiService {
 
-    @GET("/card/")
+    @GET("card/")
     suspend fun getCards(): Response<List<CardData>>
 
-    @POST("/card/")
+    @POST("card/")
     suspend fun addCard(
         @Body newCard: NewCardData
     ): Response<CardData>
 
-    @GET("/card/{id}")
+    @GET("card/{id}")
     suspend fun getCard(
         @Path("id") id: Int
     ): Response<CardData>
 
-    @DELETE("/card/{id}")
+    @DELETE("card/{id}")
     suspend fun deleteCard(
         @Path("id") id: Int
     ) : Response<Unit>

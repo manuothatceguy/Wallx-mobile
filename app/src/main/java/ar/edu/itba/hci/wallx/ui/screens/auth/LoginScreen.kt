@@ -243,6 +243,7 @@ fun LoginScreen(
                                     user = user,
                                     password = password
                                 )
+                                onLoginSuccess()
                             },
                             modifier = Modifier
                                 .fillMaxWidth()

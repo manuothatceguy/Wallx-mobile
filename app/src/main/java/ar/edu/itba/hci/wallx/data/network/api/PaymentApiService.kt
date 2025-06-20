@@ -13,39 +13,39 @@ import retrofit2.http.Query
 
 interface PaymentApiService {
 
-    @POST("/payment/pull")
+    @POST("payment/pull")
     suspend fun pullPayment(
         @Body newPayment: NewPaymentData
     ): Response<PendingPaymentData>
 
-    @PUT("/payment/push")
+    @PUT("payment/push")
     suspend fun pushPayment(
         @Query("uuid") uuid: String,
         @Query("cardId") cardId: Int?
     ): Response<PendingPaymentData>
 
-    @POST("/payment/transfer-email")
+    @POST("payment/transfer-email")
     suspend fun transferEmail(
         @Query("email") email: String,
         @Query("cardId") cardId: Int?,
         @Body newPayment: NewPaymentData
     ): Response<PendingPaymentData>
 
-    @POST("/payment/transfer-cvu")
+    @POST("payment/transfer-cvu")
     suspend fun transferCvu(
         @Query("cvu") cvu: String,
         @Query("cardId") cardId: Int?,
         @Body newPayment: NewPaymentData
     ): Response<PendingPaymentData>
 
-    @POST("/payment/transfer-alias")
+    @POST("payment/transfer-alias")
     suspend fun transferAlias(
         @Query("alias") alias: String,
         @Query("cardId") cardId: Int?,
         @Body newPayment: NewPaymentData
     ): Response<PendingPaymentData>
 
-    @GET("/payment/payment")
+    @GET("payment/payment")
     suspend fun getAllPayments(
         @Query("page") page: Int? = null,
         @Query("direction") direction: String? = null,
@@ -56,7 +56,7 @@ interface PaymentApiService {
         @Query("cardId") cardId: Int? = null
     ): Response<CompletePaymentData>
 
-    @GET("/payment/payment")
+    @GET("payment/payment")
     suspend fun getPaymentById(
         @Query("id") id: Int
     ): Response<PaymentData>
