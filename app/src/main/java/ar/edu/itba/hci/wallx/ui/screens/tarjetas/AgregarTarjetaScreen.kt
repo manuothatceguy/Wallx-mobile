@@ -149,8 +149,7 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier) {
                             number = number,
                             expirationDate = expirationDate,
                             fullName = fullName,
-                            cvv = cvv,
-                            metadata = Metadata() // si tenés algún valor default
+                            cvv = cvv
                         )
                         // falta API
                     },

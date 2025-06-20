@@ -12,8 +12,7 @@ data class CardData(
     @SerialName("type") var type: String,
     @SerialName("number") var number: String,
     @SerialName("expirationDate") var expirationDate: String,
-    @SerialName("fullName") var fullName: String,
-    @SerialName("metadata") var metadata: Metadata
+    @SerialName("fullName") var fullName: String
 ) {
     fun asModel(): Card {
         return Card(

@@ -10,25 +10,25 @@ import retrofit2.Response
 
 interface AccountApiService {
 
-    @GET("/account/")
+    @GET("account/")
     suspend fun getAccount(): Response<AccountData>
 
-    @POST("/account/recharge")
+    @POST("account/recharge")
     suspend fun rechargeAccount(
         @Query("amount") amount: Double
     ): Response<AccountData>
 
-    @PUT("/account/update-alias")
+    @PUT("account/update-alias")
     suspend fun updateAlias(
         @Query("alias") alias: String
     ): Response<AccountData>
 
-    @GET("/account/verify-cvu")
+    @GET("account/verify-cvu")
     suspend fun verifyCvu(
         @Query("cvu") cvu: String
     ): Response<AccountUserData>
 
-    @GET("/account/verify-alias")
+    @GET("account/verify-alias")
     suspend fun verifyAlias(
         @Query("alias") alias: String
     ): Response<AccountUserData>

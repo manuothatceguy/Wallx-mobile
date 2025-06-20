@@ -11,7 +11,5 @@ data class NewUserData(
     @SerialName("lastName") var lastName: String? = null,
     @SerialName("birthDate") var birthDate: String? = null,
     @SerialName("email") var email: String? = null,
-    @SerialName("password") var password: String? = null,
-    @SerialName("metadata") var metadata: Metadata? = Metadata()
-
+    @SerialName("password") var password: String? = null
 )

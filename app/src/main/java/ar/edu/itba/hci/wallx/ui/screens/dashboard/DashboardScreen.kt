@@ -112,7 +112,9 @@ fun AvailableMoney(){
                 color = Color(0xFF5c978c),
                 thickness = 1.dp,
                 modifier = Modifier
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = 16.dp),
+                thickness = 1.dp,
+                color = Color(0xFF5c978c)
             )
 
             Row (

@@ -1,6 +1,7 @@
 package ar.edu.itba.hci.wallx.ui.screens.auth
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,8 +32,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.InternalTextApi
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.data.network.model.user.CredentialsData
@@ -50,13 +53,14 @@ import ar.edu.itba.hci.wallx.ui.theme.SurfaceVariant
 import ar.edu.itba.hci.wallx.ui.theme.Typography
 import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 import ar.edu.itba.hci.wallx.ui.theme.White
+import com.google.api.ResourceReference
 
 
 @OptIn(InternalTextApi::class)
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
-    wallXViewModel: WallXViewModel,
+    wallXViewModel: WallXViewModel? = null,
     onLoginSuccess: () -> Unit
 ) {
     var user by remember { mutableStateOf("") }
@@ -83,8 +87,8 @@ fun LoginScreen(
                     modifier = modifier
                         .padding(horizontal = 120.dp, vertical = 16.dp)
                         .fillMaxWidth()
-                        .height(60.dp),
-                    colors = CardDefaults.cardColors(containerColor = Secondary)
+                        .height(60.dp)
+                    //colors = CardDefaults.cardColors(containerColor = Secondary)
                 ) {
                     Box(
                         modifier = Modifier
@@ -104,8 +108,7 @@ fun LoginScreen(
                     modifier = modifier
                         .fillMaxWidth()
                         .padding(horizontal = 30.dp, vertical = 10.dp)
-                        .heightIn(min = 300.dp), // opcional: para que se ajuste al contenido
-                    colors = CardDefaults.cardColors(containerColor = Secondary)
+                    //colors = CardDefaults.cardColors(containerColor = Secondary)
                 ) {
                     Column(
                         modifier = Modifier
@@ -133,7 +136,7 @@ fun LoginScreen(
                                     text = stringResource(R.string.inicio_de_sesión),
                                     style = Typography.titleLarge
                                 )
-
+                                Spacer(modifier = Modifier.height(8.dp))
                                 Column(modifier = Modifier.fillMaxWidth()) {
                                     Text(
                                         text = stringResource(R.string.usuario),
@@ -149,7 +152,7 @@ fun LoginScreen(
                                                 color = Info
                                             )
                                         },
-                                        colors = OutlinedTextFieldDefaults.colors(
+                                        /*colors = OutlinedTextFieldDefaults.colors(
                                             focusedTextColor = Primary,
                                             unfocusedTextColor = Info,
                                             disabledTextColor = SurfaceVariant,
@@ -172,7 +175,7 @@ fun LoginScreen(
 
                                             focusedTrailingIconColor = SecondaryDarken1,
                                             unfocusedTrailingIconColor = Interactive.copy(alpha = 0.7f),
-                                        )
+                                        )*/
 
                                     )
                                 }
@@ -195,7 +198,7 @@ fun LoginScreen(
                                                 color = Info
                                             )
                                         },
-                                        colors = OutlinedTextFieldDefaults.colors(
+                                        /*colors = OutlinedTextFieldDefaults.colors(
                                             focusedTextColor = Primary,
                                             unfocusedTextColor = Info,
                                             disabledTextColor = SurfaceVariant,
@@ -218,31 +221,53 @@ fun LoginScreen(
 
                                             focusedTrailingIconColor = SecondaryDarken1,
                                             unfocusedTrailingIconColor = Interactive.copy(alpha = 0.7f),
-                                        )
+                                        )*/
                                     )
+                                    Spacer(modifier = Modifier.height(2.dp))
+                                    Text(
+                                        text = stringResource(R.string.olvidaste_contra),
+                                        textDecoration = TextDecoration.Underline,
+                                        //color = Secondary,
+                                        fontSize = 13.sp,
+                                        modifier = Modifier.clickable{
+                                            //ir a la otra pantalla
+                                        }
+
+                                        )
                                 }
                             }
                         }
                         Button(
                             onClick = {
-                                wallXViewModel.login(
+                                wallXViewModel?.login(
                                     user = user,
                                     password = password
                                 )
+                                onLoginSuccess()
                             },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(16.dp)
                                 .height(50.dp),
-                            colors = ButtonDefaults.buttonColors(
+                            /*colors = ButtonDefaults.buttonColors(
                                 containerColor = Accent,
                                 contentColor = White
-                            )
+                            )*/
                         ){
-                            Box(){
+                            Box{
                                 Text(text=stringResource(R.string.inicio_sesion))
                             }
                         }
+                        Text(
+                            text = stringResource(R.string.no_tenés_una_cuenta),
+                            textDecoration = TextDecoration.Underline,
+                            //color = Info,
+                            fontSize = 13.sp,
+                            modifier = Modifier.clickable{
+                                //hace que vaya a la otra pantalla
+                            }
+                        )
+
                     }
 
                 }
@@ -257,4 +282,11 @@ fun LoginScreen(
     }
 }
 
-
+@Preview
+@Composable
+fun DashboardPreview() {
+    WallxTheme { LoginScreen(
+        modifier = Modifier,
+        onLoginSuccess = {}
+    ) }
+}
