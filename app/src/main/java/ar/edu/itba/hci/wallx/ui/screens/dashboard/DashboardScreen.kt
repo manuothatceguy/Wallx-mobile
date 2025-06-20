@@ -392,12 +392,4 @@ fun Single_movement(account: String, date: String, amount: String, isPositive: B
 }
 
 
-@Preview(showSystemUi = true)
-@Composable
-fun DashboardPreview() {
-    WallxTheme {
-        DashboardScreen()
-    }
-}
-
 
