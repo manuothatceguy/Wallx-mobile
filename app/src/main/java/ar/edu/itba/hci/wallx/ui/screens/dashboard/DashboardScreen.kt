@@ -16,7 +16,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Help
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.CreditCard
+import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.MoreTime
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.filled.Wallet
@@ -32,6 +36,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.carousel.HorizontalUncontainedCarousel
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -56,8 +61,9 @@ import androidx.compose.ui.text.font.FontWeight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(modifier: Modifier, onNavigate: (String) -> Unit, viewModel : WallXViewModel) {
-    val uiState by viewModel.uiState.collectAsState()
+fun DashboardScreen(modifier: Modifier=Modifier)
+{
+
     Column(modifier = modifier.fillMaxSize()) {
         //Dinero disponible
         AvailableMoney()
@@ -70,7 +76,6 @@ fun DashboardScreen(modifier: Modifier, onNavigate: (String) -> Unit, viewModel 
 @Composable
 fun AvailableMoney(){
     var see by remember { mutableStateOf(true) }
-
 
     val backgroundCardColor = Color(0xFF63B6A6)
 
@@ -103,7 +108,7 @@ fun AvailableMoney(){
                     modifier = Modifier.padding(start=15.dp)
                 )
             }
-            Divider(
+            HorizontalDivider(
                 color = Color(0xFF5c978c),
                 thickness = 1.dp,
                 modifier = Modifier
@@ -118,7 +123,7 @@ fun AvailableMoney(){
             {
 
                 Text(
-                    text = if (see) "$10000" else "*****",
+                    text = if (see) "$265,986" else "*****",
                     fontSize = MaterialTheme.typography.displayMedium.fontSize,
                     fontWeight = FontWeight.Black,
                     modifier = Modifier.padding(end = 4.dp),
@@ -150,7 +155,7 @@ fun AvailableMoney(){
                 ) {
                     // acción
                 }
-                ActionIconButton(icon = Icons.Filled.Info, label = "Información") {
+                ActionIconButton(icon = Icons.Filled.CreditCard, label = "Tarjetas") {
                     // Mostrar info o navegar
                 }
             }
@@ -209,13 +214,14 @@ fun MoneyVisibility() {
     }
 }
 
+
 @Composable
 fun YourInfo(){
     Card(
         modifier = Modifier
             .padding(horizontal = 12.dp, vertical = 12.dp)
             .fillMaxWidth()
-            .height(180.dp),
+            .height(210.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xFF92cac0)) // o Secondary, si querés un bloque destacado
     ) {
         Column(
@@ -233,23 +239,51 @@ fun YourInfo(){
                 Text(
                     text = "Tu informacion",
                     style = MaterialTheme.typography.headlineLarge.copy(
-                        fontWeight = FontWeight.Bold, color=Color.White)
+                        fontWeight = FontWeight.Bold, color=Color.DarkGray)
                 )
             }
-            HorizontalDivider(thickness = 1.dp, color = Color.White)
-
-            Text(
-                text = "Alias: juan.wallx.arg",
-                style = MaterialTheme.typography.titleLarge.copy(
-                fontWeight = FontWeight.SemiBold)
-            )
-            Text(
-                text = "CVU: 0123456789123456790",
-                style = MaterialTheme.typography.titleLarge.copy(
-                fontWeight = FontWeight.SemiBold)
-            )
+            HorizontalDivider(thickness = 1.dp,color = Color(0xFF5c978c))
+            InfoCard("Alias: juan.wallx.arg")
+            InfoCard("CVU: 012345678912345679")
 
         }
+    }
+}
+
+@Composable
+fun InfoCard(text: String){
+    Card (
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(59.dp)
+            .padding(vertical = 1.dp),
+
+        colors = CardDefaults.cardColors(containerColor = Color(0Xff6da89d))
+    ){
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column () {
+                Text(
+                    text = text,
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontWeight = FontWeight.SemiBold, color = Color.White
+                    )
+                )
+            }
+            Column( horizontalAlignment= Alignment.End)
+            {
+                Icon(
+                    Icons.Filled.ContentCopy,
+                    contentDescription = "copy",
+                    modifier = Modifier.size(25.dp)
+                )
+            }
+        }
+
     }
 }
 
@@ -271,24 +305,100 @@ fun LastMovements(){
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().padding(bottom = 6.dp)
             ) {
+                Icon(
+                    Icons.Filled.History,
+                    contentDescription = "History",
+                    modifier = Modifier.size(30.dp))
 
                 Text(
                     text = "Ultimos movimentos",
                     style = MaterialTheme.typography.headlineLarge.copy(
-                    fontWeight = FontWeight.SemiBold)
+                        fontWeight = FontWeight.SemiBold
+                    )
                 )
             }
+            Column {
+                Single_movement(
+                    account = "Manuel Othaceguey",
+                    date = "18/06/2025",
+                    amount = "$5.000",
+                    isPositive = false
+                )
+                Single_movement(
+                    account = "Belupetri",
+                    date = "18/06/2025",
+                    amount = "$40.000",
+                    isPositive = true
+                )
+                Single_movement(
+                    account = "sushiPopPremium",
+                    date = "18/06/2025",
+                    amount = "$9.000",
+                    isPositive = false
+                )
 
+            }
         }
     }
 }
 
-@Preview
+@Composable
+fun Single_movement(account: String, date: String, amount: String, isPositive: Boolean){
+    Card (
+        modifier = Modifier
+        .fillMaxWidth()
+        .height(70.dp)
+        .padding(vertical = 6.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0Xffd6fff4))
+    )
+    {
+        Row( modifier = Modifier
+            .fillMaxSize() ,
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column (modifier = Modifier.padding(horizontal = 8.dp))
+            {
+                Row {
+                    Text(
+                        text =(if (isPositive) "+ " else "- " )+amount,
+                        fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                        fontWeight = FontWeight.Black,
+                        color = if(isPositive) Color(0Xff139d17) else Color(0Xffad2626)
+                    )
+                }
+
+            }
+
+            Column  (modifier = Modifier.padding(horizontal = 8.dp), horizontalAlignment= Alignment.End)
+            {
+                Text(
+                    text = account,
+                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.DarkGray
+                )
+                Text(text=date,
+                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                    fontWeight = FontWeight.Normal,
+                    color = Color.DarkGray)
+
+            }
+        }
+
+    }
+
+}
+
+
+@Preview(showSystemUi = true)
 @Composable
 fun DashboardPreview() {
-    WallxTheme { DashboardScreen( ) }
+    WallxTheme {
+        DashboardScreen()
+    }
 }
 
 
