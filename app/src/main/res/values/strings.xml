@@ -54,4 +54,9 @@
     <string name="ingresaMotivoCobro">Ingresá el motivo de cobro:</string>
     <string name="ingresaMontoCobrar">Ingresá el monto a cobrar:</string>
     <string name="monto">Monto</string>
+    <string name="alias" translatable="false">Alias</string>
+    <string name="CVU" translatable="false">CVU</string>
+    <string name="mostrar">Mostrar</string>
+    <string name="ocultar">Ocultar</string>
+    <string name="saldo">saldo</string>
 </resources>

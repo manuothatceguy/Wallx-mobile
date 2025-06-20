@@ -54,4 +54,7 @@
     <string name="ingresarLink">Enter the link or code of the payment you want to pay:</string>
     <string name="codigoPago">Payment code</string>
     <string name="ingresaMotivoCobro">Enter the charge motive:</string>
+    <string name="mostrar">Show</string>
+    <string name="ocultar">Hide</string>
+    <string name="saldo">balance</string>
 </resources>

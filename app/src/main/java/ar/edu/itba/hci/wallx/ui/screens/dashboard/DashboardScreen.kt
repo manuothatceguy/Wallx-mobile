@@ -48,6 +48,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -58,6 +59,18 @@ import ar.edu.itba.hci.wallx.ui.screens.MainApp
 import ar.edu.itba.hci.wallx.ui.theme.Secondary
 import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 import androidx.compose.ui.text.font.FontWeight
+import ar.edu.itba.hci.wallx.ui.theme.Accent
+import ar.edu.itba.hci.wallx.ui.theme.Black
+import ar.edu.itba.hci.wallx.ui.theme.Error
+import ar.edu.itba.hci.wallx.ui.theme.Info
+import ar.edu.itba.hci.wallx.ui.theme.InfoCardColor
+import ar.edu.itba.hci.wallx.ui.theme.Interactive
+import ar.edu.itba.hci.wallx.ui.theme.Light
+import ar.edu.itba.hci.wallx.ui.theme.SecondaryDarken1
+import ar.edu.itba.hci.wallx.ui.theme.Success
+import ar.edu.itba.hci.wallx.ui.theme.SurfaceLight
+import ar.edu.itba.hci.wallx.ui.theme.SurfaceVariant
+import ar.edu.itba.hci.wallx.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -84,7 +97,7 @@ fun AvailableMoney(){
             .padding(horizontal = 12.dp, vertical = 12.dp)
             .fillMaxWidth()
             .height(250.dp),
-        colors = CardDefaults.cardColors(containerColor = backgroundCardColor),
+        colors = CardDefaults.cardColors(containerColor = Interactive),
     ) {
         Column(
             modifier = Modifier
@@ -99,17 +112,19 @@ fun AvailableMoney(){
                 Icon(
                     Icons.Filled.Wallet,
                     contentDescription = "Wallet",
-                    modifier = Modifier.size(30.dp)
+                    modifier = Modifier.size(30.dp),
+                    tint= Black
                 )
                 Text(
-                    text = "Dinero disponible",
+                    text = stringResource( R.string.dinero_disponible),
                     style = MaterialTheme.typography.headlineLarge.copy(
                     fontWeight = FontWeight.Bold),
-                    modifier = Modifier.padding(start=15.dp)
+                    modifier = Modifier.padding(start=15.dp),
+                    color = Black
                 )
             }
             HorizontalDivider(
-                color = Color(0xFF5c978c),
+                color = Info,
                 thickness = 1.dp,
                 modifier = Modifier
                     .padding(horizontal = 16.dp),
@@ -127,15 +142,16 @@ fun AvailableMoney(){
                     fontSize = MaterialTheme.typography.displayMedium.fontSize,
                     fontWeight = FontWeight.Black,
                     modifier = Modifier.padding(end = 4.dp),
-                    color = Color.White
+                    color = White
 
                 )
 
                 IconButton(onClick = { see = !see }) {
                     Icon(
                         imageVector = if (see) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                        contentDescription = if (see) "Ocultar saldo" else "Mostrar saldo",
-                        modifier = Modifier.size(30.dp)
+                        contentDescription = if (see) (stringResource( R.string.ocultar)+ stringResource( R.string.saldo)) else (stringResource( R.string.mostrar)+ stringResource( R.string.saldo)),
+                        modifier = Modifier.size(30.dp),
+                        tint=Black
 
                     )
                 }
@@ -145,23 +161,23 @@ fun AvailableMoney(){
                     .fillMaxWidth()
                     .padding(top = 6.dp),
                 horizontalArrangement = Arrangement.SpaceAround
-            ) {
-                ActionIconButton(icon = Icons.Filled.Add, label = "Ingresar") {
-                    // Acción de ingresar dinero
+            )
+            {
+                ActionIconButton(icon = Icons.Filled.Add, label = stringResource( R.string.ingresar  ))
+                {
                 }
                 ActionIconButton(
                     icon = ImageVector.vectorResource(R.drawable.send_money_24dp_e3e3e3_fill0_wght400_grad0_opsz24),
-                    label = "Transferir"
-                ) {
-                    // acción
+                    label = stringResource( R.string.transferir  ),
+                )
+                {
                 }
-                ActionIconButton(icon = Icons.Filled.CreditCard, label = "Tarjetas") {
-                    // Mostrar info o navegar
+                ActionIconButton(icon = Icons.Filled.CreditCard, label = stringResource( R.string.tarjetas  ))
+                {
                 }
             }
 
         }
-
     }
 }
 
@@ -173,8 +189,8 @@ fun ActionIconButton(icon: ImageVector, label: String,    onClick: () -> Unit) {
             modifier = Modifier.size(60.dp).padding(0.dp),
             shape = CircleShape,
             colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFEFF6F6),
-                contentColor = Color.Black
+                containerColor = SurfaceLight,
+                contentColor = Black
             ),
             contentPadding = PaddingValues(0.dp)
 
@@ -183,34 +199,12 @@ fun ActionIconButton(icon: ImageVector, label: String,    onClick: () -> Unit) {
             Icon(
                 icon,
                 contentDescription = label,
-                modifier = Modifier.size(29.dp)
+                modifier = Modifier.size(29.dp),
+                tint=Black
             )
         }
         Spacer(modifier = Modifier.height(4.dp))
-        Text(label, fontSize = MaterialTheme.typography.bodyLarge.fontSize, fontWeight = FontWeight.SemiBold, color = Color.White)
-    }
-}
-
-@Composable
-fun MoneyVisibility() {
-    var see by remember { mutableStateOf(true) }
-
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Text(
-            text = if (see) "$1000" else "****",
-            style = MaterialTheme.typography.bodyMedium.copy(
-                fontWeight = FontWeight.SemiBold)        )
-
-        Button(onClick = { see = !see }) {
-            Icon(
-                imageVector = if (see) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                contentDescription = if (see) "Ocultar saldo" else "Mostrar saldo"
-            )
-        }
+        Text(label, fontSize = MaterialTheme.typography.bodyLarge.fontSize, fontWeight = FontWeight.SemiBold, color = White)
     }
 }
 
@@ -222,7 +216,7 @@ fun YourInfo(){
             .padding(horizontal = 12.dp, vertical = 12.dp)
             .fillMaxWidth()
             .height(210.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF92cac0)) // o Secondary, si querés un bloque destacado
+        colors = CardDefaults.cardColors(containerColor = Secondary) // o Secondary, si querés un bloque destacado
     ) {
         Column(
             modifier = Modifier
@@ -237,14 +231,15 @@ fun YourInfo(){
             ) {
 
                 Text(
-                    text = "Tu informacion",
+                    text = stringResource( R.string.tu_información ),
                     style = MaterialTheme.typography.headlineLarge.copy(
-                        fontWeight = FontWeight.Bold, color=Color.DarkGray)
+                        fontWeight = FontWeight.Bold, color=Black)
                 )
             }
-            HorizontalDivider(thickness = 1.dp,color = Color(0xFF5c978c))
-            InfoCard("Alias: juan.wallx.arg")
-            InfoCard("CVU: 012345678912345679")
+            HorizontalDivider(thickness = 1.dp,color = SurfaceVariant)
+
+            InfoCard(stringResource( R.string.alias  )+": "+ "juan.wallx.arg")
+            InfoCard(stringResource( R.string.CVU )+ ": " +"012345678912345679")
 
         }
     }
@@ -258,7 +253,7 @@ fun InfoCard(text: String){
             .height(59.dp)
             .padding(vertical = 1.dp),
 
-        colors = CardDefaults.cardColors(containerColor = Color(0Xff6da89d))
+        colors = CardDefaults.cardColors(containerColor = InfoCardColor)
     ){
         Row(
             modifier = Modifier
@@ -270,7 +265,7 @@ fun InfoCard(text: String){
                 Text(
                     text = text,
                     style = MaterialTheme.typography.titleLarge.copy(
-                        fontWeight = FontWeight.SemiBold, color = Color.White
+                        fontWeight = FontWeight.Medium, color = White
                     )
                 )
             }
@@ -279,7 +274,8 @@ fun InfoCard(text: String){
                 Icon(
                     Icons.Filled.ContentCopy,
                     contentDescription = "copy",
-                    modifier = Modifier.size(25.dp)
+                    modifier = Modifier.size(25.dp),
+                    tint= SurfaceVariant
                 )
             }
         }
@@ -310,12 +306,15 @@ fun LastMovements(){
                 Icon(
                     Icons.Filled.History,
                     contentDescription = "History",
-                    modifier = Modifier.size(30.dp))
+                    modifier = Modifier.size(30.dp),
+                    tint=Black
+                )
 
                 Text(
-                    text = "Ultimos movimentos",
+                    text =stringResource( R.string.ultimos_movimientos ),
                     style = MaterialTheme.typography.headlineLarge.copy(
-                        fontWeight = FontWeight.SemiBold
+                        fontWeight = FontWeight.SemiBold,
+                        color=Black
                     )
                 )
             }
@@ -351,7 +350,7 @@ fun Single_movement(account: String, date: String, amount: String, isPositive: B
         .fillMaxWidth()
         .height(70.dp)
         .padding(vertical = 6.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0Xffd6fff4))
+        colors = CardDefaults.cardColors(containerColor = Light)
     )
     {
         Row( modifier = Modifier
@@ -366,7 +365,7 @@ fun Single_movement(account: String, date: String, amount: String, isPositive: B
                         text =(if (isPositive) "+ " else "- " )+amount,
                         fontSize = MaterialTheme.typography.titleMedium.fontSize,
                         fontWeight = FontWeight.Black,
-                        color = if(isPositive) Color(0Xff139d17) else Color(0Xffad2626)
+                        color = if(isPositive) Success else Error
                     )
                 }
 
@@ -378,12 +377,13 @@ fun Single_movement(account: String, date: String, amount: String, isPositive: B
                     text = account,
                     fontSize = MaterialTheme.typography.titleMedium.fontSize,
                     fontWeight = FontWeight.Bold,
-                    color = Color.DarkGray
+                    color = Black
                 )
                 Text(text=date,
                     fontSize = MaterialTheme.typography.titleMedium.fontSize,
                     fontWeight = FontWeight.Normal,
-                    color = Color.DarkGray)
+                    color = Black
+                )
 
             }
         }

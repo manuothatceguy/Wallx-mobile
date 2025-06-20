@@ -66,6 +66,8 @@ val ButtonColor = Color(0xFF6DB8A8)           // Verde turquesa
 val Selected = Color(0xFF85C4AE)              // Verde pastel
 val Accent = Color(0xFF5BAE9B)                // Verde suave, menos saturado que Button
 val Interactive = Color(0xFF468D7D)           // Verde más oscuro y sobrio
+val InfoCardColor = Color(0XFF6DA89D)         // Verde claro
+val Light= Color(0Xffd6fff4)
 
 val Header = Primary
 val Contrast = Primary
