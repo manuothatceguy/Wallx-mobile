@@ -28,14 +28,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ar.edu.itba.hci.wallx.R
+import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.data.repository.UserRepository
-import ar.edu.itba.hci.wallx.ui.viewmodel.UserViewModel
 
 
 @Composable
 fun VerifyScreen(
     modifier: Modifier = Modifier,
-    userViewModel: UserViewModel,
+    viewModel: WallXViewModel,
     onVerifySuccess: () -> Unit
 ) {
     var email by remember { mutableStateOf("") }
@@ -100,15 +100,9 @@ fun VerifyScreen(
 
                     Button(
                         onClick = {
-                            userViewModel.verifyUser(
+                            viewModel.verifyUser(
                                 code = verificationCode,
                                 email = email,
-                                onSuccess = {
-                                    onVerifySuccess()
-                                },
-                                onError = {
-                                    errorMessage = it.message ?: context.getString(R.string.error_desconocido)
-                                }
                             )
                         },
                         modifier = Modifier.fillMaxWidth()
@@ -138,17 +132,4 @@ fun TopBarForVerifyScreen() {
             textAlign = TextAlign.Center
         )
     }
-}
-
-@SuppressLint("ViewModelConstructorInComposable")
-@Preview(showBackground = true)
-@Composable
-fun VerifyScreenPreview() {
-    VerifyScreen(
-        userViewModel = UserViewModel(
-            userRepository = UserRepository()
-        ),
-        modifier = Modifier,
-        onVerifySuccess = {}
-    )
 }

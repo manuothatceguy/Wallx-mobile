@@ -23,9 +23,11 @@ import ar.edu.itba.hci.wallx.ui.screens.dashboard.DashboardScreen
 
 @Composable
 fun AppNavGraph(
+    modifier: Modifier = Modifier,
+    startRoute: String,
+    currentRoute : String?,
     viewModel: WallXViewModel,
-    navController: NavHostController = rememberNavController(),
-    modifier: Modifier
+    navController: NavHostController = rememberNavController()
 ) {
     NavHost(
         navController = navController,
@@ -36,7 +38,6 @@ fun AppNavGraph(
 
         ) {
             LoginScreen(
-                modifier,
                 wallXViewModel = viewModel,
                 onLoginSuccess = {
                     println("Login success")
@@ -44,34 +45,15 @@ fun AppNavGraph(
             )
         }
         composable(AppDestinations.REGISTRO.route) {
-            var showSuccess by remember { mutableStateOf(false) }
-            val navControllerLocal = navController
             RegisterScreen(
-                modifier,
-                userViewModel,
+                viewModel = viewModel,
                 onRegisterSuccess = {
-                    showSuccess = true
+                    println("Register success")
                 }
             )
-            if (showSuccess) {
-                androidx.compose.runtime.LaunchedEffect(Unit) {
-                    kotlinx.coroutines.delay(1200)
-                    showSuccess = false
-                    navControllerLocal.navigate(AppDestinations.VERIFICAR.route) {
-                        popUpTo(AppDestinations.REGISTRO.route) { inclusive = true }
-                    }
-                }
-                androidx.compose.material3.Snackbar(
-                    action = {},
-                    containerColor = ar.edu.itba.hci.wallx.ui.theme.Success,
-                    contentColor = ar.edu.itba.hci.wallx.ui.theme.White
-                ) {
-                    androidx.compose.material3.Text("¡Registro exitoso! Ahora verificá tu email.")
-                }
-            }
         }
         composable(AppDestinations.DASHBOARD.route) {
-            DashboardScreen(modifier)
+//            DashboardScreen(modifier)
         }
         composable(AppDestinations.MOVIMIENTOS.route) {
             // MovimientosScreen(modifier)
@@ -89,31 +71,18 @@ fun AppNavGraph(
             // TarjetasScreen(modifier)
         }
         composable(AppDestinations.VERIFICAR.route) {
-            VerifyScreen(
-                modifier,
-                userViewModel,
-                onVerifySuccess = {
-                    navController.navigate(AppDestinations.INICIO_DE_SESION.route) {
-                        popUpTo(AppDestinations.VERIFICAR.route) { inclusive = true }
-                    }
-                }
-            )
-        }
-    }
-
-    LaunchedEffect(isLoggedIn, navController.currentBackStackEntryAsState().value) {
-        if (!isLoggedIn) {
-            val currentRoute = navController.currentBackStackEntry?.destination?.route
-            if (currentRoute != AppDestinations.INICIO_DE_SESION.route && currentRoute != AppDestinations.REGISTRO.route) {
-                val destination =
-                    if (currentRoute != null && currentRoute != AppDestinations.DASHBOARD.route)
-                        AppDestinations.INICIO_DE_SESION.route + "?redirectTo=" + currentRoute
-                    else
-                        AppDestinations.INICIO_DE_SESION.route
-                navController.navigate(destination) {
-                    popUpTo(navController.graph.startDestinationId) { inclusive = true }
-                }
-            }
+//            VerifyScreen(
+//                onVerifySuccess = {
+//                    navController.navigate(AppDestinations.INICIO_DE_SESION.route) {
+//                        popUpTo(AppDestinations.VERIFICAR.route) { inclusive = true }
+//                    }
+//                }
+//            )
         }
     }
 }
+
+fun navigateTo(){
+
+}
+

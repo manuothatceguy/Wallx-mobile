@@ -55,7 +55,7 @@ import ar.edu.itba.hci.wallx.ui.theme.White
 @OptIn(InternalTextApi::class)
 @Composable
 fun LoginScreen(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     wallXViewModel: WallXViewModel,
     onLoginSuccess: () -> Unit
 ) {
