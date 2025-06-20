@@ -46,36 +46,6 @@ import ar.edu.itba.hci.wallx.ui.theme.Secondary
 fun DashboardScreen(modifier: Modifier, onNavigate: (String) -> Unit, viewModel : WallXViewModel) {
     val uiState by viewModel.uiState.collectAsState()
     Column(modifier = modifier.fillMaxSize()) {
-        TopAppBar(
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = androidx.compose.material3.MaterialTheme.colorScheme.primaryContainer,
-                titleContentColor = androidx.compose.material3.MaterialTheme.colorScheme.primary,
-            ),
-            title = {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.AccountCircle,
-                        contentDescription = "Profile",
-                    )
-
-                    Text("Hola, ${uiState.completeUserDetail?.firstName}") // TODO: hacerlo BIEN
-                    Spacer(
-                        Modifier.weight(1f)
-                    )
-                    Button(onClick = { /*TODO*/ }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.Help,
-                            contentDescription = "Help"
-                        )
-                        Text("Ayuda")
-                    }
-                }
-            }
-        )
         //Dinero disponible
         AvailableMoney()
         YourInfo()

@@ -8,14 +8,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Help
 import androidx.compose.material.icons.automirrored.outlined.Help
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -27,6 +33,8 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -67,7 +75,6 @@ fun MainApp (
         AppDestinations.VERIFICAR.route
     )
 
-    val includeTopBar = currentRoute in authRoutes
     val includeBottomBar = currentRoute !in authRoutes
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -78,7 +85,7 @@ fun MainApp (
     ) {
         Scaffold(
             containerColor = MaterialTheme.colorScheme.background,
-            topBar = { if (includeTopBar) TopBar(viewModel) },
+            topBar = { if (currentRoute in authRoutes) AuthTopBar(viewModel) else TopBar(viewModel, scope, drawerState, navController, currentRoute)},
             bottomBar = { if (currentRoute == AppDestinations.DASHBOARD.route) BottomBar(viewModel, scope, drawerState) },
 
             ) { padding ->
@@ -97,8 +104,64 @@ fun MainApp (
     }
 }
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(viewModel: WallXViewModel) {
+fun TopBar(
+    viewModel: WallXViewModel?,
+    scope: CoroutineScope?,
+    drawerState: DrawerState?,
+    navController: NavController,
+    currentRoute: String?
+) {
+    val uiState by viewModel!!.uiState.collectAsState()
+
+    TopAppBar(
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            titleContentColor = MaterialTheme.colorScheme.primary,
+        ),
+        navigationIcon = {
+            if (currentRoute == AppDestinations.DASHBOARD.route) {
+                IconButton(onClick = {
+                    scope?.launch {
+                        if (drawerState?.isClosed == true) drawerState.open()
+                        else drawerState?.close()
+                    }
+                }) {
+                    Icon(Icons.Filled.Menu, contentDescription = "Menú")
+                }
+            } else {
+                IconButton(onClick = { navController.popBackStack() }) {
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
+                }
+            }
+        },
+        title = {
+            if (currentRoute == AppDestinations.DASHBOARD.route) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.AccountCircle,
+                        contentDescription = "Perfil"
+                    )
+                    Text("Hola, ${uiState.completeUserDetail?.firstName ?: "Usuario"}")
+                }
+            }
+        },
+        actions = {
+            Button(onClick = { /* TODO: Acción ayuda */ }) {
+                Icon(Icons.AutoMirrored.Filled.Help, contentDescription = "Ayuda")
+                Text("Ayuda")
+            }
+        }
+    )
+}
+
+@Composable
+fun AuthTopBar(viewModel: WallXViewModel) {
     Card {
         Text(
             text = "WallX" ,

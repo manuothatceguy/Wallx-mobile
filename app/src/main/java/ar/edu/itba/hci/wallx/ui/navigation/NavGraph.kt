@@ -51,7 +51,7 @@ fun AppNavGraph(
         composable(AppDestinations.DASHBOARD.route) {
             DashboardScreen(
                 viewModel = viewModel,
-                modifier,
+                modifier = modifier,
                 onNavigate = navGuard
             )
         }
