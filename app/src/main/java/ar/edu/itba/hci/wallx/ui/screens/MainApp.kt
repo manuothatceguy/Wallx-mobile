@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Help
 import androidx.compose.material.icons.automirrored.outlined.Help
+import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
@@ -44,12 +45,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.WallXApplication
 import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
@@ -81,7 +84,7 @@ fun MainApp (
 
     ModalNavigationDrawer(
         drawerState = drawerState,
-        drawerContent = { if (includeBottomBar) SideBar() }
+        drawerContent = { if (includeBottomBar) SideBar(viewModel, currentRoute, navController) }
     ) {
         Scaffold(
             containerColor = MaterialTheme.colorScheme.background,
@@ -108,13 +111,20 @@ fun MainApp (
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
-    viewModel: WallXViewModel?,
-    scope: CoroutineScope?,
-    drawerState: DrawerState?,
+    viewModel: WallXViewModel,
+    scope: CoroutineScope,
+    drawerState: DrawerState,
     navController: NavController,
     currentRoute: String?
 ) {
-    val uiState by viewModel!!.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
+    val backRoutes = listOf(
+        AppDestinations.NUEVA_TRANSFERENCIA.route,
+        // agregar tarjeta
+        // detalles de movimiento
+        // detalles de tarjeta
+        // etc.
+    )
 
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
@@ -122,11 +132,11 @@ fun TopBar(
             titleContentColor = MaterialTheme.colorScheme.primary,
         ),
         navigationIcon = {
-            if (currentRoute == AppDestinations.DASHBOARD.route) {
+            if (currentRoute !in backRoutes) {
                 IconButton(onClick = {
-                    scope?.launch {
-                        if (drawerState?.isClosed == true) drawerState.open()
-                        else drawerState?.close()
+                    scope.launch {
+                        if (drawerState.isClosed == true) drawerState.open()
+                        else drawerState.close()
                     }
                 }) {
                     Icon(Icons.Filled.Menu, contentDescription = "Menú")
@@ -147,7 +157,7 @@ fun TopBar(
                         imageVector = Icons.Filled.AccountCircle,
                         contentDescription = "Perfil"
                     )
-                    Text("Hola, ${uiState.completeUserDetail?.firstName ?: "Usuario"}")
+                    Text("${stringResource(R.string.saludo)} ${(", " + uiState.completeUserDetail?.firstName)}")
                 }
             }
         },
@@ -215,9 +225,16 @@ fun BottomBar(viewModel: WallXViewModel?, scope: CoroutineScope, drawerState: Dr
     )
 }
 
-@Preview
 @Composable
-fun SideBar() {
+fun SideBar(viewModel: WallXViewModel, currentRoute: String?, navController: NavController, ) {
+    val uiState by viewModel.uiState.collectAsState()
+    val drawerRoutes = listOf(
+        AppDestinations.DASHBOARD,
+        AppDestinations.MOVIMIENTOS,
+        AppDestinations.TRANSFERENCIAS,
+        AppDestinations.SERVICIOS,
+        AppDestinations.TARJETAS
+    )
     ModalDrawerSheet{
         Column(
             modifier = Modifier
@@ -226,36 +243,27 @@ fun SideBar() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(Modifier.height(12.dp))
-            Text("Drawer Title", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleLarge)
+            Text(uiState.completeUserDetail?.firstName + " " + uiState.completeUserDetail?.lastName, modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleLarge)
             HorizontalDivider()
 
-            Text("Section 1", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleMedium)
-            NavigationDrawerItem(
-                label = { Text("Item 1") },
-                selected = false,
-                onClick = { /* Handle click */ }
-            )
-            NavigationDrawerItem(
-                label = { Text("Item 2") },
-                selected = false,
-                onClick = { /* Handle click */ }
-            )
+            for (destination in drawerRoutes) {
+                NavigationDrawerItem(
+                    label = { Text(stringResource(destination.title)) },
+                    selected = currentRoute == destination.route,
+                    onClick = { navGuard(navController, destination.route, uiState.isAuthenticated) }
+                )
+            }
 
             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
 
             Text("Section 2", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleMedium)
             NavigationDrawerItem(
-                label = { Text("Settings") },
+                label = { Text(stringResource(R.string.cerrar_sesion)) },
                 selected = false,
-                icon = { Icon(Icons.Outlined.Settings, contentDescription = null) },
-                badge = { Text("20") }, // Placeholder
-                onClick = { /* Handle click */ }
-            )
-            NavigationDrawerItem(
-                label = { Text("Help and feedback") },
-                selected = false,
-                icon = { Icon(Icons.AutoMirrored.Outlined.Help, contentDescription = null) },
-                onClick = { /* Handle click */ },
+                icon = { Icon(Icons.AutoMirrored.Outlined.Logout, contentDescription = null) },
+                onClick = {
+                    viewModel.logout()
+                },
             )
             Spacer(Modifier.height(12.dp))
         }
