@@ -285,10 +285,5 @@ fun LastMovements(){
     }
 }
 
-@Preview
-@Composable
-fun DashboardPreview() {
-    WallxTheme { DashboardScreen( ) }
-}
 
 

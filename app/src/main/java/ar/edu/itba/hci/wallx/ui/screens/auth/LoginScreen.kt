@@ -87,8 +87,8 @@ fun LoginScreen(
                     modifier = modifier
                         .padding(horizontal = 120.dp, vertical = 16.dp)
                         .fillMaxWidth()
-                        .height(60.dp),
-                    colors = CardDefaults.cardColors(containerColor = Secondary)
+                        .height(60.dp)
+                    //colors = CardDefaults.cardColors(containerColor = Secondary)
                 ) {
                     Box(
                         modifier = Modifier
@@ -107,8 +107,8 @@ fun LoginScreen(
                 Card(
                     modifier = modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 30.dp, vertical = 10.dp),
-                    colors = CardDefaults.cardColors(containerColor = Secondary)
+                        .padding(horizontal = 30.dp, vertical = 10.dp)
+                    //colors = CardDefaults.cardColors(containerColor = Secondary)
                 ) {
                     Column(
                         modifier = Modifier
@@ -152,7 +152,7 @@ fun LoginScreen(
                                                 color = Info
                                             )
                                         },
-                                        colors = OutlinedTextFieldDefaults.colors(
+                                        /*colors = OutlinedTextFieldDefaults.colors(
                                             focusedTextColor = Primary,
                                             unfocusedTextColor = Info,
                                             disabledTextColor = SurfaceVariant,
@@ -175,7 +175,7 @@ fun LoginScreen(
 
                                             focusedTrailingIconColor = SecondaryDarken1,
                                             unfocusedTrailingIconColor = Interactive.copy(alpha = 0.7f),
-                                        )
+                                        )*/
 
                                     )
                                 }
@@ -198,7 +198,7 @@ fun LoginScreen(
                                                 color = Info
                                             )
                                         },
-                                        colors = OutlinedTextFieldDefaults.colors(
+                                        /*colors = OutlinedTextFieldDefaults.colors(
                                             focusedTextColor = Primary,
                                             unfocusedTextColor = Info,
                                             disabledTextColor = SurfaceVariant,
@@ -221,13 +221,13 @@ fun LoginScreen(
 
                                             focusedTrailingIconColor = SecondaryDarken1,
                                             unfocusedTrailingIconColor = Interactive.copy(alpha = 0.7f),
-                                        )
+                                        )*/
                                     )
                                     Spacer(modifier = Modifier.height(2.dp))
                                     Text(
                                         text = stringResource(R.string.olvidaste_contra),
                                         textDecoration = TextDecoration.Underline,
-                                        color = Secondary,
+                                        //color = Secondary,
                                         fontSize = 13.sp,
                                         modifier = Modifier.clickable{
                                             //ir a la otra pantalla
@@ -248,10 +248,10 @@ fun LoginScreen(
                                 .fillMaxWidth()
                                 .padding(16.dp)
                                 .height(50.dp),
-                            colors = ButtonDefaults.buttonColors(
+                            /*colors = ButtonDefaults.buttonColors(
                                 containerColor = Accent,
                                 contentColor = White
-                            )
+                            )*/
                         ){
                             Box{
                                 Text(text=stringResource(R.string.inicio_sesion))
@@ -260,7 +260,7 @@ fun LoginScreen(
                         Text(
                             text = stringResource(R.string.no_tenés_una_cuenta),
                             textDecoration = TextDecoration.Underline,
-                            color = Info,
+                            //color = Info,
                             fontSize = 13.sp,
                             modifier = Modifier.clickable{
                                 //hace que vaya a la otra pantalla
