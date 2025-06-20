@@ -13,7 +13,7 @@ data class UserData(
     @SerialName("id") var id: Int? = null,
     @SerialName("firstName") var firstName: String? = null,
     @SerialName("lastName") var lastName: String? = null,
-    @SerialName("birthdate") var birthdate: String? = null,
+    @SerialName("birthDate") var birthdate: String? = null,
     @SerialName("email") var email: String? = null
 ) {
     fun asModel(): CompleteUser {
@@ -22,7 +22,7 @@ data class UserData(
             firstName = firstName ?: "",
             lastName = lastName ?: "",
             email = email ?: "",
-            birthDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault(Locale.Category.FORMAT)).parse(birthdate!!)
+            birthDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault(Locale.Category.FORMAT)).parse(birthdate ?: "")
         )
     }
 }

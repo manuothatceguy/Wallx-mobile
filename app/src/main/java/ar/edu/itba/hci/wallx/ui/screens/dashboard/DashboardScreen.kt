@@ -74,9 +74,8 @@ import ar.edu.itba.hci.wallx.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(modifier: Modifier=Modifier)
-{
-
+fun DashboardScreen(modifier: Modifier, onNavigate: (String) -> Unit, viewModel : WallXViewModel) {
+    viewModel.getUser()
     Column(modifier = modifier.fillMaxSize()) {
         //Dinero disponible
         AvailableMoney()

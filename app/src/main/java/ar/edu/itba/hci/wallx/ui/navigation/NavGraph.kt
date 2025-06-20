@@ -35,9 +35,7 @@ fun AppNavGraph(
         ) {
             LoginScreen(
                 wallXViewModel = viewModel,
-                onLoginSuccess = {
-                    navGuard(AppDestinations.DASHBOARD.route)
-                }
+                onNavigateTo = navGuard
             )
         }
         composable(AppDestinations.REGISTRO.route) {
