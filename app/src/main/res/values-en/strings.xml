@@ -57,4 +57,5 @@
     <string name="mostrar">Show</string>
     <string name="ocultar">Hide</string>
     <string name="saldo">balance</string>
+    <string name="ingresar_dinero">Recharge account</string>
 </resources>

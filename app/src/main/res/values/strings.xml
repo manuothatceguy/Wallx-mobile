@@ -59,4 +59,5 @@
     <string name="mostrar">Mostrar</string>
     <string name="ocultar">Ocultar</string>
     <string name="saldo">saldo</string>
+    <string name="ingresar_dinero">Ingresar dinero</string>
 </resources>
