@@ -49,7 +49,6 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.androidx.navigation.compose.jvmstubs)
     implementation(libs.protolite.well.known.types)
     implementation(libs.androidx.animation.core.lint)
     testImplementation(libs.junit)
