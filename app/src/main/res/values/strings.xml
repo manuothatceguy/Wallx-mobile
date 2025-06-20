@@ -23,7 +23,7 @@
     <string name="escanear">Escanear</string>
     <string name="usuario">Usuario</string>
     <string name="contraseña">Contraseña</string>
-    <string name="inicio_sesion">Iniciar sesión</string>
+    <string name="inicio_sesion">Ingresar</string>
     <string name="nombre">Nombre</string>
     <string name="apellido">Apellido</string>
     <string name="email">Email</string>
@@ -40,4 +40,5 @@
     <string name="wallx_verificacion">WallX - Verificación</string>
     <string name="registrarse">Registrarse</string>
     <string name="agregarTarjeta">Agregar tarjeta</string>
+    <string name="olvidaste_contra">¿Olvidaste tu constraseña?</string>
 </resources>
