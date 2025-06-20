@@ -1,5 +1,5 @@
 package ar.edu.itba.hci.wallx.ui.screens.auth
-/*
+
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
