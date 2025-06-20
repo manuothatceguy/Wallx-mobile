@@ -2,6 +2,7 @@ package ar.edu.itba.hci.wallx.ui.screens.auth
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,13 +31,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.Modifier.clickable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.InternalTextApi
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ar.edu.itba.hci.wallx.R
+import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.data.network.model.user.NewUserData
 import ar.edu.itba.hci.wallx.data.repository.UserRepository
 import ar.edu.itba.hci.wallx.ui.theme.Background
@@ -51,7 +52,6 @@ import ar.edu.itba.hci.wallx.ui.theme.SurfaceVariant
 import ar.edu.itba.hci.wallx.ui.theme.Typography
 import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 import ar.edu.itba.hci.wallx.ui.theme.White
-import ar.edu.itba.hci.wallx.ui.viewmodel.UserViewModel
 import java.util.Calendar
 
 @SuppressLint("DefaultLocale")
@@ -59,7 +59,7 @@ import java.util.Calendar
 @Composable
 fun RegisterScreen(
     modifier: Modifier = Modifier,
-    userViewModel: UserViewModel,
+    viewModel: WallXViewModel,
     onRegisterSuccess: () -> Unit
 ) {
     var firstName by remember { mutableStateOf("") }
@@ -138,7 +138,7 @@ fun RegisterScreen(
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 Text(
-                                    text = stringResource(R.string.registro),
+                                    text = stringResource(R.string.registrate),
                                     style = Typography.titleLarge
                                 )
                                 // Nombre
@@ -339,20 +339,13 @@ fun RegisterScreen(
                                             errorMessage = context.getString(R.string.error_completar_campos)
                                             return@Button
                                         }
-                                        userViewModel.register(
-                                            NewUserData(
+                                        viewModel.register(
                                                 firstName = firstName,
                                                 lastName = lastName,
                                                 email = email,
                                                 password = password,
                                                 birthDate = birthDate
-                                            ),
-                                            onSuccess = {
-                                                onRegisterSuccess()
-                                            },
-                                            onError = {
-                                                errorMessage = it.message ?: context.getString(R.string.error_desconocido)
-                                            }
+
                                         )
                                     },
                                     modifier = Modifier
@@ -379,16 +372,5 @@ fun RegisterScreen(
     }
 }
 
-@SuppressLint("ViewModelConstructorInComposable")
-@Preview(showBackground = true)
-@Composable
-fun RegisterScreenPreview() {
-    WallxTheme(dynamicColor = false) {
-        RegisterScreen(
-            modifier = Modifier,
-            userViewModel = UserViewModel(UserRepository()),
-            onRegisterSuccess = {}
-        )
-    }
-}
+
 

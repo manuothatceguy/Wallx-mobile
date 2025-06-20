@@ -15,46 +15,31 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.ui.screens.auth.LoginScreen
 import ar.edu.itba.hci.wallx.ui.screens.auth.RegisterScreen
 import ar.edu.itba.hci.wallx.ui.screens.auth.VerifyScreen
 import ar.edu.itba.hci.wallx.ui.screens.dashboard.DashboardScreen
-import ar.edu.itba.hci.wallx.ui.viewmodel.UserViewModel
 
 @Composable
 fun AppNavGraph(
-    userViewModel: UserViewModel,
+    viewModel: WallXViewModel,
     navController: NavHostController = rememberNavController(),
     modifier: Modifier
 ) {
-    val user by userViewModel.user.collectAsState()
-    val isLoggedIn = user != null
     NavHost(
         navController = navController,
-        startDestination = if (isLoggedIn) AppDestinations.DASHBOARD.route else AppDestinations.INICIO_DE_SESION.route
+        startDestination = AppDestinations.INICIO_DE_SESION.route
     ) {
         composable(
-            route = AppDestinations.INICIO_DE_SESION.route + "?redirectTo={redirectTo}",
-            arguments = listOf(
-                navArgument("redirectTo") {
-                    type = NavType.StringType; nullable = true; defaultValue = null
-                }
-            )
-        ) { backStackEntry ->
-            val redirectTo = backStackEntry.arguments?.getString("redirectTo")
+            route = AppDestinations.INICIO_DE_SESION.route
+
+        ) {
             LoginScreen(
                 modifier,
-                userViewModel,
+                wallXViewModel = viewModel,
                 onLoginSuccess = {
-                    if (!redirectTo.isNullOrEmpty()) {
-                        navController.navigate(redirectTo) {
-                            popUpTo(AppDestinations.INICIO_DE_SESION.route) { inclusive = true }
-                        }
-                    } else {
-                        navController.navigate(AppDestinations.DASHBOARD.route) {
-                            popUpTo(AppDestinations.INICIO_DE_SESION.route) { inclusive = true }
-                        }
-                    }
+                    println("Login success")
                 }
             )
         }

@@ -38,6 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ar.edu.itba.hci.wallx.ui.screens.MainApp
 import ar.edu.itba.hci.wallx.ui.screens.dashboard.DashboardScreen
 import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 

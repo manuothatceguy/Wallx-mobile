@@ -257,15 +257,4 @@ fun LoginScreen(
     }
 }
 
-@SuppressLint("ViewModelConstructorInComposable") // para el preview
-@Preview(showBackground = true)
-@Composable
-fun LoginScreenPreview() {
-    WallxTheme(dynamicColor = false) {
-        LoginScreen(
-            modifier = Modifier,
-            wallXViewModel = WallXViewModel(),
-            onLoginSuccess = {}
-        )
-    }
-}
+
