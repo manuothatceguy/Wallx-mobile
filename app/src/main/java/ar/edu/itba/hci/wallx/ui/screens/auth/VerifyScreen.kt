@@ -30,11 +30,13 @@ import androidx.compose.ui.unit.dp
 import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.data.repository.UserRepository
+import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 
 
 @Composable
 fun VerifyScreen(
     modifier: Modifier = Modifier,
+    viewModel: WallXViewModel? = null,
     onVerifySuccess: () -> Unit
 ) {
     var email by remember { mutableStateOf("") }
@@ -132,3 +134,13 @@ fun TopBarForVerifyScreen() {
         )
     }
 }
+
+@Preview
+@Composable
+fun VerifyScreenPreview() {
+    WallxTheme { VerifyScreen(
+
+        onVerifySuccess = { /*TODO*/ },
+    ) }
+}
+

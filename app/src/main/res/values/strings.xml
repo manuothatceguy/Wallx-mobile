@@ -43,4 +43,15 @@
     <string name="saludo">Hola</string>
     <string name="cerrar_sesion">Cerrar sesión</string>
     <string name="olvidaste_contra">¿Olvidaste tu constraseña?</string>
+    <string name="Pagar">Pagar</string>
+    <string name="Cobrar">Cobrar</string>
+    <string name="pagarServicio">Pagar servicio</string>
+    <string name="generarCodigo">Generar codigo</string>
+    <string name="motivoCobro">Motivo de cobro</string>
+    <string name="IngresaMonto">Ingresá el monto a cobrar</string>
+    <string name="ingresarLink">Ingresá el link o código de pago del servicio que querés pagar:</string>
+    <string name="codigoPago">Código de pago</string>
+    <string name="ingresaMotivoCobro">Ingresá el motivo de cobro:</string>
+    <string name="ingresaMontoCobrar">Ingresá el monto a cobrar:</string>
+    <string name="monto">Monto</string>
 </resources>

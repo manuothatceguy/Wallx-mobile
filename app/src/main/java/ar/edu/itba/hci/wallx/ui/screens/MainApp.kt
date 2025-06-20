@@ -57,6 +57,8 @@ import ar.edu.itba.hci.wallx.WallXApplication
 import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
 import ar.edu.itba.hci.wallx.ui.navigation.AppNavGraph
+import ar.edu.itba.hci.wallx.ui.screens.auth.RegisterScreen
+import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

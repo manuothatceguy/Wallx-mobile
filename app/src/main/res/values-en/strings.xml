@@ -43,4 +43,15 @@
     <string name="olvidaste_contra">Forgot password?</string>
     <string name="saludo">Hi</string>
     <string name="cerrar_sesion">Log out</string>
+    <string name="Pagar">Pay</string>
+    <string name="Cobrar">Charge</string>
+    <string name="pagarServicio">Pay service</string>
+    <string name="generarCodigo">Generate code</string>
+    <string name="ingresaMontoCobrar">Enter the amount to charge:</string>
+    <string name="monto">Amount</string>
+    <string name="motivoCobro">Motive of charge</string>
+    <string name="IngresaMonto">Enter amount to charge</string>
+    <string name="ingresarLink">Enter the link or code of the payment you want to pay:</string>
+    <string name="codigoPago">Payment code</string>
+    <string name="ingresaMotivoCobro">Enter the charge motive:</string>
 </resources>
