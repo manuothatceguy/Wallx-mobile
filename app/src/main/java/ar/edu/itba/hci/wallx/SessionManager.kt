@@ -25,8 +25,21 @@ class SessionManager(context: Context) {
         }
     }
 
+    fun getSee(): Boolean {
+        return preferences.getBoolean(SEE, true)
+    }
+
+    fun toggleSee() : Boolean {
+        val see = getSee()
+        preferences.edit {
+            putBoolean(SEE, !see)
+        }
+        return !see
+    }
+
     companion object {
         const val PREFERENCES_NAME = "wallx"
         const val AUTH_TOKEN = "auth_token"
+        const val SEE = "see"
     }
 }

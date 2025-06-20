@@ -13,6 +13,7 @@ data class HomeUiState(
     val completeUserDetail: CompleteUser? = null,
     val cardsDetail: List<Card>? = listOf(),
     val paymentsDetail: List<Payment>? = listOf(),
-    val error: Error? = null
+    val error: Error? = null,
+    val see : Boolean = false
 )
 

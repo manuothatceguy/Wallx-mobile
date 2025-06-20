@@ -23,7 +23,7 @@ import ar.edu.itba.hci.wallx.data.model.Error
 import ar.edu.itba.hci.wallx.data.network.model.card.NewCardData
 
 class WallXViewModel (
-    sessionManager: SessionManager,
+    val sessionManager: SessionManager,
     private val userRepository: UserRepository,
     private val accountRepository: AccountRepository,
     private val cardRepository: CardRepository,
@@ -113,6 +113,24 @@ class WallXViewModel (
         {
             state, _ -> state.copy()
 
+        }
+    )
+
+    fun getSee() = runOnViewModelScope(
+        {
+            sessionManager.getSee()
+        },
+        { state, response ->
+            state.copy(see = response)
+        }
+    )
+
+    fun toggleSee() = runOnViewModelScope(
+        {
+            sessionManager.toggleSee()
+        },
+        {
+            state, response -> state.copy(see = response)
         }
     )
 
