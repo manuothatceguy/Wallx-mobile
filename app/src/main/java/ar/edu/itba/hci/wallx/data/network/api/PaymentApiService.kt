@@ -45,7 +45,7 @@ interface PaymentApiService {
         @Body newPayment: NewPaymentData
     ): Response<PendingPaymentData>
 
-    @GET("payment/payment")
+    @GET("payment")
     suspend fun getAllPayments(
         @Query("page") page: Int? = null,
         @Query("direction") direction: String? = null,
@@ -56,7 +56,7 @@ interface PaymentApiService {
         @Query("cardId") cardId: Int? = null
     ): Response<CompletePaymentData>
 
-    @GET("payment/payment")
+    @GET("payment/{id}")
     suspend fun getPaymentById(
         @Query("id") id: Int
     ): Response<PaymentData>
