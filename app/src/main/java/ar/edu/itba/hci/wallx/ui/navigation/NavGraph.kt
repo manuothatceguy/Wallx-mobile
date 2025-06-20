@@ -1,5 +1,5 @@
 package ar.edu.itba.hci.wallx.ui.navigation
-
+/*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState

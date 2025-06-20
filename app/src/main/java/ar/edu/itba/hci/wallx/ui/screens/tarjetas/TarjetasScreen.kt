@@ -18,24 +18,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ar.edu.itba.hci.wallx.R
+import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
+import ar.edu.itba.hci.wallx.data.model.Card
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
-data class CardData(
-    val lastDigits: String,
-    val brand: String,
-    val backgroundColor: Color,
-    val owner: String,
-    val expiryDate: String
-)
 
 @Composable
 fun TarjetasScreen(modifier: Modifier = Modifier) {
     val dummyCards = listOf(
-        CardData("4123", detectCardBrandFromNumber("4123"), Color(0xFF1A1A1A), "Juan Pérez", "12/26"),
-        CardData("5234", detectCardBrandFromNumber("5234"), Color(0xFF7E7B7B), "Ana López", "03/27"),
-        CardData("3765", detectCardBrandFromNumber("3765"), Color(0xFFD3D3D3), "Carlos Ruiz", "08/25")
+        Card(1, detectCardBrandFromNumber("4123456789012345"), "4123456789012345", getDate("12/26"), "Juan Pérez"),
+        Card(2, detectCardBrandFromNumber("5234567890123456"), "5234567890123456", getDate("03/27"), "Ana López"),
+        Card(3, detectCardBrandFromNumber("376543210987654"), "376543210987654", getDate("08/25"), "Carlos Ruiz")
     )
 
     Column(
@@ -44,7 +43,6 @@ fun TarjetasScreen(modifier: Modifier = Modifier) {
             .background(MaterialTheme.colorScheme.background)
             .padding(16.dp)
     ) {
-        // Botones arriba
         Row(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -65,7 +63,6 @@ fun TarjetasScreen(modifier: Modifier = Modifier) {
 
         Spacer(Modifier.height(24.dp))
 
-
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
@@ -80,39 +77,41 @@ fun TarjetasScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun CardItem(card: CardData) {
-    val brandLogo = getBrandLogo(card.brand)
+fun CardItem(card: Card) {
+    val brandLogo = getBrandLogo(card.type)
+    val backgroundColor = getBrandColor(card.type)
+    val maskedNumber = "**** **** **** ${card.number.takeLast(4)}"
+    val expiryFormatted = formatExpiry(card.expirationDate)
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .aspectRatio(1.586f)
-            .background(card.backgroundColor, RoundedCornerShape(16.dp))
+            .background(backgroundColor, RoundedCornerShape(16.dp))
             .padding(16.dp)
     ) {
 
         Text(
-            text = "${card.lastDigits}********${card.lastDigits}",//ver como mostrar primeros y ultimos de un solo string de nums
+            text = maskedNumber,
             color = Color.White,
             fontSize = 18.sp,
             modifier = Modifier.align(Alignment.CenterStart)
         )
 
         Text(
-            text = card.owner,
+            text = card.fullName,
             color = Color.White,
             fontSize = 14.sp,
             modifier = Modifier.align(Alignment.BottomStart)
         )
 
         Text(
-            text = card.expiryDate,
+            text = expiryFormatted,
             color = Color.White,
             fontSize = 14.sp,
             modifier = Modifier.align(Alignment.BottomEnd)
         )
 
-        // Logo arriba a la izquierda
         Image(
             painter = painterResource(id = brandLogo),
             contentDescription = null,
@@ -121,18 +120,44 @@ fun CardItem(card: CardData) {
                 .align(Alignment.TopStart)
         )
 
-        // Botón eliminar (si querés mantenerlo)
         Icon(
             imageVector = Icons.Default.Delete,
             contentDescription = "Eliminar",
             tint = Color.White,
-            modifier = Modifier
-                .align(Alignment.TopEnd)
+            modifier = Modifier.align(Alignment.TopEnd)
         )
     }
 }
 
+fun formatExpiry(date: Date): String {
+    val format = SimpleDateFormat("MM/yy", Locale.getDefault())
+    return format.format(date)
+}
 
+fun getDate(dateStr: String): Date {
+    val format = SimpleDateFormat("MM/yy", Locale.getDefault())
+    return format.parse(dateStr) ?: Date()
+}
+
+fun getBrandLogo(brand: String?): Int {
+    return when (brand?.lowercase()) {
+        "visa" -> R.drawable.visa
+        "mastercard" -> R.drawable.mastercard
+        "amex" -> R.drawable.amex
+        "maestro" -> R.drawable.maestro
+        else -> R.drawable.visa
+    }
+}
+
+fun getBrandColor(brand: String?): Color {
+    return when (brand?.lowercase()) {
+        "visa" -> Color(0xFF1A1A1A)
+        "mastercard" -> Color(0xFF7E7B7B)
+        "amex" -> Color(0xFFD3D3D3)
+        "maestro" -> Color.Gray
+        else -> Color.Gray
+    }
+}
 
 fun detectCardBrandFromNumber(cardNumber: String?): String {
     if (cardNumber.isNullOrEmpty()) return ""
@@ -145,12 +170,13 @@ fun detectCardBrandFromNumber(cardNumber: String?): String {
     }
 }
 
-fun getBrandLogo(brand: String?): Int {
-    return when (brand?.lowercase()) {
-        "visa" -> R.drawable.visa
-        "mastercard" -> R.drawable.mastercard
-        "amex" -> R.drawable.amex
-        "maestro" -> R.drawable.maestro
-        else -> R.drawable.visa // ver q hacemos cuando no detecta
+
+@Preview(showBackground = true)
+@Composable
+fun TarjetasScreenPreview() {
+    WallxTheme(dynamicColor = false) {
+        TarjetasScreen(
+            modifier = Modifier
+        )
     }
 }
