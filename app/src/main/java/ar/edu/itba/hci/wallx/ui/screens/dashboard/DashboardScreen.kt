@@ -26,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,12 +36,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import ar.edu.itba.hci.wallx.R
+import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.ui.theme.Secondary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(modifier: Modifier, onNavigate: (String) -> Unit) {
+fun DashboardScreen(modifier: Modifier, onNavigate: (String) -> Unit, viewModel : WallXViewModel) {
+    val uiState by viewModel.uiState.collectAsState()
     Column(modifier = modifier.fillMaxSize()) {
         TopAppBar(
             colors = TopAppBarDefaults.topAppBarColors(
@@ -58,7 +62,7 @@ fun DashboardScreen(modifier: Modifier, onNavigate: (String) -> Unit) {
                         contentDescription = "Profile",
                     )
 
-                    Text("Nombre")
+                    Text("Hola, ${uiState.completeUserDetail?.firstName}") // TODO: hacerlo BIEN
                     Spacer(
                         Modifier.weight(1f)
                     )
