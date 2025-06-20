@@ -26,7 +26,7 @@ class SessionManager(context: Context) {
     }
 
     companion object {
-        const val PREFERENCES_NAME = "my_app"
+        const val PREFERENCES_NAME = "wallx"
         const val AUTH_TOKEN = "auth_token"
     }
 }
