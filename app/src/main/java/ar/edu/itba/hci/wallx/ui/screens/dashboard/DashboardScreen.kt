@@ -40,7 +40,7 @@ import ar.edu.itba.hci.wallx.ui.theme.Secondary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(modifier: Modifier) {
+fun DashboardScreen(modifier: Modifier, onNavigate: (String) -> Unit) {
     Column(modifier = modifier.fillMaxSize()) {
         TopAppBar(
             colors = TopAppBarDefaults.topAppBarColors(

@@ -35,7 +35,6 @@ import ar.edu.itba.hci.wallx.data.repository.UserRepository
 @Composable
 fun VerifyScreen(
     modifier: Modifier = Modifier,
-    viewModel: WallXViewModel,
     onVerifySuccess: () -> Unit
 ) {
     var email by remember { mutableStateOf("") }
@@ -100,10 +99,10 @@ fun VerifyScreen(
 
                     Button(
                         onClick = {
-                            viewModel.verifyUser(
-                                code = verificationCode,
-                                email = email,
-                            )
+//                            viewModel.verifyUser(
+//                                code = verificationCode,
+//                                email = email,
+//                            )
                         },
                         modifier = Modifier.fillMaxWidth()
                     ) {

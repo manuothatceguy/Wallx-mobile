@@ -1,25 +1,19 @@
 package ar.edu.itba.hci.wallx.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.ui.screens.auth.LoginScreen
 import ar.edu.itba.hci.wallx.ui.screens.auth.RegisterScreen
 import ar.edu.itba.hci.wallx.ui.screens.auth.VerifyScreen
 import ar.edu.itba.hci.wallx.ui.screens.dashboard.DashboardScreen
+import ar.edu.itba.hci.wallx.ui.screens.movimientos.MovimientosScreen
+import ar.edu.itba.hci.wallx.ui.screens.servicios.ServiciosScreen
+import ar.edu.itba.hci.wallx.ui.screens.tarjetas.TarjetasScreen
 
 @Composable
 fun AppNavGraph(
@@ -27,11 +21,13 @@ fun AppNavGraph(
     startRoute: String,
     currentRoute : String?,
     viewModel: WallXViewModel,
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    navGuard : (String) -> Unit
 ) {
     NavHost(
         navController = navController,
-        startDestination = AppDestinations.INICIO_DE_SESION.route
+        startDestination = startRoute,
+
     ) {
         composable(
             route = AppDestinations.INICIO_DE_SESION.route
@@ -40,7 +36,7 @@ fun AppNavGraph(
             LoginScreen(
                 wallXViewModel = viewModel,
                 onLoginSuccess = {
-                    println("Login success")
+                    navGuard(AppDestinations.DASHBOARD.route)
                 }
             )
         }
@@ -48,36 +44,40 @@ fun AppNavGraph(
             RegisterScreen(
                 viewModel = viewModel,
                 onRegisterSuccess = {
-                    println("Register success")
+                    navGuard(AppDestinations.VERIFICAR.route)
                 }
             )
         }
         composable(AppDestinations.DASHBOARD.route) {
-//            DashboardScreen(modifier)
+            DashboardScreen(
+                modifier,
+                onNavigate = navGuard
+            )
         }
         composable(AppDestinations.MOVIMIENTOS.route) {
-            // MovimientosScreen(modifier)
+            MovimientosScreen(
+                modifier,
+                onNavigate = navGuard
+            )
         }
         composable(AppDestinations.TRANSFERENCIAS.route) {
-            // TransferenciasScreen(modifier)
+            //TransferenciasScreen(modifier)
         }
         composable(AppDestinations.NUEVA_TRANSFERENCIA.route) {
             // NuevaTransferenciaScreen(modifier)
         }
         composable(AppDestinations.SERVICIOS.route) {
-            // ServiciosScreen(modifier)
+            ServiciosScreen(modifier, onNavigate = navGuard)
         }
         composable(AppDestinations.TARJETAS.route) {
-            // TarjetasScreen(modifier)
+            TarjetasScreen(modifier, onNavigate = navGuard)
         }
         composable(AppDestinations.VERIFICAR.route) {
-//            VerifyScreen(
-//                onVerifySuccess = {
-//                    navController.navigate(AppDestinations.INICIO_DE_SESION.route) {
-//                        popUpTo(AppDestinations.VERIFICAR.route) { inclusive = true }
-//                    }
-//                }
-//            )
+            VerifyScreen(
+                onVerifySuccess = {
+                    navGuard(AppDestinations.DASHBOARD.route)
+                }
+            )
         }
     }
 }

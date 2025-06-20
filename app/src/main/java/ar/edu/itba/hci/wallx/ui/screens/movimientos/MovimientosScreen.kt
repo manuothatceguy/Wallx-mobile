@@ -44,7 +44,7 @@ data class movement(
 
 
 @Composable
-fun MovimientosScreen(modifier: Modifier = Modifier) {
+fun MovimientosScreen(modifier: Modifier = Modifier, onNavigate: (String) -> Unit) {
     val dummyMovements = listOf(
         movement("Juan Pérez", "Pago de servicio", "Transferencia", "$10.000,00", "María"),
         movement("Ana Gómez", "Compra online", "Tarjeta", "$25.000,50", "Ana"),

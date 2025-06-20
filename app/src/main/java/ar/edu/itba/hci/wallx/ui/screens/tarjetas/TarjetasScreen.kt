@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ar.edu.itba.hci.wallx.R
@@ -31,7 +30,7 @@ data class CardData(
 )
 
 @Composable
-fun TarjetasScreen(modifier: Modifier = Modifier) {
+fun TarjetasScreen(modifier: Modifier = Modifier, onNavigate: (String) -> Unit) {
     val dummyCards = listOf(
         CardData("4123", detectCardBrandFromNumber("4123"), Color(0xFF1A1A1A), "Juan Pérez", "12/26"),
         CardData("5234", detectCardBrandFromNumber("5234"), Color(0xFF7E7B7B), "Ana López", "03/27"),

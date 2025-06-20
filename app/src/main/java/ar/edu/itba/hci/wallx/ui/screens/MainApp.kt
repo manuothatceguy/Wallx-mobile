@@ -1,8 +1,8 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package ar.edu.itba.hci.wallx.ui.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -10,14 +10,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Help
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Preview
 import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -32,27 +30,28 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.navigation.compose.rememberNavController
-import ar.edu.itba.hci.wallx.WallXViewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import ar.edu.itba.hci.wallx.WallXApplication
+import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
 import ar.edu.itba.hci.wallx.ui.navigation.AppNavGraph
-import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
 fun MainApp (
-    viewModel : WallXViewModel = viewModel(factory = WallXViewModel.provideFactory(WallXApplication())))
+    viewModel : WallXViewModel = viewModel(factory = WallXViewModel.provideFactory(LocalContext.current.applicationContext as WallXApplication)))
 {
     val uiState by viewModel.uiState.collectAsState()
     val navController = rememberNavController()
@@ -80,7 +79,7 @@ fun MainApp (
         Scaffold(
             containerColor = MaterialTheme.colorScheme.background,
             topBar = { if (includeTopBar) TopBar(viewModel) },
-            bottomBar = { if (includeBottomBar) BottomBar(viewModel, scope, drawerState) },
+            bottomBar = { if (currentRoute == AppDestinations.DASHBOARD.route) BottomBar(viewModel, scope, drawerState) },
 
             ) { padding ->
             Surface{
@@ -89,8 +88,10 @@ fun MainApp (
                     currentRoute = currentRoute,
                     viewModel = viewModel,
                     navController = navController,
-                    modifier = Modifier.padding(padding)
-                )
+                    modifier = Modifier.padding(padding),
+                ) { route ->
+                   navGuard(navController, route, uiState.isAuthenticated)
+                }
             }
         }
     }
@@ -109,23 +110,33 @@ fun TopBar(viewModel: WallXViewModel) {
     }
 }
 
+@Preview
 @Composable
-fun BottomBar(viewModel: WallXViewModel, scope: CoroutineScope, drawerState: DrawerState) {
+fun PreviewBottomBar(){
+    BottomBar(null, rememberCoroutineScope(), rememberDrawerState(initialValue = DrawerValue.Closed))
+}
+
+@Composable
+fun BottomBar(viewModel: WallXViewModel?, scope: CoroutineScope, drawerState: DrawerState) {
     BottomAppBar (
         actions = {
-            IconButton(
-                onClick = {
-                    scope.launch {  if (drawerState.isClosed) drawerState.open() else drawerState.close() }
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween
+            ){
+                IconButton(
+                    onClick = {
+                        scope.launch {  if (drawerState.isClosed) drawerState.open() else drawerState.close() }
+                    }
+                ) {
+                    Icon(Icons.Filled.Menu, contentDescription = null)
                 }
-            ) {
-                Icon(Icons.Filled.Menu, contentDescription = null)
-            }
-            IconButton(
-                onClick = {
-                    println("hola!!")
+                IconButton(
+                    onClick = {
+                        println("hola!!")
+                    }
+                ) {
+                    Icon(AppDestinations.MOVIMIENTOS.icon, contentDescription = null)
                 }
-            ) {
-                Icon(Icons.Filled.Preview, contentDescription = null)
             }
         },
         floatingActionButton = {
@@ -136,10 +147,12 @@ fun BottomBar(viewModel: WallXViewModel, scope: CoroutineScope, drawerState: Dra
             ) {
                 Icon(Icons.Filled.QrCodeScanner, "Scan QR Code")
             }
-        }
+        },
+
     )
 }
 
+@Preview
 @Composable
 fun SideBar() {
     ModalDrawerSheet{
@@ -186,8 +199,27 @@ fun SideBar() {
     }
 }
 
-@Preview
-@Composable
-fun MainAppPreview() {
-    WallxTheme { MainApp() }
+fun navGuard(navController : NavController, route : String, isAuth : Boolean) {
+    val authRoutes = listOf(
+        AppDestinations.INICIO_DE_SESION.route,
+        AppDestinations.REGISTRO.route,
+        AppDestinations.VERIFICAR.route
+    )
+
+    if(isAuth || route in authRoutes){
+        if(navController.currentDestination?.route != route) {
+            navController.navigate(route) {
+                launchSingleTop = true
+                restoreState = true
+                if(route in listOf(AppDestinations.INICIO_DE_SESION.route, AppDestinations.DASHBOARD.route)){
+                    popUpTo(AppDestinations.INICIO_DE_SESION.route) { inclusive = true }
+                }
+            }
+        } else {
+            navController.navigate(AppDestinations.INICIO_DE_SESION.route) {
+                popUpTo(AppDestinations.INICIO_DE_SESION.route) { inclusive = true }
+            }
+        }
+    }
+
 }
