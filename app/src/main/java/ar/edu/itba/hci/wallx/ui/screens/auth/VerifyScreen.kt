@@ -1,6 +1,5 @@
 package ar.edu.itba.hci.wallx.ui.screens.auth
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,11 +10,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,36 +22,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.WallXViewModel
-import ar.edu.itba.hci.wallx.data.repository.UserRepository
-import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 
 
 @Composable
 fun VerifyScreen(
     modifier: Modifier = Modifier,
-    viewModel: WallXViewModel? = null,
+    viewModel: WallXViewModel,
     onVerifySuccess: () -> Unit
 ) {
     var email by remember { mutableStateOf("") }
     var verificationCode by remember { mutableStateOf("") }
-    var errorMessage by remember { mutableStateOf<String?>(null) }
-    val snackbarHostState = remember { androidx.compose.material3.SnackbarHostState() }
-
+    val uiState by viewModel.uiState.collectAsState()
     Scaffold(
-        modifier = modifier,
-        topBar = { TopBarForVerifyScreen() },
-        snackbarHost = {
-            SnackbarHost(snackbarHostState) { data ->
-                Snackbar(
-                    snackbarData = data,
-                    containerColor = ar.edu.itba.hci.wallx.ui.theme.Error
-                )
-            }
-        }
+        modifier = modifier
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -101,10 +84,15 @@ fun VerifyScreen(
 
                     Button(
                         onClick = {
-//                            viewModel.verifyUser(
-//                                code = verificationCode,
-//                                email = email,
-//                            )
+                            viewModel.verifyUser(
+                                code = verificationCode,
+                                email = email,
+                            )
+                            if(uiState.error == null){
+                                onVerifySuccess()
+                            }
+                            verificationCode = ""
+                            email = ""
                         },
                         modifier = Modifier.fillMaxWidth()
                     ) {
@@ -112,35 +100,8 @@ fun VerifyScreen(
                     }
                 }
             }
-            if (errorMessage != null) {
-                LaunchedEffect(errorMessage) {
-                    snackbarHostState.showSnackbar(errorMessage!!)
-                    errorMessage = null
-                }
-            }
+
         }
     }
-}
-
-@Composable
-fun TopBarForVerifyScreen() {
-    Card {
-        Text(
-            text = "WallX - Verificación",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            textAlign = TextAlign.Center
-        )
-    }
-}
-
-@Preview
-@Composable
-fun VerifyScreenPreview() {
-    WallxTheme { VerifyScreen(
-
-        onVerifySuccess = { /*TODO*/ },
-    ) }
 }
 

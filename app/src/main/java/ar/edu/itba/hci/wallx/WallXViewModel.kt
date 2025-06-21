@@ -105,6 +105,25 @@ class WallXViewModel (
         }
     )
 
+
+    fun resendVerification(email : String) = runOnViewModelScope (
+        {
+            userRepository.resendVerification(email)
+        },
+        {
+                state, _ -> state.copy()
+        }
+    )
+
+    fun resetPassword(email : String) = runOnViewModelScope (
+        {
+            userRepository.resetPassword(email)
+        },
+        {
+                state, _ -> state.copy()
+        }
+    )
+
     fun addCard(card : NewCardData) = runOnViewModelScope(
         {
             cardRepository.addCard(card)
@@ -114,6 +133,16 @@ class WallXViewModel (
 
         }
     )
+
+    fun deleteCard(id : Int) = runOnViewModelScope(
+        {
+            cardRepository.deleteCard(id)
+        },
+        {
+            state, _ -> state.copy()
+        }
+    )
+
 
     fun getSee() = runOnViewModelScope(
         {
@@ -142,6 +171,26 @@ class WallXViewModel (
             state, _ -> state.copy(currentPayment = payment)
         }
     )
+
+    fun recharge(amount : Double) = runOnViewModelScope(
+        {
+            accountRepository.recharge(amount)
+        },
+        {
+            state, _ -> state.copy()
+        }
+    )
+
+    fun updateAlias(alias : String) = runOnViewModelScope(
+        {
+            accountRepository.updateAlias(alias)
+        },
+        {
+                state, _ -> state.copy()
+        }
+    )
+
+
 
 
     private fun observeAccountStream() {
