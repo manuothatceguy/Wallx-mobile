@@ -235,6 +235,7 @@ fun LoginScreen(
                                 }
                             }
                         }
+
                         Button(
                             onClick = {
                                 wallXViewModel.login(
@@ -242,7 +243,6 @@ fun LoginScreen(
                                     password = password
                                 )
                                 if(uiState.error != null){
-                                    errorMessage = stringResource(errorManager(uiState.error!!.message))
                                     user = ""
                                     password = ""
                                 } else {
@@ -280,13 +280,18 @@ fun LoginScreen(
 
                 }
             }
-            if (errorMessage != null) {
-                LaunchedEffect(errorMessage) {
-                    snackbarHostState.showSnackbar(errorMessage!!)
-                    errorMessage = null
+            val errorMessageRes = uiState.error?.let { error ->
+                stringResource(errorManager(error.message))
+            }
+
+            LaunchedEffect(errorMessageRes) {
+                if (errorMessageRes != null) {
+                    snackbarHostState.showSnackbar(errorMessageRes)
+                    wallXViewModel.clearError()
                 }
             }
         }
+        }
     }
-}
+
 

@@ -61,7 +61,7 @@ fun IngresarDineroScreen(modifier: Modifier = Modifier,
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
                 .size(760.dp),
-            colors = CardDefaults.cardColors(containerColor = Secondary),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondary),
             shape = RoundedCornerShape(16.dp)
         ) {
             Column(
