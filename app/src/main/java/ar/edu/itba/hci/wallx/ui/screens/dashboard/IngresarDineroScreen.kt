@@ -35,6 +35,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import ar.edu.itba.hci.wallx.ui.components.getBrandLogo
 import ar.edu.itba.hci.wallx.ui.components.getCardColor
+import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
 import ar.edu.itba.hci.wallx.ui.theme.Black
 import ar.edu.itba.hci.wallx.ui.theme.Grey
 import ar.edu.itba.hci.wallx.ui.theme.Selected
@@ -188,7 +189,8 @@ fun IngresarDineroScreen(
             amount = monto.toDouble(),
             card = cards[selectedCardIndex],
             wallXViewModel = wallXViewModel,
-            onDismiss = { showDialog = false }
+            onDismiss = { showDialog = false },
+            onConfirm = {onNavigate(AppDestinations.DASHBOARD.route)}
         )
     }
 }
@@ -268,7 +270,8 @@ fun IngresarDineroDialog(
     amount: Double,
     card: Card,
     onDismiss: () -> Unit,
-    wallXViewModel: WallXViewModel
+    wallXViewModel: WallXViewModel,
+    onConfirm: ()-> Unit,
 ) {
     Dialog(onDismissRequest = onDismiss) {
         Card(
@@ -315,7 +318,7 @@ fun IngresarDineroDialog(
                     Button(
                         onClick = {
                             wallXViewModel.recharge(amount)
-                            onDismiss()
+                            onConfirm()
                         },
                         modifier = Modifier
                             .fillMaxWidth()
