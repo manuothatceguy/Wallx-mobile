@@ -2,11 +2,13 @@ package ar.edu.itba.hci.wallx.ui.screens.movimientos
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,6 +36,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.data.model.SimpleCard
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+
 @Composable
 fun MovimientoDetalleScreen( modifier: Modifier = Modifier,
                              wallXViewModel: WallXViewModel,
@@ -41,11 +45,14 @@ fun MovimientoDetalleScreen( modifier: Modifier = Modifier,
 
     val uiState by wallXViewModel.uiState.collectAsState()
     val payment=uiState.currentPayment
-    Column(
+
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFD3ECE5)) // verde suave
-            .padding(16.dp)
+            .background(MaterialTheme.colorScheme.background) // verde suave
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
+
     ) {
         Text(
             text = "Detalle del movimiento",
@@ -56,7 +63,7 @@ fun MovimientoDetalleScreen( modifier: Modifier = Modifier,
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.White),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondary),
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
             Column(modifier = Modifier.padding(16.dp)) {

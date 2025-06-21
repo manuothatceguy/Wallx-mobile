@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -45,64 +46,65 @@ fun MovimientosScreen( modifier: Modifier = Modifier,
                        onNavigateTo: (String) -> Unit) {
     val uiState by wallXViewModel.uiState.collectAsState()
     val payments = uiState.paymentsDetail ?: emptyList()
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                horizontal = 16.dp,
-                vertical = 60.dp
-            )
-            .background(MaterialTheme.colorScheme.secondary, shape = RoundedCornerShape(12.dp))
-    ) {
-
-
-        Column(modifier = Modifier.padding(16.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = Icons.Default.History,
-                    contentDescription = "Historial",
-                    tint = MaterialTheme.colorScheme.primary
+    Column {
+        Spacer(modifier = Modifier.heightIn(50.dp))
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    horizontal = 16.dp,
+                    vertical = 30.dp
                 )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    stringResource(R.string.ultimos_movimientos),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
-                )
-            }
+                .background(MaterialTheme.colorScheme.secondary, shape = RoundedCornerShape(12.dp))
+        ) {
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            OutlinedTextField(
-                value = "",
-                onValueChange = {},
-                placeholder = {
-                    Text(
-                        stringResource(R.string.buscar_movimientos),
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                },
-                leadingIcon = {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = "Buscar",
+                        imageVector = Icons.Default.History,
+                        contentDescription = "Historial",
                         tint = MaterialTheme.colorScheme.primary
                     )
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.White, shape = RoundedCornerShape(8.dp))
-            )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        stringResource(R.string.ultimos_movimientos),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp
+                    )
+                }
 
-            Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.fillMaxHeight()
-            ) {
-                items(payments) { movement ->
-                    MovementOverview(movement, onNavigateTo, wallXViewModel)
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = {},
+                    placeholder = {
+                        Text(
+                            stringResource(R.string.buscar_movimientos),
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Buscar",
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.background, shape = RoundedCornerShape(8.dp))
+                )
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.fillMaxHeight()
+                ) {
+                    items(payments) { movement ->
+                        MovementOverview(movement, onNavigateTo, wallXViewModel)
+                    }
                 }
             }
         }
@@ -116,6 +118,7 @@ fun MovementOverview(
     onNavigateTo: (String) -> Unit,
     wallXViewModel: WallXViewModel
 ) {
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -130,7 +133,7 @@ fun MovementOverview(
             fontWeight = FontWeight.SemiBold
         )
         Text(
-            text = movement.receiver.toString(),
+            text = (movement.payer?.firstName ?: "") + " " + (movement.payer?.lastName ?: ""),
             modifier = Modifier.weight(1f),
             fontSize = 14.sp
         )

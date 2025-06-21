@@ -94,7 +94,7 @@
     <string name="error_card_type_invalid">Invalid card type. Valid values are \'CREDIT\' or \'DEBIT\'.</string>
     <string name="seleccionar_tarjeta">Choose a Credit/Debit Card</string>
     <string name="monto_deseado">Desired amount</string>
-    <string name="Ejemplo">Ex</string>
+    <string name="Ejemplo">E.g.</string>
     <string name="numero">Number</string>
     <string name="vencimiento">Expires: (MM/YY)</string>
 </resources>
