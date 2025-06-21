@@ -81,9 +81,13 @@ fun LoginScreen(
         Column(modifier = modifier
             .fillMaxSize()
             .padding(innerPadding)) {
+            Spacer(modifier = Modifier.height(70.dp)) // Esto sí va a separar verticalmente
+
             Row(
-                modifier = modifier,
+                modifier = modifier
+                //padding(vertical = 60.dp),
             ) {
+                Spacer(modifier= Modifier.heightIn(30.dp))
                 Card(
                     modifier = modifier
                         .padding(horizontal = 120.dp, vertical = 16.dp)
@@ -267,7 +271,7 @@ fun LoginScreen(
                             //color = Info,
                             fontSize = 13.sp,
                             modifier = Modifier.clickable{
-                                //hace que vaya a la otra pantalla
+                                onNavigateTo(AppDestinations.REGISTRO.route)
                             }
                         )
 
