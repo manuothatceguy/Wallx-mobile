@@ -174,7 +174,6 @@ fun LoginScreen(
                                             focusedTrailingIconColor = SecondaryDarken1,
                                             unfocusedTrailingIconColor = Interactive.copy(alpha = 0.7f),
                                         )
-
                                     )
                                 }
 
