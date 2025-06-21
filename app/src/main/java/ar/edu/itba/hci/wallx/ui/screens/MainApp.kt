@@ -226,9 +226,27 @@ fun SideBar(
                         color = MaterialTheme.colorScheme.onSurface
                     ) },
                     selected = currentRoute == destination.route,
+                    icon = { Icon(destination.icon, contentDescription = null) },
                     onClick = { navGuard(navController, destination.route, uiState.isAuthenticated) }
                 )
             }
+
+            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+
+            NavigationDrawerItem(
+                label = { Text(
+                    text = stringResource(R.string.perfil),
+                    color = MaterialTheme.colorScheme.onSurface
+                ) },
+                selected = false,
+                icon = { Icon(AppDestinations.PERFIL.icon, contentDescription = null) },
+                onClick = {
+                    scope.launch {
+                        drawerState.close()
+                        viewModel.logout()
+                    }
+                },
+            )
 
             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
 
