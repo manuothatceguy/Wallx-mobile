@@ -56,9 +56,14 @@ fun MovimientosScreen(modifier: Modifier = Modifier, onNavigate: (String) -> Uni
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(
+                horizontal = 16.dp,
+                vertical = 60.dp
+            )
             .background(MaterialTheme.colorScheme.secondary, shape = RoundedCornerShape(12.dp))
     ) {
+
+
         Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
@@ -141,13 +146,4 @@ fun MovementOverview(movement: movement) {
     }
 }
 
-
-@Composable
-fun Movements(movements: List<movement>){
-    Column{
-        for(movement in movements){
-                MovementOverview(movement)
-        }
-    }
-}
 

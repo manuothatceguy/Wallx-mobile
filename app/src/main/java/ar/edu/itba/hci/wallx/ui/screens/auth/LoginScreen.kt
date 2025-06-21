@@ -24,6 +24,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -61,13 +62,14 @@ import com.google.api.ResourceReference
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
-    wallXViewModel: WallXViewModel? = null,
+    wallXViewModel: WallXViewModel,
     onNavigateTo: (String) -> Unit
 ) {
     var user by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     val snackbarHostState = remember { SnackbarHostState() }
+    val uiState by wallXViewModel.uiState.collectAsState()
     Scaffold(
         snackbarHost = {
             SnackbarHost(snackbarHostState) { data ->
@@ -81,9 +83,13 @@ fun LoginScreen(
         Column(modifier = modifier
             .fillMaxSize()
             .padding(innerPadding)) {
+            Spacer(modifier = Modifier.height(70.dp)) // Esto sí va a separar verticalmente
+
             Row(
-                modifier = modifier,
+                modifier = modifier
+                //padding(vertical = 60.dp),
             ) {
+                Spacer(modifier= Modifier.heightIn(30.dp))
                 Card(
                     modifier = modifier
                         .padding(horizontal = 120.dp, vertical = 16.dp)
@@ -152,32 +158,7 @@ fun LoginScreen(
                                                 text = stringResource(R.string.usuario),
                                                 color = Info
                                             )
-                                        },
-                                        /*colors = OutlinedTextFieldDefaults.colors(
-                                            focusedTextColor = Primary,
-                                            unfocusedTextColor = Info,
-                                            disabledTextColor = SurfaceVariant,
-                                            errorTextColor = Error,
-
-                                            focusedContainerColor = Secondary,
-                                            unfocusedContainerColor = Background,
-                                            disabledContainerColor = SurfaceLight,
-                                            errorContainerColor = Error.copy(alpha = 0.1f),
-
-                                            cursorColor = Secondary,
-
-                                            focusedBorderColor = SecondaryDarken1,
-                                            unfocusedBorderColor = Interactive,
-                                            disabledBorderColor = SurfaceVariant,
-                                            errorBorderColor = Error,
-
-                                            focusedLeadingIconColor = SecondaryDarken1,
-                                            unfocusedLeadingIconColor = Interactive.copy(alpha = 0.7f),
-
-                                            focusedTrailingIconColor = SecondaryDarken1,
-                                            unfocusedTrailingIconColor = Interactive.copy(alpha = 0.7f),
-                                        )*/
-
+                                        }
                                     )
                                 }
 
@@ -198,31 +179,7 @@ fun LoginScreen(
                                                 text = stringResource(R.string.contraseña),
                                                 color = Info
                                             )
-                                        },
-                                        /*colors = OutlinedTextFieldDefaults.colors(
-                                            focusedTextColor = Primary,
-                                            unfocusedTextColor = Info,
-                                            disabledTextColor = SurfaceVariant,
-                                            errorTextColor = Error,
-
-                                            focusedContainerColor = Secondary,
-                                            unfocusedContainerColor = Background,
-                                            disabledContainerColor = SurfaceLight,
-                                            errorContainerColor = Error.copy(alpha = 0.1f),
-
-                                            cursorColor = Secondary,
-
-                                            focusedBorderColor = SecondaryDarken1,
-                                            unfocusedBorderColor = Interactive,
-                                            disabledBorderColor = SurfaceVariant,
-                                            errorBorderColor = Error,
-
-                                            focusedLeadingIconColor = SecondaryDarken1,
-                                            unfocusedLeadingIconColor = Interactive.copy(alpha = 0.7f),
-
-                                            focusedTrailingIconColor = SecondaryDarken1,
-                                            unfocusedTrailingIconColor = Interactive.copy(alpha = 0.7f),
-                                        )*/
+                                        }
                                     )
                                     Spacer(modifier = Modifier.height(2.dp))
                                     Text(
@@ -240,12 +197,19 @@ fun LoginScreen(
                         }
                         Button(
                             onClick = {
-                                wallXViewModel?.login(
+                                wallXViewModel.login(
                                     user = user,
                                     password = password
                                 )
-                                wallXViewModel?.getUser()
-                                onNavigateTo(AppDestinations.DASHBOARD.route)
+                                if(uiState.error != null){
+                                    errorMessage = uiState.error!!.message
+                                    user = ""
+                                    password = ""
+                                } else {
+                                    wallXViewModel.getUser()
+                                    onNavigateTo(AppDestinations.DASHBOARD.route)
+                                }
+
 
                             },
                             modifier = Modifier
@@ -267,7 +231,7 @@ fun LoginScreen(
                             //color = Info,
                             fontSize = 13.sp,
                             modifier = Modifier.clickable{
-                                //hace que vaya a la otra pantalla
+                                onNavigateTo(AppDestinations.REGISTRO.route)
                             }
                         )
 

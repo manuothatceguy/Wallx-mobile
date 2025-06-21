@@ -64,7 +64,6 @@ class WallXViewModel (
         {
             state, _ -> state.copy(
                 isAuthenticated = true
-
             )
         }
     )

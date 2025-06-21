@@ -8,6 +8,7 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 /*private val DarkColorScheme = darkColorScheme(
@@ -31,7 +32,7 @@ private val LightColorScheme = lightColorScheme(
     onSurface = Color(0xFF1C1B1F),
     
 )*/
-
+/*
 private val DarkColorScheme = darkColorScheme(
     primary = Selected,
     onPrimary = Black,
@@ -111,6 +112,85 @@ private val LightColorScheme = lightColorScheme(
     onTertiary = Black,
     tertiaryContainer = Accent,
     onTertiaryContainer = Black
+)
+*/
+
+
+val LightColorScheme = lightColorScheme(
+    primary = Primary,
+    onPrimary = White,
+    primaryContainer = Secondary,
+    onPrimaryContainer = Black,
+
+    secondary = Secondary,
+    onSecondary = Black,
+    secondaryContainer = SecondaryDarken1,
+    onSecondaryContainer = White,
+
+    tertiary = Tertiary,
+    onTertiary = Black,
+    tertiaryContainer = SurfaceLight,
+    onTertiaryContainer = Black,
+
+    background = Background,
+    onBackground = Black,
+    surface = Surface,
+    onSurface = Black,
+
+    surfaceVariant = SurfaceVariant,
+    onSurfaceVariant = OnSurfaceVariant,
+
+    error = Error,
+    onError = White,
+    errorContainer = Color(0xFFFCD8DF),
+    onErrorContainer = Black,
+
+    outline = Outline,
+    outlineVariant = OutlineVariant,
+
+    scrim = Scrim,
+    inverseSurface = Color(0xFF2A3F38),
+    inverseOnSurface = White,
+    inversePrimary = PrimaryDarken1,
+)
+
+
+val DarkColorScheme = darkColorScheme(
+    primary = PrimaryDarken1,
+    onPrimary = White,
+    primaryContainer = SecondaryDarken1,
+    onPrimaryContainer = White,
+
+    secondary = SecondaryDarken1,
+    onSecondary = White,
+    secondaryContainer = PrimaryDarken1,
+    onSecondaryContainer = White,
+
+    tertiary = TertiaryDark,
+    onTertiary = White,
+    tertiaryContainer = SurfaceDim,
+    onTertiaryContainer = White,
+
+    background = SurfaceDim,
+    onBackground = White,
+    surface = SurfaceBrightDark,
+    onSurface = White,
+
+    surfaceVariant = SurfaceVariant,
+    onSurfaceVariant = OnSurfaceVariant,
+
+    error = Error,
+    onError = White,
+    errorContainer = Color(0xFF601410),
+    onErrorContainer = White,
+
+    outline = OutlineVariant,
+    outlineVariant = Outline,
+
+    scrim = Scrim,
+    inverseSurface = Background,
+    inverseOnSurface = Black,
+    inversePrimary = Primary,
 )
 
 

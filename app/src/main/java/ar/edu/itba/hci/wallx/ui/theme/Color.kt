@@ -85,3 +85,12 @@ val MaestroBlue= Color(0xFF001440)
 val DefaultCard=Grey
 
 
+// Colores adicionales sugeridos
+val Outline = Color(0xFF94BEB0)          // Verde grisáceo para bordes
+val OutlineVariant = Color(0xFF6E9383)   // Más oscuro, para modo oscuro
+val Tertiary = Color(0xFFC7EBDD)         // Verde muy claro, usado como tercer acento en light
+val TertiaryDark = Color(0xFF3F665A)     // Equivalente en dark
+val Scrim = Color(0x80000000)            // Fondo semitransparente para modales o diálogos
+val SurfaceDim = Color(0xFF1A2B26)       // Superficie aún más oscura en dark
+val SurfaceBrightDark = Color(0xFF2A3F38) // Alternativa a Surface para dark theme
+
