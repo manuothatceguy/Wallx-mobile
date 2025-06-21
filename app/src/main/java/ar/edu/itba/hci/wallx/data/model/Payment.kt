@@ -1,7 +1,9 @@
 package ar.edu.itba.hci.wallx.data.model
 
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Payment(
     var id: Int? = null,
     var description: String? = null,
