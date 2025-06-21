@@ -24,6 +24,18 @@ import androidx.compose.ui.unit.sp
 import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 import ar.edu.itba.hci.wallx.data.model.Card
+import ar.edu.itba.hci.wallx.ui.theme.Accent
+import ar.edu.itba.hci.wallx.ui.theme.AmexGrey
+import ar.edu.itba.hci.wallx.ui.theme.Black
+import ar.edu.itba.hci.wallx.ui.theme.ButtonColor
+import ar.edu.itba.hci.wallx.ui.theme.DefaultCard
+import ar.edu.itba.hci.wallx.ui.theme.MaestroBlue
+import ar.edu.itba.hci.wallx.ui.theme.MastercardGrey
+import ar.edu.itba.hci.wallx.ui.theme.Secondary
+import ar.edu.itba.hci.wallx.ui.theme.Selected
+import ar.edu.itba.hci.wallx.ui.theme.SurfaceLight
+import ar.edu.itba.hci.wallx.ui.theme.VisaBlack
+import ar.edu.itba.hci.wallx.ui.theme.White
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -62,16 +74,37 @@ fun TarjetasScreen(modifier: Modifier = Modifier, onNavigate: (String) -> Unit) 
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Button(onClick = { onNavigate("agregar") }, modifier = Modifier.weight(1f)) {
-                Icon(Icons.Default.Add, contentDescription = "Agregar")
+            Button(onClick = { onNavigate("agregar") },
+                modifier = Modifier.weight(1f),
+                shape = RoundedCornerShape(10.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Secondary,
+                    contentColor = White
+                ),
+            )
+            {
+                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.agregar))
                 Spacer(Modifier.width(4.dp))
-                Text(stringResource(R.string.agregar))
+                Text(  text=stringResource(R.string.agregar), style = MaterialTheme.typography.titleLarge.copy(
+                    color = White,
+                    fontWeight = FontWeight.Bold)
+                )
             }
 
-            Button(onClick = { /* escanear */ }, modifier = Modifier.weight(1f)) {
-                Icon(Icons.Default.PhotoCamera, contentDescription = "Escanear")
+            Button(onClick = { /* escanear */ },
+                modifier = Modifier.weight(1f),
+                shape = RoundedCornerShape(10.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Secondary,
+                    contentColor = White
+                ),
+            ) {
+                Icon(Icons.Default.PhotoCamera, contentDescription = stringResource(R.string.escanear))
                 Spacer(Modifier.width(4.dp))
-                Text(stringResource(R.string.escanear))
+                Text(  text=stringResource(R.string.escanear), style = MaterialTheme.typography.titleLarge.copy(
+                    color = White,
+                    fontWeight = FontWeight.Bold)
+                )
             }
         }
 
@@ -106,25 +139,28 @@ fun CardItem(cardData: fullCard) {
     ) {
         Text(
             text = "**** ${card.number.takeLast(4)}",
-            color = Color.White,
-            fontSize = 18.sp,
-            modifier = Modifier.align(Alignment.CenterStart)
+            style = MaterialTheme.typography.titleLarge.copy(
+                color = White,
+                fontWeight = FontWeight.Bold),
+                modifier = Modifier.align(Alignment.CenterStart)
         )
 
         Text(
             text = card.fullName,
-            color = Color.White,
-            fontSize = 14.sp,
+            style = MaterialTheme.typography.titleLarge.copy(
+                color = White,
+                fontWeight = FontWeight.SemiBold),
+
             modifier = Modifier.align(Alignment.BottomStart)
         )
 
         Text(
             text = expiry,
-            color = Color.White,
-            fontSize = 14.sp,
+            style = MaterialTheme.typography.titleMedium.copy(
+                color = White,
+                fontWeight = FontWeight.SemiBold),
             modifier = Modifier.align(Alignment.BottomEnd)
         )
-
         // Aquí pongo logo y tipo juntos en un Row
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -133,24 +169,26 @@ fun CardItem(cardData: fullCard) {
             Image(
                 painter = painterResource(id = brandLogo),
                 contentDescription = null,
-                modifier = Modifier.size(48.dp)
+                modifier = Modifier
+                    .size(90.dp)
+                    .padding(10.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = card.type.capitalize(Locale.getDefault()),
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-                fontSize = 14.sp
+                style = MaterialTheme.typography.titleMedium.copy(
+                    color = White,
+                    fontWeight = FontWeight.Bold)
             )
         }
-
         Icon(
             imageVector = Icons.Default.Delete,
-            contentDescription = "Eliminar",
-            tint = Color.White,
+            contentDescription = stringResource(R.string.eliminar),
+            tint = White,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(bottom = 24.dp)
+                .padding(bottom = 30.dp)
+                .size(30.dp)
         )
     }
 }
@@ -179,11 +217,11 @@ fun getBrandLogo(brand: String?): Int {
 
 fun getCardColor(brand: String?): Color {
     return when (brand?.lowercase()) {
-        "visa" -> Color(0xFF1A1A1A)
-        "mastercard" -> Color(0xFF7E7B7B)
-        "amex" -> Color(0xFFD3D3D3)
-        "maestro" -> Color(0xFF0094FF)
-        else -> Color.Gray
+        "visa" -> VisaBlack
+        "mastercard" -> MastercardGrey
+        "amex" -> AmexGrey
+        "maestro" -> MaestroBlue
+        else -> DefaultCard
     }
 }
 
