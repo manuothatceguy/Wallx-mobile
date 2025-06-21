@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.WallXViewModel
+import ar.edu.itba.hci.wallx.ui.components.errorManager
 import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
 import ar.edu.itba.hci.wallx.ui.theme.Error
 import ar.edu.itba.hci.wallx.ui.theme.Info
@@ -237,7 +238,7 @@ fun LoginScreen(
                                     password = password
                                 )
                                 if(uiState.error != null){
-                                    errorMessage = uiState.error!!.message
+                                    errorMessage = stringResource(errorManager(uiState.error!!.message))
                                     user = ""
                                     password = ""
                                 } else {

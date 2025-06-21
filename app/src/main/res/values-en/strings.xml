@@ -62,8 +62,8 @@
     <string name="error_email">Invalid email. Valid format example@domain.com.</string>
     <string name="error_amount_missing">Missing amount.</string>
     <string name="error_amount_nan">Amount must be a number.</string>
-    <string name="error_desc">Missing description.</string>
-    <string name="error_page">Missing page.</string>
+    <string name="error_desc_missing">Missing description.</string>
+    <string name="error_page_missing">Missing page.</string>
     <string name="error_page_nan">Page must be a number.</string>
     <string name="error_page_neg">Page must be a positive number.</string>
     <string name="error_page_size_missing">Missing page size.</string>
@@ -97,4 +97,13 @@
     <string name="Ejemplo">Ex</string>
     <string name="numero">Number</string>
     <string name="vencimiento">Expires: (MM/YY)</string>
+    <string name="error_amount_neg">Amount must be a positive number.</string>
+    <string name="error_email_missing">Missing email.</string>
+    <string name="error_password_length">Password must be at least 6 characters long.</string>
+    <string name="error_first_name_missing">Missing first name.</string>
+    <string name="error_last_name_missing">Missing last name.</string>
+    <string name="error_id_missing">Missing id identifier.</string>
+    <string name="error_id_invalid">Invalid id identifier.</string>
+    <string name="error_cardid_missing">Missing cardId identifier.</string>
+    <string name="error_cardid_invalid">Invalid cardId identifier.</string>
 </resources>

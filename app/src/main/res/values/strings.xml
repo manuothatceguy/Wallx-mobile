@@ -68,8 +68,8 @@
     <string name="error_email">Email inválido. Formato válido usuario@dominio.com.</string>
     <string name="error_amount_missing">Falta el monto.</string>
     <string name="error_amount_nan">El monto debe ser un número.</string>
-    <string name="error_desc">Falta la descripción.</string>
-    <string name="error_page">Falta la página.</string>
+    <string name="error_desc_missing">Falta la descripción.</string>
+    <string name="error_page_missing">Falta la página.</string>
     <string name="error_page_nan">La página debe ser un número.</string>
     <string name="error_page_neg">La página debe ser un número positivo.</string>
     <string name="error_page_size_missing">Falta el tamaño de la página.</string>
@@ -98,4 +98,13 @@
     <string name="error_card_name_missing">Falta el nombre completo.</string>
     <string name="error_card_type_missing">Falta el tipo de tarjeta.</string>
     <string name="error_card_type_invalid">Tipo de tarjeta inválido. Debe ser \'CREDIT\' o \'DEBIT\'.</string>
+    <string name="error_amount_neg">El monto debe ser un número positivo.</string>
+    <string name="error_email_missing">Falta el email.</string>
+    <string name="error_password_length">La contraseña debe tener por lo menos 6 caracteres.</string>
+    <string name="error_first_name_missing">El nombre no puede estar vacío.</string>
+    <string name="error_last_name_missing">El apellido no puede estar vacío.</string>
+    <string name="error_id_missing">Falta el identificador.</string>
+    <string name="error_id_invalid">El identificador es inválido.</string>
+    <string name="error_cardid_missing">Falta el id de la tarjeta.</string>
+    <string name="error_cardid_invalid">El id de la tarjeta es inválido.</string>
 </resources>
