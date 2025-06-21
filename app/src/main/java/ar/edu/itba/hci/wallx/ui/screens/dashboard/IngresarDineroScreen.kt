@@ -27,7 +27,6 @@ import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.ui.screens.servicios.ServiciosScreen
 import ar.edu.itba.hci.wallx.ui.screens.servicios.textFieldColors
 import ar.edu.itba.hci.wallx.ui.screens.tarjetas.AgregarTarjetaScreen
-import ar.edu.itba.hci.wallx.ui.screens.tarjetas.detectCardBrandFromNumber
 import ar.edu.itba.hci.wallx.ui.theme.Background
 import ar.edu.itba.hci.wallx.ui.theme.Error
 import ar.edu.itba.hci.wallx.ui.theme.Info
@@ -43,6 +42,14 @@ import ar.edu.itba.hci.wallx.ui.theme.White
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import ar.edu.itba.hci.wallx.ui.components.getBrandLogo
+import ar.edu.itba.hci.wallx.ui.components.getCardColor
+import ar.edu.itba.hci.wallx.ui.components.CardItem
+import ar.edu.itba.hci.wallx.ui.components.detectCardBrandFromNumber
+import ar.edu.itba.hci.wallx.ui.theme.Black
+import ar.edu.itba.hci.wallx.ui.theme.Grey
+import ar.edu.itba.hci.wallx.ui.theme.Selected
+
 
 @Composable
 fun IngresarDineroScreen(modifier: Modifier = Modifier) {
@@ -50,29 +57,10 @@ fun IngresarDineroScreen(modifier: Modifier = Modifier) {
     var selectedCardIndex by remember { mutableStateOf(0) }
 
     val formatter = SimpleDateFormat("MM/yy", Locale.getDefault())
-
     val dummyCards = listOf(
-        Card(
-            id = 1,
-            type = detectCardBrandFromNumber("4123"),
-            number = "4123",
-            expirationDate = formatter.parse("12/26") ?: Date(),
-            fullName = "Juan Pérez"
-        ),
-        Card(
-            id = 2,
-            type = detectCardBrandFromNumber("5234"),
-            number = "5234",
-            expirationDate = formatter.parse("03/27") ?: Date(),
-            fullName = "Ana López"
-        ),
-        Card(
-            id = 3,
-            type = detectCardBrandFromNumber("3765"),
-            number = "3765",
-            expirationDate = formatter.parse("08/25") ?: Date(),
-            fullName = "Carlos Ruiz"
-        )
+        Card(id = 1, type = detectCardBrandFromNumber("4123"), number = "4123", expirationDate = formatter.parse("12/26") ?: Date(), fullName = "Juan Pérez"),
+        Card(id = 2, type = detectCardBrandFromNumber("5234"), number = "5234", expirationDate = formatter.parse("03/27") ?: Date(), fullName = "Ana López"),
+        Card(id = 3, type = detectCardBrandFromNumber("3765"), number = "3765", expirationDate = formatter.parse("08/25") ?: Date(), fullName = "Carlos Ruiz")
     )
 
     Column(
@@ -86,7 +74,8 @@ fun IngresarDineroScreen(modifier: Modifier = Modifier) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp),
+                .padding(vertical = 8.dp)
+                .size(760.dp),
             colors = CardDefaults.cardColors(containerColor = Secondary),
             shape = RoundedCornerShape(16.dp)
         ) {
@@ -95,87 +84,56 @@ fun IngresarDineroScreen(modifier: Modifier = Modifier) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Ingresar dinero",
-                    style = Typography.titleLarge,
-                    color = Primary,
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    text = stringResource(R.string.ingresar_dinero),
+                    style = Typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
+                    color = Black,
+                    modifier = Modifier.padding( 16.dp)
                 )
 
                 Text(
-                    text = "Seleccioná una tarjeta:",
-                    style = Typography.bodyMedium,
-                    modifier = Modifier.align(Alignment.Start)
+                    text = stringResource(R.string.seleccionar_tarjeta) + ':',
+                    style = Typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                    color = SecondaryDarken1,
+                    modifier = Modifier.align(Alignment.Start).padding(vertical = 19.dp)
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     itemsIndexed(dummyCards) { index, card ->
-                        val cardColor = getCardColor(card.type)
-                        val brandLogo = getBrandLogo(card.type)
-
-                        Card(
-                            modifier = Modifier
-                                .width(200.dp)
-                                .height(120.dp)
-                                .clickable { selectedCardIndex = index },
-                            colors = CardDefaults.cardColors(
-                                containerColor = if (index == selectedCardIndex) cardColor else cardColor.copy(alpha = 0.6f)
-                            ),
-                            shape = RoundedCornerShape(12.dp)
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(12.dp)
-                            ) {
-                                Column(
-                                    verticalArrangement = Arrangement.SpaceBetween,
-                                    modifier = Modifier.align(Alignment.BottomStart)
-                                ) {
-                                    Text(
-                                        text = "**** ${card.number.takeLast(4)}",
-                                        color = Color.White,
-                                        fontSize = 14.sp
-                                    )
-                                    Text(
-                                        text = card.fullName,
-                                        color = Color.White,
-                                        fontSize = 12.sp
-                                    )
-                                }
-
-                                Image(
-                                    painter = painterResource(id = brandLogo),
-                                    contentDescription = "Brand logo",
-                                    modifier = Modifier
-                                        .size(36.dp)
-                                        .align(Alignment.TopEnd)
-                                )
-                            }
-                        }
+                        MiniCardItem(
+                            card = card,
+                            isSelected = index == selectedCardIndex,
+                            onClick = { selectedCardIndex = index }
+                        )
                     }
                 }
 
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Text(
-                    text = "Monto a ingresar:",
-                    style = Typography.bodyMedium,
-                    modifier = Modifier.align(Alignment.Start)
+                    text = stringResource(R.string.monto_deseado) + ':',
+                    style = Typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                    color = SecondaryDarken1,
+                    modifier = Modifier.align(Alignment.Start).padding(vertical = 19.dp)
                 )
+
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 OutlinedTextField(
                     value = monto,
                     onValueChange = { monto = it },
-                    placeholder = { Text("Ej: 5000", color = Info) },
+                    placeholder = {
+                        Text(
+                            text=stringResource(R.string.Ejemplo)+":"+"5000",
+                            style = Typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                            color = Grey) },
                     singleLine = true,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().height(70.dp),
                     colors = textFieldColors()
                 )
 
@@ -186,11 +144,17 @@ fun IngresarDineroScreen(modifier: Modifier = Modifier) {
                         val tarjetaSeleccionada = dummyCards[selectedCardIndex]
                         // Aquí podrías usar monto y tarjetaSeleccionada
                     },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = Primary),
-                    shape = RoundedCornerShape(50)
+                    modifier = Modifier.fillMaxWidth().height(70.dp),
+                    shape = RoundedCornerShape(10.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Selected,
+                        contentColor = White
+                    ),
                 ) {
-                    Text("INGRESAR", color = White)
+                    Text(text=stringResource(R.string.ingresar), style = MaterialTheme.typography.titleLarge.copy(
+                        color = White,
+                        fontWeight = FontWeight.Bold)
+                    )
                 }
             }
         }
@@ -199,25 +163,56 @@ fun IngresarDineroScreen(modifier: Modifier = Modifier) {
 
 
 
-fun getBrandLogo(brand: String?): Int {
-    return when (brand?.lowercase()) {
-        "visa" -> R.drawable.visa
-        "mastercard" -> R.drawable.mastercard
-        "amex" -> R.drawable.amex
-        "maestro" -> R.drawable.maestro
-        else -> R.drawable.visa // ver q hacemos cuando no detecta
-    }
-}
-fun getCardColor(type: String?): Color {
-    return when (type?.lowercase()) {
-        "visa" -> Color(0xFF1A1A1A)
-        "mastercard" -> Color(0xFF7E7B7B)
-        "amex" -> Color(0xFFD3D3D3)
-        "maestro" -> Color(0xFF0094FF)
-        else -> Color.Gray
-    }
-}
+@Composable
+fun MiniCardItem( card: Card,
+                  isSelected: Boolean,
+                  onClick: () -> Unit
+){
+    val cardColor = getCardColor(card.type)
+    val brandLogo = getBrandLogo(card.type)
 
+    Card(
+        modifier = Modifier
+            .width(240.dp)
+            .height(160.dp)
+            .clickable { onClick() },
+        colors = CardDefaults.cardColors(
+            containerColor = if (isSelected) cardColor else cardColor.copy(alpha = 0.6f)
+        ),
+        shape = RoundedCornerShape(12.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(12.dp)
+        ) {
+            Column(
+                verticalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.align(Alignment.BottomStart)
+            ) {
+                Text(
+                    text = "**** ${card.number.takeLast(4)}",
+                    style = Typography.titleLarge.copy(fontWeight = FontWeight.SemiBold),
+                    color = Color.White,
+                )
+                Text(
+                    text = card.fullName,
+                    style = Typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                    color = Color.White,
+                )
+            }
+
+            Image(
+                painter = painterResource(id = brandLogo),
+                contentDescription = "Brand logo",
+                modifier = Modifier
+                    .size(50.dp)
+                    .align(Alignment.TopEnd)
+            )
+        }
+    }
+
+}
 
 @Preview(showBackground = true)
 @Composable

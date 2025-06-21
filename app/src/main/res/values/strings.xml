@@ -29,8 +29,8 @@
     <string name="email">Email</string>
     <string name="password">Contraseña</string>
     <string name="fecha_nacimiento">Fecha de nacimiento</string>
-    <string name="fecha_nacimiento_placeholder">Fecha de nacimiento (YYYY-MM-DD)</string>
-    <string name="formato_fecha_invalido">Formato de fecha inválido (YYYY-MM-DD)</string>
+    <string name="fecha_nacimiento_placeholder">Fecha de nacimiento (AAAA-MM-DD)</string>
+    <string name="formato_fecha_invalido">Formato de fecha inválido (AAAA-MM-DD)</string>
     <string name="codigo_verificacion">Código de verificación</string>
     <string name="registro_exitoso">¡Registro exitoso! Ahora verificá tu email.</string>
     <string name="error_completar_campos">Por favor, completá todos los campos correctamente.</string>
@@ -65,4 +65,10 @@
     <string name="amex" translatable="false">Amex</string>
     <string name="maestro" translatable="false">Maestro</string>
     <string name="ingresar_dinero">Ingresar dinero</string>
+    <string name="seleccionar_tarjeta">Selecciona una tarjeta</string>
+    <string name="monto_deseado">Monto deseado</string>
+    <string name="Ejemplo">Ej</string>
+    <string name="numero">Numero</string>
+    <string name="vencimiento">Vencimiento: (MM/AA)</string>
+    <string name="CVV" translatable="false">CVV</string>
 </resources>

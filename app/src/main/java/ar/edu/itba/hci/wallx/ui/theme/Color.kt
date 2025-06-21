@@ -75,11 +75,13 @@ val Emphasis = Info
 
 val Black = Color(0xFF1E1E1E)
 val White = Color(0xFFFFFFFF)
+val Grey = Color(0xFF4a4a4a)
+
 
 val VisaBlack = Black
 val AmexGrey = Color(0xFFBEBEBE)
 val MastercardGrey = Color(0xFF807979)
 val MaestroBlue= Color(0xFF001440)
-val DefaultCard=Color(0xFF4a4a4a)
+val DefaultCard=Grey
 
 
