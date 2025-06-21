@@ -33,6 +33,15 @@ import ar.edu.itba.hci.wallx.data.network.model.card.NewCardData
 import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.text.style.TextAlign
+import ar.edu.itba.hci.wallx.ui.components.detectCardBrandFromNumber
+import ar.edu.itba.hci.wallx.ui.theme.Black
+import ar.edu.itba.hci.wallx.ui.theme.Error
+import ar.edu.itba.hci.wallx.ui.theme.Grey
+import ar.edu.itba.hci.wallx.ui.theme.Secondary
+import ar.edu.itba.hci.wallx.ui.theme.Selected
+import ar.edu.itba.hci.wallx.ui.theme.Success
+import ar.edu.itba.hci.wallx.ui.theme.Typography
+import ar.edu.itba.hci.wallx.ui.theme.White
 
 
 @Composable
@@ -60,8 +69,8 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier) {
             Column {
                 Text(
                     text = stringResource(R.string.agregarTarjeta),
-                    style = MaterialTheme.typography.titleLarge,
-                    color = Color.Black,
+                    style = MaterialTheme.typography.headlineLarge,
+                    color = Black,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
@@ -72,75 +81,85 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier) {
                 OutlinedTextField(
                     value = number,
                     onValueChange = { number = it },
-                    label = { Text("Número") },
+                    label = {
+                        Text(text=stringResource(R.string.numero),
+                            style = Typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                            color = Grey)
+                            },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     colors = TextFieldDefaults.colors(
-                        focusedLabelColor = Color.Black,
-                        unfocusedLabelColor = Color.DarkGray,
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent,
-                        disabledContainerColor = Color.Transparent
+                        focusedLabelColor = Black,
+                        unfocusedLabelColor = Grey,
+                        focusedContainerColor = Secondary,
+                        unfocusedContainerColor = Secondary,
+                        disabledContainerColor = Secondary
                     )
 
                 )
 
-                Spacer(modifier.height(8.dp))
+                Spacer(modifier.height(13.dp))
 
                 OutlinedTextField(
                     value = fullName,
                     onValueChange = { fullName = it },
-                    label = { Text("Nombre completo") },
+                    label = { Text(text=stringResource(R.string.nombre),
+                        style = Typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        color = Grey) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     colors = TextFieldDefaults.colors(
-                        focusedLabelColor = Color.Black,
-                        unfocusedLabelColor = Color.DarkGray,
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent,
-                        disabledContainerColor = Color.Transparent
+                        focusedLabelColor = Black,
+                        unfocusedLabelColor = Grey,
+                        focusedContainerColor = Secondary,
+                        unfocusedContainerColor = Secondary,
+                        disabledContainerColor = Secondary
                     )
 
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier.height(13.dp))
 
                 OutlinedTextField(
                     value = expirationDate,
                     onValueChange = { expirationDate = it },
-                    label = { Text("Vencimiento (MM/AA)") },
+                    label = { Text(text=stringResource(R.string.vencimiento),
+                        style = Typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        color = Grey )},
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     colors = TextFieldDefaults.colors(
-                        focusedLabelColor = Color.Black,
-                        unfocusedLabelColor = Color.DarkGray,
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent,
-                        disabledContainerColor = Color.Transparent
+                        focusedLabelColor = Black,
+                        unfocusedLabelColor = Grey,
+                        focusedContainerColor = Secondary,
+                        unfocusedContainerColor = Secondary,
+                        disabledContainerColor = Secondary
                     )
 
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier.height(13.dp))
 
                 OutlinedTextField(
                     value = cvv,
                     onValueChange = { cvv = it },
-                    label = { Text("CVV") },
+                    label = { Text(text=stringResource(R.string.CVV),
+                        style = Typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        color = Grey ) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     visualTransformation = PasswordVisualTransformation(),
                     colors = TextFieldDefaults.colors(
-                        focusedLabelColor = Color.Black,
-                        unfocusedLabelColor = Color.DarkGray,
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent,
-                        disabledContainerColor = Color.Transparent
+                        focusedLabelColor = Black,
+                        unfocusedLabelColor = Grey,
+                        focusedContainerColor = Secondary,
+                        unfocusedContainerColor = Secondary,
+                        disabledContainerColor = Secondary
                     )
 
                 )
 
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(27.dp))
 
                 Button(
                     onClick = {
@@ -153,11 +172,16 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier) {
                         )
                         // falta API
                     },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(50),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                    modifier = Modifier.fillMaxWidth().height(70.dp),
+                    shape = RoundedCornerShape(10.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Selected,
+                        contentColor = White
+                    ),
                 ) {
-                    Text(stringResource(R.string.agregar), color = Color.White)
+                    Text(text=stringResource(R.string.agregar), style = MaterialTheme.typography.titleLarge.copy(
+                        color = White,
+                        fontWeight = FontWeight.Bold))
                 }
             }
         }

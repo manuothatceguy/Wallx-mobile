@@ -13,10 +13,10 @@ class AccountRemoteDataSource(
 
     val accountStream: Flow<AccountData> = flow {
         while (true) {
-            val walletDetail = handleApiResponse {
+            val accountDetail = handleApiResponse {
                 accountApiService.getAccount()
             }
-            emit(walletDetail)
+            emit(accountDetail)
             delay(DELAY)
         }
     }

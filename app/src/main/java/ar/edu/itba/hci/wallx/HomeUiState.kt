@@ -14,6 +14,7 @@ data class HomeUiState(
     val cardsDetail: List<Card>? = listOf(),
     val paymentsDetail: List<Payment>? = listOf(),
     val error: Error? = null,
-    val see : Boolean = false
+    val see : Boolean = false,
+    val currentPayment : Payment? = null
 )
 

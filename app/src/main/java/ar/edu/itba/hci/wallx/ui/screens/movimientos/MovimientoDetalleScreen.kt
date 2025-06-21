@@ -1,0 +1,95 @@
+package ar.edu.itba.hci.wallx.ui.screens.movimientos
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import ar.edu.itba.hci.wallx.data.model.Payment
+import ar.edu.itba.hci.wallx.data.model.User
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.tooling.preview.Preview
+import ar.edu.itba.hci.wallx.WallXViewModel
+import ar.edu.itba.hci.wallx.data.model.SimpleCard
+import androidx.compose.runtime.getValue
+@Composable
+fun MovimientoDetalleScreen( modifier: Modifier = Modifier,
+                             wallXViewModel: WallXViewModel,
+                             onNavigateTo: (String) -> Unit) {
+
+    val uiState by wallXViewModel.uiState.collectAsState()
+    val payment=uiState.currentPayment
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFD3ECE5)) // verde suave
+            .padding(16.dp)
+    ) {
+        Text(
+            text = "Detalle del movimiento",
+            style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp),
+            colors = CardDefaults.cardColors(containerColor = Color.White),
+            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                InfoRow("Monto", "$ ${payment?.amount?.format(2) ?: "-"}")
+                InfoRow("Descripción", payment?.description ?: "-")
+                InfoRow("Destinatario", payment?.receiver?.fullName() ?: "-")
+                InfoRow("Pagador", payment?.payer?.fullName() ?: "-")
+                InfoRow("Método de pago", payment?.method ?: "-")
+                InfoRow(
+                    "Tarjeta",
+                    payment?.card?.number?.takeLast(4)?.let { "**** $it" } ?: "-"
+                )
+                InfoRow("Estado", if (payment?.pending == true) "Pendiente" else "Completado")
+            }
+        }
+    }
+}
+
+@Composable
+fun InfoRow(label: String, value: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(text = label, fontWeight = FontWeight.Medium)
+        Text(text = value)
+    }
+}
+
+// Extensiones
+fun Double.format(decimals: Int): String = "%.${decimals}f".format(this)
+
+fun User.fullName(): String = "$firstName $lastName"
+

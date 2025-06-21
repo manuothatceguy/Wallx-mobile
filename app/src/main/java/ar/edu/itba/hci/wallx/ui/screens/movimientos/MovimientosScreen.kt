@@ -1,6 +1,7 @@
 package ar.edu.itba.hci.wallx.ui.screens.movimientos
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,7 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.History
@@ -23,6 +23,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,27 +33,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ar.edu.itba.hci.wallx.R
-
-
-
-data class movement(
-    val destinatario: String,
-    val detalle: String,
-    val metodo: String,
-    val monto: String,
-    val pagador: String
-)
+import ar.edu.itba.hci.wallx.WallXViewModel
+import ar.edu.itba.hci.wallx.data.model.Payment
+import androidx.compose.foundation.lazy.items
+import androidx.lifecycle.viewmodel.compose.viewModel
+import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
 
 
 @Composable
-fun MovimientosScreen(modifier: Modifier = Modifier, onNavigate: (String) -> Unit) {
-    val dummyMovements = listOf(
-        movement("Juan Pérez", "Pago de servicio", "Transferencia", "$10.000,00", "María"),
-        movement("Ana Gómez", "Compra online", "Tarjeta", "$25.000,50", "Ana"),
-        movement("Carlos Ruiz", "Alquiler", "Transferencia", "$40.000,00", "Carlos"),
-        movement("Empresa SA", "Sueldo", "Depósito", "$120.000,00", "Empresa SA"),
-        movement("Marta López", "Regalo", "Transferencia", "$5.500,00", "Pedro")
-    )
+fun MovimientosScreen( modifier: Modifier = Modifier,
+                       wallXViewModel: WallXViewModel,
+                       onNavigateTo: (String) -> Unit) {
+    val uiState by wallXViewModel.uiState.collectAsState()
+    val payments = uiState.paymentsDetail ?: emptyList()
 
     Box(
         modifier = Modifier
@@ -108,16 +102,21 @@ fun MovimientosScreen(modifier: Modifier = Modifier, onNavigate: (String) -> Uni
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.fillMaxHeight()
             ) {
-                items(dummyMovements) { movement ->
-                    MovementOverview(movement)
+                items(payments) { movement ->
+                    MovementOverview(movement, onNavigateTo, wallXViewModel)
                 }
             }
         }
     }
 }
 
+
 @Composable
-fun MovementOverview(movement: movement) {
+fun MovementOverview(
+    movement: Payment,
+    onNavigateTo: (String) -> Unit,
+    wallXViewModel: WallXViewModel
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -127,12 +126,12 @@ fun MovementOverview(movement: movement) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = movement.monto,
+            text = movement.amount.toString(),
             modifier = Modifier.weight(1f),
             fontWeight = FontWeight.SemiBold
         )
         Text(
-            text = movement.destinatario,
+            text = movement.receiver.toString(),
             modifier = Modifier.weight(1f),
             fontSize = 14.sp
         )
@@ -140,6 +139,10 @@ fun MovementOverview(movement: movement) {
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(6.dp))
                 .padding(horizontal = 12.dp, vertical = 6.dp)
+                .clickable(onClick = {
+                    wallXViewModel.setCurrentPayment(payment = movement)
+                    onNavigateTo(AppDestinations.MOVIMIENTO_DETALLE.route)
+                })
         ) {
             Text(stringResource(R.string.detalle), color = Color.White, fontSize = 12.sp)
         }
