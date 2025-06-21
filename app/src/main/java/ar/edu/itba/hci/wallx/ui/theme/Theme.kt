@@ -125,7 +125,7 @@ val LightColorScheme = lightColorScheme(
     secondary = Secondary,
     onSecondary = Black,
     secondaryContainer = SecondaryDarken1,
-    onSecondaryContainer = White,
+    onSecondaryContainer = Black,
 
     tertiary = Tertiary,
     onTertiary = Black,

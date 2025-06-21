@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 import ar.edu.itba.hci.wallx.data.model.Error
 import ar.edu.itba.hci.wallx.data.model.Payment
 import ar.edu.itba.hci.wallx.data.network.model.card.NewCardData
+import kotlin.io.println
 
 class WallXViewModel (
     val sessionManager: SessionManager,
