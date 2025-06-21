@@ -1,6 +1,7 @@
 package ar.edu.itba.hci.wallx.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -11,8 +12,10 @@ import ar.edu.itba.hci.wallx.ui.screens.auth.LoginScreen
 import ar.edu.itba.hci.wallx.ui.screens.auth.RegisterScreen
 import ar.edu.itba.hci.wallx.ui.screens.auth.VerifyScreen
 import ar.edu.itba.hci.wallx.ui.screens.dashboard.DashboardScreen
+import ar.edu.itba.hci.wallx.ui.screens.dashboard.IngresarDineroScreen
 import ar.edu.itba.hci.wallx.ui.screens.movimientos.MovimientosScreen
 import ar.edu.itba.hci.wallx.ui.screens.servicios.ServiciosScreen
+import ar.edu.itba.hci.wallx.ui.screens.tarjetas.AgregarTarjetaScreen
 import ar.edu.itba.hci.wallx.ui.screens.tarjetas.TarjetasScreen
 
 @Composable
@@ -77,6 +80,12 @@ fun AppNavGraph(
                     navGuard(AppDestinations.DASHBOARD.route)
                 }
             )
+        }
+        composable(AppDestinations.INGRESAR_DINERO.route) {
+            IngresarDineroScreen(modifier)
+        }
+        composable(AppDestinations.AGREGAR_TARJETA.route) {
+            AgregarTarjetaScreen(modifier)
         }
     }
 }

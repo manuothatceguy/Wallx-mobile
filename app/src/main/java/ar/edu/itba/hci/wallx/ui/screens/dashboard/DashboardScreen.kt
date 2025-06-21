@@ -40,6 +40,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.WallXViewModel
+import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
 import ar.edu.itba.hci.wallx.ui.theme.Black
 import ar.edu.itba.hci.wallx.ui.theme.Error
 import ar.edu.itba.hci.wallx.ui.theme.Info
@@ -57,15 +58,15 @@ fun DashboardScreen(modifier: Modifier, onNavigate: (String) -> Unit, viewModel 
     viewModel.getUser()
     Column(modifier = modifier.fillMaxSize()) {
         //Dinero disponible
-        AvailableMoney(viewModel)
+        AvailableMoney(viewModel, onNavigate)
         YourInfo(viewModel)
-        LastMovements()
+        LastMovements(viewModel)
     }
 
 }
 
 @Composable
-fun AvailableMoney(viewModel: WallXViewModel){
+fun AvailableMoney(viewModel: WallXViewModel, onNavigate: (String) -> Unit){
 
     val uiState by viewModel.uiState.collectAsState()
 
@@ -141,15 +142,18 @@ fun AvailableMoney(viewModel: WallXViewModel){
             {
                 ActionIconButton(icon = Icons.Filled.Add, label = stringResource( R.string.ingresar  ))
                 {
+                    onNavigate(AppDestinations.INGRESAR_DINERO.route)
                 }
                 ActionIconButton(
                     icon = ImageVector.vectorResource(R.drawable.send_money_24dp_e3e3e3_fill0_wght400_grad0_opsz24),
                     label = stringResource( R.string.transferir  ),
                 )
                 {
+                    onNavigate(AppDestinations.TRANSFERENCIAS.route)
                 }
                 ActionIconButton(icon = Icons.Filled.CreditCard, label = stringResource( R.string.tarjetas  ))
                 {
+                    onNavigate(AppDestinations.TARJETAS.route)
                 }
             }
 
@@ -263,7 +267,7 @@ fun InfoCard(text: String){
 }
 
 @Composable
-fun LastMovements(){
+fun LastMovements(viewModel: WallXViewModel){
     Card(
         modifier = Modifier
             .padding(horizontal = 12.dp, vertical = 12.dp)
@@ -316,7 +320,6 @@ fun LastMovements(){
                     amount = "$9.000",
                     isPositive = false
                 )
-
             }
         }
     }

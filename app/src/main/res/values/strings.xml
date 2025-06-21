@@ -64,4 +64,5 @@
     <string name="mastercard" translatable="false">mastercard</string>
     <string name="amex" translatable="false">Amex</string>
     <string name="maestro" translatable="false">Maestro</string>
+    <string name="ingresar_dinero">Ingresar dinero</string>
 </resources>
