@@ -28,12 +28,13 @@ import ar.edu.itba.hci.wallx.ui.components.CardItem
 import ar.edu.itba.hci.wallx.ui.components.detectCardBrandFromNumber
 import ar.edu.itba.hci.wallx.ui.components.fullCard
 import androidx.compose.runtime.getValue
+import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
 
 
 @Composable
 fun TarjetasScreen( modifier: Modifier = Modifier,
                     wallXViewModel: WallXViewModel,
-                    onNavigate: (String) -> Unit) {
+                    onNavigateTo: (String) -> Unit) {
     val formatter = SimpleDateFormat("MM/yy", Locale.getDefault())
     val uiState by wallXViewModel.uiState.collectAsState()
     val cards = uiState.cardsDetail ?: emptyList()
@@ -49,7 +50,7 @@ fun TarjetasScreen( modifier: Modifier = Modifier,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Button(onClick = { onNavigate("agregar") },
+            Button(onClick = { onNavigateTo(AppDestinations.AGREGAR_TARJETA.route) },
                 modifier = Modifier.weight(1f),
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(

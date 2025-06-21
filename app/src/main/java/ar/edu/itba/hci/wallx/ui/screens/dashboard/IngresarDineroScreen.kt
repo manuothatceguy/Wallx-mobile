@@ -27,7 +27,6 @@ import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.ui.screens.servicios.textFieldColors
 import ar.edu.itba.hci.wallx.ui.theme.Background
-import ar.edu.itba.hci.wallx.ui.theme.Secondary
 import ar.edu.itba.hci.wallx.ui.theme.SecondaryDarken1
 import ar.edu.itba.hci.wallx.ui.theme.Typography
 import ar.edu.itba.hci.wallx.ui.theme.White

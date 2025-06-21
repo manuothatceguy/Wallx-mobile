@@ -1,16 +1,12 @@
 package ar.edu.itba.hci.wallx.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import ar.edu.itba.hci.wallx.WallXViewModel
-import ar.edu.itba.hci.wallx.data.model.Payment
 import ar.edu.itba.hci.wallx.ui.screens.auth.LoginScreen
 import ar.edu.itba.hci.wallx.ui.screens.auth.RegisterScreen
 import ar.edu.itba.hci.wallx.ui.screens.auth.VerifyScreen
@@ -21,7 +17,6 @@ import ar.edu.itba.hci.wallx.ui.screens.movimientos.MovimientosScreen
 import ar.edu.itba.hci.wallx.ui.screens.servicios.ServiciosScreen
 import ar.edu.itba.hci.wallx.ui.screens.tarjetas.AgregarTarjetaScreen
 import ar.edu.itba.hci.wallx.ui.screens.tarjetas.TarjetasScreen
-import kotlinx.serialization.decodeFromString
 
 @Composable
 fun AppNavGraph(
@@ -78,17 +73,18 @@ fun AppNavGraph(
             ServiciosScreen(modifier, onNavigate = navGuard)
         }
         composable(AppDestinations.TARJETAS.route) {
-            TarjetasScreen(modifier, onNavigate = navGuard)
+            TarjetasScreen(modifier, wallXViewModel = viewModel ,onNavigateTo = navGuard)
         }
         composable(AppDestinations.VERIFICAR.route) {
             VerifyScreen(
+                viewModel = viewModel,
                 onVerifySuccess = {
                     navGuard(AppDestinations.DASHBOARD.route)
                 }
             )
         }
         composable(AppDestinations.INGRESAR_DINERO.route) {
-            IngresarDineroScreen(modifier)
+            IngresarDineroScreen(modifier, wallXViewModel = viewModel, onNavigate = navGuard)
         }
         composable(AppDestinations.AGREGAR_TARJETA.route) {
             AgregarTarjetaScreen(modifier)

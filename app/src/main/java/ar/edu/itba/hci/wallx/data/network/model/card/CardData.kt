@@ -3,7 +3,6 @@ package ar.edu.itba.hci.wallx.data.network.model.card
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import ar.edu.itba.hci.wallx.data.model.Card
-import java.util.Date
 
 @Serializable
 data class CardData(
@@ -19,7 +18,7 @@ data class CardData(
             id = id,
             type = type,
             number = number,
-            expirationDate = Date(expirationDate),
+            expirationDate = expirationDate,
             fullName = fullName
         )
     }
