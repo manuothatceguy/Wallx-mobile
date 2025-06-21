@@ -11,6 +11,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.material3.CardDefaults
@@ -22,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.window.Dialog
 import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.WallXViewModel
@@ -30,8 +32,6 @@ import ar.edu.itba.hci.wallx.ui.theme.Background
 import ar.edu.itba.hci.wallx.ui.theme.SecondaryDarken1
 import ar.edu.itba.hci.wallx.ui.theme.Typography
 import ar.edu.itba.hci.wallx.ui.theme.White
-import java.text.SimpleDateFormat
-import java.util.Locale
 import ar.edu.itba.hci.wallx.ui.components.getBrandLogo
 import ar.edu.itba.hci.wallx.ui.components.getCardColor
 import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
@@ -95,12 +95,21 @@ fun IngresarDineroScreen(
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    itemsIndexed(cards) { index, card ->
-                        MiniCardItem(
-                            card = card,
-                            isSelected = index == selectedCardIndex,
-                            onClick = { selectedCardIndex = index }
-                        )
+                    if (cards.isEmpty()) {
+                        item {
+                            AddCardButton { onNavigate(AppDestinations.AGREGAR_TARJETA.route) }
+                        }
+                    } else {
+                        itemsIndexed(cards) { index, card ->
+                            MiniCardItem(
+                                card = card,
+                                isSelected = index == selectedCardIndex,
+                                onClick = { selectedCardIndex = index }
+                            )
+                        }
+                        item {
+                            AddCardButton { onNavigate(AppDestinations.AGREGAR_TARJETA.route) }
+                        }
                     }
                 }
 
@@ -138,13 +147,14 @@ fun IngresarDineroScreen(
                     colors = textFieldColors()
                 )
 
-                // Mensaje de error
                 montoError?.let {
                     Text(
                         text = it,
                         color = MaterialTheme.colorScheme.error,
                         style = Typography.bodySmall,
-                        modifier = Modifier.align(Alignment.Start).padding(top = 4.dp)
+                        modifier = Modifier
+                            .align(Alignment.Start)
+                            .padding(top = 4.dp)
                     )
                 }
 
@@ -169,7 +179,7 @@ fun IngresarDineroScreen(
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Selected,
                         contentColor = White
-                    ),
+                    )
                 ) {
                     Text(
                         text = stringResource(R.string.ingresar),
@@ -189,10 +199,11 @@ fun IngresarDineroScreen(
             card = cards[selectedCardIndex],
             wallXViewModel = wallXViewModel,
             onDismiss = { showDialog = false },
-            onConfirm = {onNavigate(AppDestinations.DASHBOARD.route)}
+            onConfirm = { onNavigate(AppDestinations.DASHBOARD.route) }
         )
     }
 }
+
 
 
 
@@ -317,6 +328,7 @@ fun IngresarDineroDialog(
                     Button(
                         onClick = {
                             wallXViewModel.recharge(amount)
+                            onDismiss()
                             onConfirm()
                         },
                         modifier = Modifier
@@ -331,3 +343,39 @@ fun IngresarDineroDialog(
         }
     }
 }
+
+@Composable
+fun AddCardButton(onClick: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .width(240.dp)
+            .height(160.dp)
+            .clickable { onClick() },
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = "Agregar tarjeta",
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(36.dp)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Agregar una nueva tarjeta",
+                style = Typography.titleMedium.copy(fontWeight = FontWeight.Medium),
+                color = MaterialTheme.colorScheme.primary,
+                textAlign = TextAlign.Center
+            )
+        }
+    }
+}
+
