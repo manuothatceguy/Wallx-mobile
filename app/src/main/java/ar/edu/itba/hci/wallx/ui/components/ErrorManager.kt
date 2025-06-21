@@ -1,7 +1,9 @@
 package ar.edu.itba.hci.wallx.ui.components
 
+import androidx.compose.runtime.Composable
 import ar.edu.itba.hci.wallx.R
 
+@Composable
 fun errorManager(error : String) : Int {
     return when (error) {
         "Missing cvu." -> R.string.error_cvu_missing
