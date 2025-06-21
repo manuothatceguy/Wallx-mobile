@@ -98,6 +98,12 @@
     <string name="error_card_name_missing">Falta el nombre completo.</string>
     <string name="error_card_type_missing">Falta el tipo de tarjeta.</string>
     <string name="error_card_type_invalid">Tipo de tarjeta inválido. Debe ser \'CREDIT\' o \'DEBIT\'.</string>
+    <string name="seleccionar_tarjeta">Selecciona una tarjeta</string>
+    <string name="monto_deseado">"Monto "</string>
+    <string name="Ejemplo">Ej.</string>
+    <string name="numero">Número</string>
+    <string name="vencimiento">"Vence: (MM/AA) "</string>
+    <string name="CVV" translatable="false">CVV</string>
     <string name="error_amount_neg">El monto debe ser un número positivo.</string>
     <string name="error_email_missing">Falta el email.</string>
     <string name="error_password_length">La contraseña debe tener por lo menos 6 caracteres.</string>

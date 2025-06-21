@@ -171,7 +171,7 @@ val DarkColorScheme = darkColorScheme(
     tertiaryContainer = SurfaceDim,
     onTertiaryContainer = White,
 
-    background = SurfaceDim,
+    background = Black,
     onBackground = White,
     surface = SurfaceBrightDark,
     onSurface = White,

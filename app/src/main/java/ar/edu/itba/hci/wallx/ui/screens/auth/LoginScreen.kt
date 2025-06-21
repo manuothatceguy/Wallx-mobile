@@ -16,6 +16,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
@@ -41,7 +42,10 @@ import ar.edu.itba.hci.wallx.ui.components.errorManager
 import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
 import ar.edu.itba.hci.wallx.ui.theme.Error
 import ar.edu.itba.hci.wallx.ui.theme.Info
+import ar.edu.itba.hci.wallx.ui.theme.Interactive
 import ar.edu.itba.hci.wallx.ui.theme.Primary
+import ar.edu.itba.hci.wallx.ui.theme.SecondaryDarken1
+import ar.edu.itba.hci.wallx.ui.theme.SurfaceLight
 import ar.edu.itba.hci.wallx.ui.theme.Typography
 
 
