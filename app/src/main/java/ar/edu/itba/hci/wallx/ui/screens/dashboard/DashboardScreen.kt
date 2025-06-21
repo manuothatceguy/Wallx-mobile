@@ -92,14 +92,14 @@ fun AvailableMoney(viewModel: WallXViewModel, onNavigate: (String) -> Unit){
                     Icons.Filled.Wallet,
                     contentDescription = "Wallet",
                     modifier = Modifier.size(30.dp),
-                    tint= Black
+                    tint=  MaterialTheme.colorScheme.onPrimaryContainer
                 )
                 Text(
                     text = stringResource( R.string.dinero_disponible),
                     style = MaterialTheme.typography.headlineLarge.copy(
                     fontWeight = FontWeight.Bold),
                     modifier = Modifier.padding(start=15.dp),
-                    color = Black
+                    color =  MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
             HorizontalDivider(
@@ -121,14 +121,14 @@ fun AvailableMoney(viewModel: WallXViewModel, onNavigate: (String) -> Unit){
                     fontSize = MaterialTheme.typography.displayMedium.fontSize,
                     fontWeight = FontWeight.Black,
                     modifier = Modifier.padding(end = 4.dp),
-                    color = Color.White
+                    color = White
 
                 )
 
                 IconButton(onClick = { viewModel.toggleSee() }) {
                     Icon(
                         imageVector = if (uiState.see) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                        contentDescription = if (uiState.see) "Ocultar saldo" else "Mostrar saldo",
+                        contentDescription = if (uiState.see) (stringResource(R.string.ocultar)+ stringResource(R.string.saldo)) else(stringResource(R.string.mostrar)+ stringResource(R.string.saldo)),
                         modifier = Modifier.size(30.dp)
 
                     )
@@ -171,8 +171,8 @@ fun ActionIconButton(icon: ImageVector, label: String,    onClick: () -> Unit) {
             modifier = Modifier.size(60.dp).padding(0.dp),
             shape = CircleShape,
             colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                containerColor = SurfaceLight,
-                contentColor = Black
+                containerColor = MaterialTheme.colorScheme.surfaceBright,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
             ),
             contentPadding = PaddingValues(0.dp)
 
@@ -182,7 +182,7 @@ fun ActionIconButton(icon: ImageVector, label: String,    onClick: () -> Unit) {
                 icon,
                 contentDescription = label,
                 modifier = Modifier.size(29.dp),
-                tint=Black
+                tint=MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
         Spacer(modifier = Modifier.height(4.dp))
@@ -199,7 +199,7 @@ fun YourInfo(viewModel: WallXViewModel){
             .padding(horizontal = 12.dp, vertical = 12.dp)
             .fillMaxWidth()
             .heightIn(min = 210.dp),
-        colors = CardDefaults.cardColors(containerColor = Secondary) // o Secondary, si querés un bloque destacado
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer) // o Secondary, si querés un bloque destacado
     ) {
         Column(
             modifier = Modifier
@@ -216,17 +216,17 @@ fun YourInfo(viewModel: WallXViewModel){
                 Text(
                     text = stringResource(R.string.tu_información),
                     style = MaterialTheme.typography.headlineLarge.copy(
-                        fontWeight = FontWeight.Bold, color=Black)
+                        fontWeight = FontWeight.Bold, color=MaterialTheme.colorScheme.onSecondaryContainer)
                 )
             }
             HorizontalDivider(thickness = 1.dp,color = SurfaceVariant)
             var aliasString = if(uiState.accountDetail != null) uiState.accountDetail!!.alias else "Error"
             var cvuString = if(uiState.accountDetail != null) uiState.accountDetail!!.cvu else "Error"
-            Text("Alias")
+            Text(stringResource(R.string.alias))
             InfoCard( aliasString)
-            Text("CVU")
+            Text(stringResource(R.string.alias))
             InfoCard(cvuString)
-            HorizontalDivider(thickness = 1.dp,color = Color(0xFF5c978c))
+            HorizontalDivider(thickness = 1.dp,color = MaterialTheme.colorScheme.outline)
 
         }
     }
@@ -262,7 +262,8 @@ fun InfoCard(text: String){
                     Icons.Filled.ContentCopy,
                     contentDescription = "copy",
                     modifier = Modifier.size(25.dp),
-                    tint= SurfaceVariant
+                    tint= MaterialTheme.colorScheme.surfaceVariant
+
                 )
             }
         }
@@ -277,7 +278,7 @@ fun LastMovements(viewModel: WallXViewModel){
             .padding(horizontal = 12.dp, vertical = 12.dp)
             .fillMaxWidth()
             .height(280.dp),
-        colors = CardDefaults.cardColors(containerColor = Secondary) // o Secondary, si querés un bloque destacado
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer) // o Secondary, si querés un bloque destacado
     ) {
         Column(
             modifier = Modifier
@@ -294,14 +295,14 @@ fun LastMovements(viewModel: WallXViewModel){
                     Icons.Filled.History,
                     contentDescription = "History",
                     modifier = Modifier.size(30.dp),
-                    tint=Black
+                    tint=MaterialTheme.colorScheme.onSecondaryContainer
                 )
 
                 Text(
                     text =stringResource( R.string.ultimos_movimientos ),
                     style = MaterialTheme.typography.headlineLarge.copy(
                         fontWeight = FontWeight.SemiBold,
-                        color=Black
+                        color=MaterialTheme.colorScheme.onSecondaryContainer
                     )
                 )
             }
@@ -336,7 +337,7 @@ fun Single_movement(account: String, date: String, amount: String, isPositive: B
         .fillMaxWidth()
         .height(70.dp)
         .padding(vertical = 6.dp),
-        colors = CardDefaults.cardColors(containerColor = Light)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceBright)
     )
     {
         Row(
@@ -367,13 +368,13 @@ fun Single_movement(account: String, date: String, amount: String, isPositive: B
                     text = account,
                     fontSize = MaterialTheme.typography.titleMedium.fontSize,
                     fontWeight = FontWeight.Bold,
-                    color = Black
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
                 Text(
                     text = date,
                     fontSize = MaterialTheme.typography.titleMedium.fontSize,
                     fontWeight = FontWeight.Normal,
-                    color = Black
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
 
             }

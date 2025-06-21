@@ -70,7 +70,7 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier) {
                 Text(
                     text = stringResource(R.string.agregarTarjeta),
                     style = MaterialTheme.typography.headlineLarge,
-                    color = Black,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
@@ -84,16 +84,16 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier) {
                     label = {
                         Text(text=stringResource(R.string.numero),
                             style = Typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                            color = Grey)
+                            color =  MaterialTheme.colorScheme.onPrimaryContainer)
                             },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     colors = TextFieldDefaults.colors(
-                        focusedLabelColor = Black,
+                        focusedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         unfocusedLabelColor = Grey,
-                        focusedContainerColor = Secondary,
-                        unfocusedContainerColor = Secondary,
-                        disabledContainerColor = Secondary
+                        focusedContainerColor = MaterialTheme.colorScheme.secondary,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
+                        disabledContainerColor = MaterialTheme.colorScheme.secondary
                     )
 
                 )
@@ -105,15 +105,15 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier) {
                     onValueChange = { fullName = it },
                     label = { Text(text=stringResource(R.string.nombre),
                         style = Typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = Grey) },
+                        color =  MaterialTheme.colorScheme.onPrimaryContainer) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     colors = TextFieldDefaults.colors(
                         focusedLabelColor = Black,
                         unfocusedLabelColor = Grey,
-                        focusedContainerColor = Secondary,
-                        unfocusedContainerColor = Secondary,
-                        disabledContainerColor = Secondary
+                        focusedContainerColor = MaterialTheme.colorScheme.secondary,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
+                        disabledContainerColor = MaterialTheme.colorScheme.secondary
                     )
 
                 )
@@ -125,15 +125,15 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier) {
                     onValueChange = { expirationDate = it },
                     label = { Text(text=stringResource(R.string.vencimiento),
                         style = Typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = Grey )},
+                        color =  MaterialTheme.colorScheme.onPrimaryContainer )},
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     colors = TextFieldDefaults.colors(
                         focusedLabelColor = Black,
                         unfocusedLabelColor = Grey,
-                        focusedContainerColor = Secondary,
-                        unfocusedContainerColor = Secondary,
-                        disabledContainerColor = Secondary
+                        focusedContainerColor = MaterialTheme.colorScheme.secondary,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
+                        disabledContainerColor = MaterialTheme.colorScheme.secondary
                     )
 
                 )
@@ -145,16 +145,16 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier) {
                     onValueChange = { cvv = it },
                     label = { Text(text=stringResource(R.string.CVV),
                         style = Typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = Grey ) },
+                        color =  MaterialTheme.colorScheme.onPrimaryContainer ) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     visualTransformation = PasswordVisualTransformation(),
                     colors = TextFieldDefaults.colors(
                         focusedLabelColor = Black,
                         unfocusedLabelColor = Grey,
-                        focusedContainerColor = Secondary,
-                        unfocusedContainerColor = Secondary,
-                        disabledContainerColor = Secondary
+                        focusedContainerColor = MaterialTheme.colorScheme.secondary,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
+                        disabledContainerColor = MaterialTheme.colorScheme.secondary
                     )
 
                 )
@@ -175,7 +175,7 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier) {
                     modifier = Modifier.fillMaxWidth().height(70.dp),
                     shape = RoundedCornerShape(10.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Selected,
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
                         contentColor = White
                     ),
                 ) {
