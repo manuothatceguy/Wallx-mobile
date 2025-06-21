@@ -90,7 +90,7 @@ fun MainApp (
     ) {
         Scaffold(
             containerColor = MaterialTheme.colorScheme.background,
-            topBar = { if (currentRouteIsAuth) TopBar(viewModel, scope, drawerState, navController, currentRoute) else NotAuthTopBar() },
+            topBar = { if (currentRouteIsAuth && uiState.isAuthenticated && uiState.completeUserDetail != null) TopBar(viewModel, scope, drawerState, navController, currentRoute) else NotAuthTopBar() },
             snackbarHost = {
                 SnackbarHost(snackbarHostState) { data ->
                     Snackbar(
