@@ -65,4 +65,37 @@
     <string name="amex" translatable="false">Amex</string>
     <string name="maestro" translatable="false">Maestro</string>
     <string name="ingresar_dinero">Ingresar dinero</string>
+    <string name="error_email">Emain inválido. Formato válido usuario@dominio.com.</string>
+    <string name="error_amount_missing">Falta el monto.</string>
+    <string name="error_amount_nan">El monto debe ser un número.</string>
+    <string name="error_desc">Falta la descripción.</string>
+    <string name="error_page">Falta la página.</string>
+    <string name="error_page_nan">La página debe ser un número.</string>
+    <string name="error_page_neg">La página debe ser un número positivo.</string>
+    <string name="error_page_size_missing">Falta el tamaño de la página.</string>
+    <string name="error_page_size_nan">El tamaño de la página debe ser un número.</string>
+    <string name="error_page_size_neg">El tamaño de la página debe ser un número positivo.</string>
+    <string name="error_sort_direction_missing">Falta la dirección de ordenamiento.</string>
+    <string name="error_sort_direction_invalid">Dirección de ordenamiento inválida. Los valores posibles son \'ASC\' o \'DESC\'.</string>
+    <string name="error_code_missing">Falta el código de verificación.</string>
+    <string name="error_token_missing">Falta el token.</string>
+    <string name="error_password_missing">Falta la contraseña.</string>
+    <string name="error_date_format">Formato de la fecha de nacimiento inválido. El formato válido es AAAA-MM-DD.</string>
+    <string name="error_date_invalid">Fecha de nacimiento inválida.</string>
+    <string name="error_date_year">El año debe estar entre 1900 y el año actual.</string>
+    <string name="error_date_13">El usuario debe tener al menos 13 años.</string>
+    <string name="error_cvu_missing">Falta el cvu.</string>
+    <string name="error_cvu_invalid">Cvu inválido.</string>
+    <string name="error_alias_missing">Falta el alias.</string>
+    <string name="error_alias_invalid">Alias inválido.</string>
+    <string name="error_card_number_missing">Falta el número de tarjeta.</string>
+    <string name="error_card_number_invalid">Número de tarjeta inválido. Debe tener 15, 16 o 19 dígitos.</string>
+    <string name="error_card_cvv_missing">Falta el CVV.</string>
+    <string name="error_card_cvv_invalid">CVV inválido. Debe ser de 3 o 4 dígitos.</string>
+    <string name="error_card_date_missing">Falta la fecha de vencimiento.</string>
+    <string name="error_card_date_format">Formato inválido para la fecha de expiración. Debe ser MM/AA.</string>
+    <string name="error_card_expired">Tarjeta vencida.</string>
+    <string name="error_card_name_missing">Falta el nombre completo.</string>
+    <string name="error_card_type_missing">Falta el tipo de tarjeta.</string>
+    <string name="error_card_type_invalid">Tipo de tarjeta inválido. Debe ser \'CREDIT\' o \'DEBIT\'.</string>
 </resources>

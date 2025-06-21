@@ -1,6 +1,5 @@
 package ar.edu.itba.hci.wallx.ui.screens.auth
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,11 +11,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
@@ -34,28 +31,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.InternalTextApi
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.WallXViewModel
-import ar.edu.itba.hci.wallx.data.network.model.user.CredentialsData
-import ar.edu.itba.hci.wallx.data.repository.UserRepository
 import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
-import ar.edu.itba.hci.wallx.ui.theme.Accent
-import ar.edu.itba.hci.wallx.ui.theme.Background
 import ar.edu.itba.hci.wallx.ui.theme.Error
 import ar.edu.itba.hci.wallx.ui.theme.Info
-import ar.edu.itba.hci.wallx.ui.theme.Interactive
 import ar.edu.itba.hci.wallx.ui.theme.Primary
-import ar.edu.itba.hci.wallx.ui.theme.Secondary
-import ar.edu.itba.hci.wallx.ui.theme.SecondaryDarken1
-import ar.edu.itba.hci.wallx.ui.theme.SurfaceLight
-import ar.edu.itba.hci.wallx.ui.theme.SurfaceVariant
 import ar.edu.itba.hci.wallx.ui.theme.Typography
-import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
-import ar.edu.itba.hci.wallx.ui.theme.White
-import com.google.api.ResourceReference
 
 
 @OptIn(InternalTextApi::class)
