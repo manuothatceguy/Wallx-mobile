@@ -116,4 +116,5 @@
     <string name="destinatario">Receiver</string>
     <string name="descripcion">Description</string>
     <string name="Detalle_del_movimiento">Movement detail</string>
+    <string name="confirmar">Confirm</string>
 </resources>

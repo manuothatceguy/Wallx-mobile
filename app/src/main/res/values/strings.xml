@@ -123,4 +123,5 @@
     <string name="destinatario">Destinatario</string>
     <string name="descripcion">Descripcion</string>
     <string name="Detalle_del_movimiento">Detalle del movimiento</string>
+    <string name="confirmar">Confirmar</string>
 </resources>
