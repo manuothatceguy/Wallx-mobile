@@ -80,7 +80,11 @@ fun MainApp (
 
     ModalNavigationDrawer(
         drawerState = drawerState,
-        drawerContent = { if (!includeBottomBar) SideBar(viewModel, currentRoute, navController) }
+        drawerContent = {
+            if (!includeBottomBar && uiState.isAuthenticated) {
+                SideBar(viewModel, currentRoute, navController, drawerState)
+            }
+        }
     ) {
         Scaffold(
             containerColor = MaterialTheme.colorScheme.background,
@@ -118,6 +122,7 @@ fun TopBar(
         AppDestinations.NUEVA_TRANSFERENCIA.route,
         AppDestinations.MOVIMIENTO_DETALLE.route
     )
+    val firstName = uiState.completeUserDetail?.firstName ?: ""
 
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
@@ -153,7 +158,7 @@ fun TopBar(
                         imageVector = Icons.Filled.AccountCircle,
                         contentDescription = "Perfil"
                     )
-                    Text("${stringResource(R.string.saludo)}${(", " + uiState.completeUserDetail?.firstName)}")
+                    Text("${stringResource(R.string.saludo)}${(", $firstName")}")
                 }
             }
         },
@@ -216,7 +221,13 @@ fun BottomBar(viewModel: WallXViewModel?, scope: CoroutineScope, drawerState: Dr
 }
 
 @Composable
-fun SideBar(viewModel: WallXViewModel, currentRoute: String?, navController: NavController) {
+fun SideBar(
+    viewModel: WallXViewModel,
+    currentRoute: String?,
+    navController: NavController,
+    drawerState: DrawerState,
+    scope: CoroutineScope = rememberCoroutineScope()
+) {
     val uiState by viewModel.uiState.collectAsState()
     val drawerRoutes = listOf(
         AppDestinations.DASHBOARD,
@@ -225,6 +236,9 @@ fun SideBar(viewModel: WallXViewModel, currentRoute: String?, navController: Nav
         AppDestinations.SERVICIOS,
         AppDestinations.TARJETAS
     )
+    val firstName = uiState.completeUserDetail?.firstName ?: ""
+    val lastName = uiState.completeUserDetail?.lastName ?: ""
+
     ModalDrawerSheet{
         Column(
             modifier = Modifier
@@ -233,7 +247,7 @@ fun SideBar(viewModel: WallXViewModel, currentRoute: String?, navController: Nav
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(Modifier.height(12.dp))
-            Text(uiState.completeUserDetail?.firstName + " " + uiState.completeUserDetail?.lastName, modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleLarge)
+            Text("$firstName $lastName", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleLarge)
             HorizontalDivider()
 
             for (destination in drawerRoutes) {
@@ -249,7 +263,6 @@ fun SideBar(viewModel: WallXViewModel, currentRoute: String?, navController: Nav
 
             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
 
-            Text("Section 2", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleMedium)
             NavigationDrawerItem(
                 label = { Text(
                     text = stringResource(R.string.cerrar_sesion),
@@ -258,7 +271,10 @@ fun SideBar(viewModel: WallXViewModel, currentRoute: String?, navController: Nav
                 selected = false,
                 icon = { Icon(Icons.AutoMirrored.Outlined.Logout, contentDescription = null) },
                 onClick = {
-                    viewModel.logout()
+                    scope.launch {
+                        drawerState.close()
+                        viewModel.logout()
+                    }
                 },
             )
             Spacer(Modifier.height(12.dp))
