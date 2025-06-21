@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -197,7 +198,7 @@ fun YourInfo(viewModel: WallXViewModel){
         modifier = Modifier
             .padding(horizontal = 12.dp, vertical = 12.dp)
             .fillMaxWidth()
-            .height(210.dp),
+            .heightIn(min = 210.dp),
         colors = CardDefaults.cardColors(containerColor = Secondary) // o Secondary, si querés un bloque destacado
     ) {
         Column(
@@ -219,9 +220,12 @@ fun YourInfo(viewModel: WallXViewModel){
                 )
             }
             HorizontalDivider(thickness = 1.dp,color = SurfaceVariant)
-
-            InfoCard(stringResource(R.string.alias ) + ": "+ if(uiState.accountDetail != null) uiState.accountDetail!!.alias else "Error")
-            InfoCard(stringResource( R.string.CVU )+ ": " + if(uiState.accountDetail != null) uiState.accountDetail!!.cvu else "Error")
+            var aliasString = if(uiState.accountDetail != null) uiState.accountDetail!!.alias else "Error"
+            var cvuString = if(uiState.accountDetail != null) uiState.accountDetail!!.cvu else "Error"
+            Text("Alias")
+            InfoCard( aliasString)
+            Text("CVU")
+            InfoCard(cvuString)
             HorizontalDivider(thickness = 1.dp,color = Color(0xFF5c978c))
 
         }
@@ -247,7 +251,7 @@ fun InfoCard(text: String){
             Column {
                 Text(
                     text = text,
-                    style = MaterialTheme.typography.titleLarge.copy(
+                    style = MaterialTheme.typography.titleSmall.copy(
                         fontWeight = FontWeight.Medium, color = White
                     )
                 )

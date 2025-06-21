@@ -11,10 +11,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialogDefaults.containerColor
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
@@ -94,8 +96,8 @@ fun LoginScreen(
                     modifier = modifier
                         .padding(horizontal = 120.dp, vertical = 16.dp)
                         .fillMaxWidth()
-                        .height(60.dp)
-                    //colors = CardDefaults.cardColors(containerColor = Secondary)
+                        .height(60.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)
                 ) {
                     Box(
                         modifier = Modifier
@@ -114,8 +116,8 @@ fun LoginScreen(
                 Card(
                     modifier = modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 30.dp, vertical = 10.dp)
-                    //colors = CardDefaults.cardColors(containerColor = Secondary)
+                        .padding(horizontal = 30.dp, vertical = 10.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondary)
                 ) {
                     Column(
                         modifier = Modifier
@@ -158,7 +160,32 @@ fun LoginScreen(
                                                 text = stringResource(R.string.usuario),
                                                 color = Info
                                             )
-                                        }
+                                        },
+                                        colors = OutlinedTextFieldDefaults.colors(
+                                            focusedTextColor = MaterialTheme.colorScheme.primary,
+                                            unfocusedTextColor = Info,
+                                            disabledTextColor = MaterialTheme.colorScheme.surfaceVariant,
+                                            errorTextColor = MaterialTheme.colorScheme.error,
+
+                                            focusedContainerColor = MaterialTheme.colorScheme.secondary,
+                                            unfocusedContainerColor = MaterialTheme.colorScheme.background,
+                                            disabledContainerColor = SurfaceLight,
+                                            errorContainerColor = MaterialTheme.colorScheme.error.copy(alpha = 0.1f),
+
+                                            cursorColor = MaterialTheme.colorScheme.secondary,
+
+                                            focusedBorderColor = SecondaryDarken1,
+                                            unfocusedBorderColor = Interactive,
+                                            disabledBorderColor = MaterialTheme.colorScheme.surfaceVariant,
+                                            errorBorderColor = MaterialTheme.colorScheme.error,
+
+                                            focusedLeadingIconColor = SecondaryDarken1,
+                                            unfocusedLeadingIconColor = Interactive.copy(alpha = 0.7f),
+
+                                            focusedTrailingIconColor = SecondaryDarken1,
+                                            unfocusedTrailingIconColor = Interactive.copy(alpha = 0.7f),
+                                        )
+
                                     )
                                 }
 
@@ -179,7 +206,31 @@ fun LoginScreen(
                                                 text = stringResource(R.string.contraseña),
                                                 color = Info
                                             )
-                                        }
+                                        },
+                                        colors = OutlinedTextFieldDefaults.colors(
+                                            focusedTextColor = MaterialTheme.colorScheme.primary,
+                                            unfocusedTextColor = Info,
+                                            disabledTextColor = MaterialTheme.colorScheme.surfaceVariant,
+                                            errorTextColor = MaterialTheme.colorScheme.error,
+
+                                            focusedContainerColor = MaterialTheme.colorScheme.secondary,
+                                            unfocusedContainerColor = MaterialTheme.colorScheme.background,
+                                            disabledContainerColor = SurfaceLight,
+                                            errorContainerColor = MaterialTheme.colorScheme.error.copy(alpha = 0.1f),
+
+                                            cursorColor = MaterialTheme.colorScheme.secondary,
+
+                                            focusedBorderColor = SecondaryDarken1,
+                                            unfocusedBorderColor = Interactive,
+                                            disabledBorderColor = MaterialTheme.colorScheme.surfaceVariant,
+                                            errorBorderColor = MaterialTheme.colorScheme.error,
+
+                                            focusedLeadingIconColor = SecondaryDarken1,
+                                            unfocusedLeadingIconColor = Interactive.copy(alpha = 0.7f),
+
+                                            focusedTrailingIconColor = SecondaryDarken1,
+                                            unfocusedTrailingIconColor = Interactive.copy(alpha = 0.7f),
+                                        )
                                     )
                                     Spacer(modifier = Modifier.height(2.dp))
                                     Text(

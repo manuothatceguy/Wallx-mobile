@@ -238,7 +238,10 @@ fun SideBar(viewModel: WallXViewModel, currentRoute: String?, navController: Nav
 
             for (destination in drawerRoutes) {
                 NavigationDrawerItem(
-                    label = { Text(stringResource(destination.title)) },
+                    label = { Text(
+                        text = stringResource(destination.title),
+                        color = MaterialTheme.colorScheme.onSurface
+                    ) },
                     selected = currentRoute == destination.route,
                     onClick = { navGuard(navController, destination.route, uiState.isAuthenticated) }
                 )
@@ -248,7 +251,10 @@ fun SideBar(viewModel: WallXViewModel, currentRoute: String?, navController: Nav
 
             Text("Section 2", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleMedium)
             NavigationDrawerItem(
-                label = { Text(stringResource(R.string.cerrar_sesion)) },
+                label = { Text(
+                    text = stringResource(R.string.cerrar_sesion),
+                    color = MaterialTheme.colorScheme.onSurface
+                ) },
                 selected = false,
                 icon = { Icon(Icons.AutoMirrored.Outlined.Logout, contentDescription = null) },
                 onClick = {
