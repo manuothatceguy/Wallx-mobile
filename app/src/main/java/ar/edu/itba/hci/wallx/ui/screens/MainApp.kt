@@ -140,8 +140,7 @@ fun TopBar(
     val backRoutes = listOf(
         AppDestinations.MOVIMIENTO_DETALLE.route,
         AppDestinations.INGRESAR_DINERO.route,
-        AppDestinations.AGREGAR_TARJETA.route,
-        AppDestinations.PERFIL.route
+        AppDestinations.AGREGAR_TARJETA.route
     )
     val firstName = uiState.completeUserDetail?.firstName ?: ""
 

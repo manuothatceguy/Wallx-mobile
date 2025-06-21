@@ -146,6 +146,10 @@ fun AvailableMoney(viewModel: WallXViewModel, onNavigate: (String) -> Unit){
                 {
                     onNavigate(AppDestinations.INGRESAR_DINERO.route)
                 }
+                ActionIconButton(icon = Icons.Filled.CreditCard, label = stringResource( R.string.tarjetas  ))
+                {
+                    onNavigate(AppDestinations.TARJETAS.route)
+                }
                 ActionIconButton(
                     icon = ImageVector.vectorResource(R.drawable.send_money_24dp_e3e3e3_fill0_wght400_grad0_opsz24),
                     label = stringResource( R.string.transferir  ),
@@ -153,10 +157,7 @@ fun AvailableMoney(viewModel: WallXViewModel, onNavigate: (String) -> Unit){
                 {
                     onNavigate(AppDestinations.TRANSFERENCIAS.route)
                 }
-                ActionIconButton(icon = Icons.Filled.CreditCard, label = stringResource( R.string.tarjetas  ))
-                {
-                    onNavigate(AppDestinations.TARJETAS.route)
-                }
+
             }
 
         }
