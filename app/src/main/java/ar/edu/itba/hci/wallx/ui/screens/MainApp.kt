@@ -1,5 +1,6 @@
 package ar.edu.itba.hci.wallx.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -70,16 +71,14 @@ fun MainApp (
     val navController = rememberNavController()
     val startRoute = if (uiState.isAuthenticated) AppDestinations.DASHBOARD.route else AppDestinations.INICIO_DE_SESION.route
     val currentRoute = navController.currentBackStackEntry?.destination?.route
-
     val configuration = LocalConfiguration.current
     val tablet = configuration.screenWidthDp >= 600
-
     val authRoutes = AppDestinations.entries.filter{entry -> entry.requiresAuth}.map { entry -> entry.route }
-
     val currentRouteIsAuth = currentRoute in authRoutes
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -141,7 +140,8 @@ fun TopBar(
     val backRoutes = listOf(
         AppDestinations.MOVIMIENTO_DETALLE.route,
         AppDestinations.INGRESAR_DINERO.route,
-        AppDestinations.AGREGAR_TARJETA.route
+        AppDestinations.AGREGAR_TARJETA.route,
+        AppDestinations.PERFIL.route
     )
     val firstName = uiState.completeUserDetail?.firstName ?: ""
 
@@ -175,17 +175,15 @@ fun TopBar(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Icon(
-                        imageVector = Icons.Filled.AccountCircle,
-                        contentDescription = "Perfil"
+                    Text("${stringResource(R.string.saludo)}${(", $firstName")}",
+                        modifier = Modifier.clickable { navController.navigate(AppDestinations.PERFIL.route) }
                     )
-                    Text("${stringResource(R.string.saludo)}${(", $firstName")}")
                 }
             }
         },
         actions = {
             Button(onClick = { /* TODO: Acción ayuda */ }) {
-                Icon(Icons.AutoMirrored.Filled.Help, contentDescription = "Ayuda")
+                Icon(Icons.AutoMirrored.Filled.Help, contentDescription = stringResource(R.string.ayuda))
                 Text(stringResource(R.string.ayuda))
             }
         }

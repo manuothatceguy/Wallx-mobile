@@ -126,4 +126,7 @@
     <string name="confirmar">Confirmar</string>
     <string name="error_obtener_usuario">Usuario no encontrado.</string>
     <string name="ayuda">Ayuda</string>
+    <string name="perfil">Perfil</string>
+    <string name="cambiar_contraseña">Cambiar contraseña</string>
+    <string name="cambiar_alias">Cambiar alias</string>
 </resources>

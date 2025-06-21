@@ -41,6 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.WallXViewModel
+import ar.edu.itba.hci.wallx.ui.components.YourInfo
 import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
 import ar.edu.itba.hci.wallx.ui.theme.Black
 import ar.edu.itba.hci.wallx.ui.theme.Error
@@ -187,48 +188,6 @@ fun ActionIconButton(icon: ImageVector, label: String,    onClick: () -> Unit) {
         }
         Spacer(modifier = Modifier.height(4.dp))
         Text(label, fontSize = MaterialTheme.typography.bodyLarge.fontSize, fontWeight = FontWeight.SemiBold, color = Color.White)
-    }
-}
-
-
-@Composable
-fun YourInfo(viewModel: WallXViewModel){
-    val uiState by viewModel.uiState.collectAsState()
-    Card(
-        modifier = Modifier
-            .padding(horizontal = 12.dp, vertical = 12.dp)
-            .fillMaxWidth()
-            .heightIn(min = 210.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background) // o Secondary, si querés un bloque destacado
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-
-                Text(
-                    text = stringResource(R.string.tu_información),
-                    style = MaterialTheme.typography.headlineLarge.copy(
-                        fontWeight = FontWeight.Bold, color=MaterialTheme.colorScheme.onSecondaryContainer)
-                )
-            }
-            HorizontalDivider(thickness = 1.dp,color = SurfaceVariant)
-            var aliasString = if(uiState.accountDetail != null) uiState.accountDetail!!.alias else "Error"
-            var cvuString = if(uiState.accountDetail != null) uiState.accountDetail!!.cvu else "Error"
-            Text(stringResource(R.string.alias))
-            InfoCard( aliasString)
-            Text(stringResource(R.string.CVU))
-            InfoCard(cvuString)
-            HorizontalDivider(thickness = 1.dp,color = MaterialTheme.colorScheme.outline)
-
-        }
     }
 }
 
