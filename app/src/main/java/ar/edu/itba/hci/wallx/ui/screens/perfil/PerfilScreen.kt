@@ -39,6 +39,8 @@ import ar.edu.itba.hci.wallx.data.model.Payment
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CardDefaults.cardColors
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.ui.tooling.preview.Preview
 import ar.edu.itba.hci.wallx.ui.components.YourInfo
@@ -48,26 +50,37 @@ import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 
 @Composable
 fun PerfilScreen(modifier: Modifier = Modifier, viewModel : WallXViewModel){
+    Box(
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.background)
+            .padding(16.dp)
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
 
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Card{
-            Text(stringResource(R.string.perfil))
+
+        Card(
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer
+            )
+        ){
             YourInfo(viewModel)
-            HorizontalDivider()
+            Spacer(modifier = Modifier.height(6.dp))
             Button(onClick = {
 
             }) {
-                Text(stringResource(R.string.cambiar_contraseña))
+                Text(
+                    text = stringResource(R.string.cambiar_contraseña),
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
             }
             Button(onClick = {
 
             }) {
-                Text(stringResource(R.string.cambiar_alias))
+                Text(
+                    text = stringResource(R.string.cambiar_alias),
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
             }
         }
 

@@ -37,7 +37,7 @@ fun YourInfo(viewModel: WallXViewModel){
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                //.fillMaxSize()
                 .padding(16.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
@@ -60,7 +60,7 @@ fun YourInfo(viewModel: WallXViewModel){
             InfoCard( aliasString)
             Text(stringResource(R.string.CVU))
             InfoCard(cvuString)
-            HorizontalDivider(thickness = 1.dp,color = MaterialTheme.colorScheme.outline)
+
 
         }
     }
