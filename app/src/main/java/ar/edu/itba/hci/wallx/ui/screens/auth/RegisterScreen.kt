@@ -26,6 +26,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -61,7 +62,7 @@ import java.util.Calendar
 @Composable
 fun RegisterScreen(
     modifier: Modifier = Modifier,
-    viewModel: WallXViewModel? = null,
+    viewModel: WallXViewModel,
     onRegisterSuccess: () -> Unit
 ) {
     var firstName by remember { mutableStateOf("") }
@@ -69,8 +70,7 @@ fun RegisterScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var birthDate by remember { mutableStateOf("") }
-    var errorMessage by remember { mutableStateOf<String?>(null) }
-    val snackbarHostState = remember { SnackbarHostState() }
+    val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
 
     fun isValidEmail(email: String) = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
@@ -78,13 +78,7 @@ fun RegisterScreen(
     fun isValidName(name: String) = name.length >= 2
     fun isValidDate(date: String) = date.matches(Regex("\\d{4}-\\d{2}-\\d{2}"))
 
-    Scaffold(
-        snackbarHost = {
-            SnackbarHost(snackbarHostState) { data ->
-                Snackbar(snackbarData = data, containerColor = Error)
-            }
-        }
-    ) { innerPadding ->
+    Scaffold { innerPadding ->
         Column(modifier = modifier.fillMaxSize().padding(innerPadding)) {
             Row(modifier = modifier) {
                 Card(
@@ -263,20 +257,21 @@ fun RegisterScreen(
 
                         Button(
                             onClick = {
-                                if (!isValidName(firstName) || !isValidName(lastName) || !isValidEmail(email)
-                                    || !isValidPassword(password) || !isValidDate(birthDate)
-                                ) {
-                                    errorMessage = context.getString(R.string.error_completar_campos)
-                                    return@Button
-                                }
-
-                                viewModel?.register(
+                                viewModel.register(
                                     firstName = firstName,
                                     lastName = lastName,
                                     email = email,
                                     password = password,
                                     birthDate = birthDate
                                 )
+                                if(uiState.error == null){
+                                    onRegisterSuccess()
+                                }
+                                firstName = ""
+                                lastName = ""
+                                email = ""
+                                password = ""
+                                birthDate = ""
                             },
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -289,13 +284,6 @@ fun RegisterScreen(
                             Text(text = stringResource(R.string.registrarse))
                         }
                     }
-                }
-            }
-
-            if (errorMessage != null) {
-                LaunchedEffect(errorMessage) {
-                    snackbarHostState.showSnackbar(errorMessage!!)
-                    errorMessage = null
                 }
             }
         }
@@ -321,14 +309,5 @@ fun registerFieldColors() = OutlinedTextFieldDefaults.colors(
     focusedTrailingIconColor = SecondaryDarken1,
     unfocusedTrailingIconColor = Interactive.copy(alpha = 0.7f),
 )
-
-
-@Preview(showBackground = true)
-@Composable
-fun RegisterScreenPreview() {
-    WallxTheme(dynamicColor = false) {
-        RegisterScreen (modifier = Modifier,  onRegisterSuccess={})
-    }
-}
 
 
