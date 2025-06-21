@@ -72,6 +72,7 @@ class WallXViewModel (
         {
             accountStreamJob?.cancel()
             cardsStreamJob?.cancel()
+            paymentsStreamJob?.cancel()
             userRepository.logout()
         },
         {

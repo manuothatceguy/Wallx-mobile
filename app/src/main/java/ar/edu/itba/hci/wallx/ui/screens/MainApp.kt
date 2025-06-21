@@ -74,28 +74,23 @@ fun MainApp (
     val configuration = LocalConfiguration.current
     val tablet = configuration.screenWidthDp >= 600
 
-    val authRoutes = listOf(
-        AppDestinations.INICIO_DE_SESION.route,
-        AppDestinations.REGISTRO.route,
-        AppDestinations.VERIFICAR.route
-    )
+    val authRoutes = AppDestinations.entries.filter{entry -> entry.requiresAuth}.map { entry -> entry.route }
 
-    val includeBottomBar = currentRoute in authRoutes
+    val currentRouteIsAuth = currentRoute in authRoutes
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            if (!includeBottomBar && uiState.isAuthenticated) {
+            if (currentRouteIsAuth && uiState.isAuthenticated) {
                 SideBar(viewModel, currentRoute, navController, drawerState)
             }
         }
     ) {
         Scaffold(
             containerColor = MaterialTheme.colorScheme.background,
-            topBar = { if (currentRoute !in authRoutes) TopBar(viewModel, scope, drawerState, navController, currentRoute) else AuthTopBar(viewModel) },
-            bottomBar = { if (currentRoute == AppDestinations.DASHBOARD.route) BottomBar(viewModel, scope, drawerState) },
+            topBar = { if (currentRouteIsAuth) TopBar(viewModel, scope, drawerState, navController, currentRoute) else NotAuthTopBar() },
             snackbarHost = {
                 SnackbarHost(snackbarHostState) { data ->
                     Snackbar(
@@ -122,9 +117,11 @@ fun MainApp (
         stringResource(errorManager(error.message))
     }
 
-    LaunchedEffect(errorMessageRes) {
-        if (errorMessageRes != null) {
-            snackbarHostState.showSnackbar(errorMessageRes)
+
+
+    LaunchedEffect(uiState.completeUserDetail) {
+        if (uiState.isAuthenticated && uiState.completeUserDetail == null) {
+            snackbarHostState.showSnackbar(errorMessageRes?: "Error")
             viewModel.clearError()
         }
     }
@@ -195,7 +192,7 @@ fun TopBar(
 }
 
 @Composable
-fun AuthTopBar(viewModel: WallXViewModel) {
+fun NotAuthTopBar() {
     Card {
         Text(
             text = "WallX" ,
@@ -205,42 +202,6 @@ fun AuthTopBar(viewModel: WallXViewModel) {
             textAlign = TextAlign.Center
         )
     }
-}
-
-@Composable
-fun BottomBar(viewModel: WallXViewModel?, scope: CoroutineScope, drawerState: DrawerState) {
-    BottomAppBar (
-        actions = {
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween
-            ){
-                IconButton(
-                    onClick = {
-                        scope.launch {  if (drawerState.isClosed) drawerState.open() else drawerState.close() }
-                    }
-                ) {
-                    Icon(Icons.Filled.Menu, contentDescription = null)
-                }
-                IconButton(
-                    onClick = {
-                        println("hola!!")
-                    }
-                ) {
-                    Icon(AppDestinations.MOVIMIENTOS.icon, contentDescription = null)
-                }
-            }
-        },
-        floatingActionButton = {
-            FloatingActionButton( // TODO: if is tablet, mostrar extendido
-                onClick = {
-                    println("qr!!!")
-                }
-            ) {
-                Icon(Icons.Filled.QrCodeScanner, "Scan QR Code")
-            }
-        },
-
-    )
 }
 
 @Composable
