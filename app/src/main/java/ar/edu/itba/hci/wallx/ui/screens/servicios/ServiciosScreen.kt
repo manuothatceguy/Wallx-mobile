@@ -25,6 +25,7 @@ import ar.edu.itba.hci.wallx.ui.theme.Interactive
 import ar.edu.itba.hci.wallx.ui.theme.Primary
 import ar.edu.itba.hci.wallx.ui.theme.Secondary
 import ar.edu.itba.hci.wallx.ui.theme.SecondaryDarken1
+import ar.edu.itba.hci.wallx.ui.theme.Selected
 import ar.edu.itba.hci.wallx.ui.theme.SurfaceLight
 import ar.edu.itba.hci.wallx.ui.theme.SurfaceVariant
 import ar.edu.itba.hci.wallx.ui.theme.Typography
@@ -45,7 +46,7 @@ fun ServiciosScreen(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .background(Background)
+            .background(MaterialTheme.colorScheme.background)
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -53,17 +54,19 @@ fun ServiciosScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
-            colors = CardDefaults.cardColors(containerColor = Secondary),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondary),
             shape = RoundedCornerShape(16.dp)
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
                     text = stringResource(R.string.Pagar),
-                    style = Typography.titleLarge,
-                    modifier = Modifier.padding(bottom = 12.dp)
+                    style = Typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
+                    modifier = Modifier.padding(bottom = 12.dp),
+                    color = MaterialTheme.colorScheme.inversePrimary
                 )
 
-                Text(text =stringResource(R.string.ingresarLink), style = Typography.bodyMedium)
+                Text(text =stringResource(R.string.ingresarLink),style = Typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
@@ -80,10 +83,14 @@ fun ServiciosScreen(
 
                 Button(
                     onClick = { /* Lógica para pagar */ },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = Primary)
+                    modifier = Modifier.fillMaxWidth().height(70.dp),
+                    colors = ButtonDefaults.buttonColors( contentColor =White,containerColor = Selected),
+                    shape = RoundedCornerShape(10.dp),
+
+
+
                 ) {
-                    Text(stringResource(R.string.pagarServicio), color = White)
+                    Text(stringResource(R.string.pagarServicio), style = Typography.bodyLarge.copy(fontWeight = FontWeight.Bold), color = White)
                 }
             }
         }
@@ -98,13 +105,15 @@ fun ServiciosScreen(
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
                     text =stringResource(R.string.Cobrar),
-                    style = Typography.titleLarge,
-                    modifier = Modifier.padding(bottom = 12.dp)
+                    style = Typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
+                    modifier = Modifier.padding(bottom = 12.dp),
+                    color = MaterialTheme.colorScheme.inversePrimary
+
                 )
 
                 Text(
                     text = stringResource(R.string.ingresaMotivoCobro),
-                    style = Typography.bodyMedium
+                    style = Typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -122,7 +131,7 @@ fun ServiciosScreen(
 
                 Text(
                     text = stringResource(R.string.ingresaMontoCobrar),
-                    style = Typography.bodyMedium
+                    style = Typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -140,10 +149,12 @@ fun ServiciosScreen(
 
                 Button(
                     onClick = { /* Lógica para generar código */ },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = Primary)
-                ) {
-                    Text(stringResource(R.string.generarCodigo), color = White)
+                    modifier = Modifier.fillMaxWidth().height(70.dp),
+                    colors = ButtonDefaults.buttonColors( contentColor = White,containerColor = Selected),
+                    shape = RoundedCornerShape(10.dp),
+
+                    ) {
+                    Text(stringResource(R.string.generarCodigo), style = Typography.bodyLarge.copy(fontWeight = FontWeight.Bold) , color = White)
                 }
             }
         }
@@ -153,18 +164,18 @@ fun ServiciosScreen(
 @Composable
 fun textFieldColors(): TextFieldColors {
     return OutlinedTextFieldDefaults.colors(
-        focusedTextColor = Primary,
+        focusedTextColor =  MaterialTheme.colorScheme.onPrimary,
         unfocusedTextColor = Info,
-        disabledTextColor = SurfaceVariant,
+        disabledTextColor = MaterialTheme.colorScheme.surfaceVariant,
         errorTextColor = Error,
-        focusedContainerColor = Secondary,
-        unfocusedContainerColor = Background,
-        disabledContainerColor = SurfaceLight,
+        focusedContainerColor =  MaterialTheme.colorScheme.secondary,
+        unfocusedContainerColor =  MaterialTheme.colorScheme.background,
+        disabledContainerColor =  MaterialTheme.colorScheme.surfaceBright,
         errorContainerColor = Error.copy(alpha = 0.1f),
-        cursorColor = Secondary,
-        focusedBorderColor = SecondaryDarken1,
+        cursorColor =  MaterialTheme.colorScheme.secondary,
+        focusedBorderColor =  MaterialTheme.colorScheme.secondaryContainer,
         unfocusedBorderColor = Interactive,
-        disabledBorderColor = SurfaceVariant,
+        disabledBorderColor =  MaterialTheme.colorScheme.surfaceVariant,
         errorBorderColor = Error
     )
 }

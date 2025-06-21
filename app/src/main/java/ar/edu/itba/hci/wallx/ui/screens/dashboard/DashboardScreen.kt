@@ -224,7 +224,7 @@ fun YourInfo(viewModel: WallXViewModel){
             var cvuString = if(uiState.accountDetail != null) uiState.accountDetail!!.cvu else "Error"
             Text(stringResource(R.string.alias))
             InfoCard( aliasString)
-            Text(stringResource(R.string.alias))
+            Text(stringResource(R.string.CVU))
             InfoCard(cvuString)
             HorizontalDivider(thickness = 1.dp,color = MaterialTheme.colorScheme.outline)
 
