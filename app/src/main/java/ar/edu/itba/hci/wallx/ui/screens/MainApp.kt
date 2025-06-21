@@ -116,10 +116,7 @@ fun TopBar(
     val uiState by viewModel.uiState.collectAsState()
     val backRoutes = listOf(
         AppDestinations.NUEVA_TRANSFERENCIA.route,
-        // agregar tarjeta
-        // detalles de movimiento
-        // detalles de tarjeta
-        // etc.
+        AppDestinations.MOVIMIENTO_DETALLE.route
     )
 
     TopAppBar(
@@ -138,7 +135,10 @@ fun TopBar(
                     Icon(Icons.Filled.Menu, contentDescription = "Menú")
                 }
             } else {
-                IconButton(onClick = { navController.popBackStack() }) {
+                IconButton(onClick = {
+                    viewModel.setCurrentPayment(null)
+                    navController.popBackStack()
+                }) {
                     Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
                 }
             }

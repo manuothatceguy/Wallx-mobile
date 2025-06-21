@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import ar.edu.itba.hci.wallx.data.DataSourceException
-import ar.edu.itba.hci.wallx.data.model.CompleteUser
 import ar.edu.itba.hci.wallx.data.repository.AccountRepository
 import ar.edu.itba.hci.wallx.data.repository.CardRepository
 import ar.edu.itba.hci.wallx.data.repository.PaymentRepository
@@ -22,7 +21,6 @@ import kotlinx.coroutines.launch
 import ar.edu.itba.hci.wallx.data.model.Error
 import ar.edu.itba.hci.wallx.data.model.Payment
 import ar.edu.itba.hci.wallx.data.network.model.card.NewCardData
-import kotlin.io.println
 
 class WallXViewModel (
     val sessionManager: SessionManager,
@@ -136,7 +134,7 @@ class WallXViewModel (
     )
 
 
-    fun setCurrentPayment (payment: Payment) = runOnViewModelScope (
+    fun setCurrentPayment (payment: Payment?) = runOnViewModelScope (
         {
 
         },

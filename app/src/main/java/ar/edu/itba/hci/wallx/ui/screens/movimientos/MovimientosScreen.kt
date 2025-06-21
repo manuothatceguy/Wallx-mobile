@@ -36,7 +36,6 @@ import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.data.model.Payment
 import androidx.compose.foundation.lazy.items
-import androidx.lifecycle.viewmodel.compose.viewModel
 import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
 
 
