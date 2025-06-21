@@ -147,12 +147,3 @@ fun MovementOverview(movement: movement) {
 }
 
 
-@Composable
-fun Movements(movements: List<movement>){
-    Column{
-        for(movement in movements){
-                MovementOverview(movement)
-        }
-    }
-}
-

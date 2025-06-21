@@ -10,13 +10,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Help
-import androidx.compose.material.icons.automirrored.outlined.Help
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.QrCodeScanner
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -47,7 +44,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -57,8 +53,6 @@ import ar.edu.itba.hci.wallx.WallXApplication
 import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
 import ar.edu.itba.hci.wallx.ui.navigation.AppNavGraph
-import ar.edu.itba.hci.wallx.ui.screens.auth.RegisterScreen
-import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -80,17 +74,17 @@ fun MainApp (
         AppDestinations.VERIFICAR.route
     )
 
-    val includeBottomBar = currentRoute !in authRoutes
+    val includeBottomBar = currentRoute in authRoutes
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
     ModalNavigationDrawer(
         drawerState = drawerState,
-        drawerContent = { if (includeBottomBar) SideBar(viewModel, currentRoute, navController) }
+        drawerContent = { if (!includeBottomBar) SideBar(viewModel, currentRoute, navController) }
     ) {
         Scaffold(
             containerColor = MaterialTheme.colorScheme.background,
-            topBar = { if (currentRoute in authRoutes) AuthTopBar(viewModel) else TopBar(viewModel, scope, drawerState, navController, currentRoute)},
+            topBar = { if (currentRoute !in authRoutes) TopBar(viewModel, scope, drawerState, navController, currentRoute) else AuthTopBar(viewModel) },
             bottomBar = { if (currentRoute == AppDestinations.DASHBOARD.route) BottomBar(viewModel, scope, drawerState) },
 
             ) { padding ->
@@ -185,12 +179,6 @@ fun AuthTopBar(viewModel: WallXViewModel) {
     }
 }
 
-@Preview
-@Composable
-fun PreviewBottomBar(){
-    BottomBar(null, rememberCoroutineScope(), rememberDrawerState(initialValue = DrawerValue.Closed))
-}
-
 @Composable
 fun BottomBar(viewModel: WallXViewModel?, scope: CoroutineScope, drawerState: DrawerState) {
     BottomAppBar (
@@ -228,7 +216,7 @@ fun BottomBar(viewModel: WallXViewModel?, scope: CoroutineScope, drawerState: Dr
 }
 
 @Composable
-fun SideBar(viewModel: WallXViewModel, currentRoute: String?, navController: NavController, ) {
+fun SideBar(viewModel: WallXViewModel, currentRoute: String?, navController: NavController) {
     val uiState by viewModel.uiState.collectAsState()
     val drawerRoutes = listOf(
         AppDestinations.DASHBOARD,
