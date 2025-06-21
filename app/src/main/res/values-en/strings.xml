@@ -106,4 +106,15 @@
     <string name="error_id_invalid">Invalid id identifier.</string>
     <string name="error_cardid_missing">Missing cardId identifier.</string>
     <string name="error_cardid_invalid">Invalid cardId identifier.</string>
+    <string name="error_login">Invalid credentials.</string>
+    <string name="estado">Status</string>
+    <string name="pendiente">Pending</string>
+    <string name="completado">Completed</string>
+    <string name="tarjeta">Card</string>
+    <string name="metodo_de_pago">Payment  method</string>
+    <string name="pagador">Payer</string>
+    <string name="destinatario">Receiver</string>
+    <string name="descripcion">Description</string>
+    <string name="Detalle_del_movimiento">Movement detail</string>
+    <string name="confirmar">Confirm</string>
 </resources>

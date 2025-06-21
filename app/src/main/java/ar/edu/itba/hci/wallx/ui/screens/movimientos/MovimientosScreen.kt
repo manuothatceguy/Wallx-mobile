@@ -37,7 +37,10 @@ import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.data.model.Payment
 import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.tooling.preview.Preview
 import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
+import ar.edu.itba.hci.wallx.ui.screens.tarjetas.TarjetasScreen
+import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 
 
 @Composable

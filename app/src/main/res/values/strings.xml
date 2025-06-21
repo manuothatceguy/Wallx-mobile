@@ -113,4 +113,15 @@
     <string name="error_id_invalid">El identificador es inválido.</string>
     <string name="error_cardid_missing">Falta el id de la tarjeta.</string>
     <string name="error_cardid_invalid">El id de la tarjeta es inválido.</string>
+    <string name="error_login">El usuario o la contraseña son incorrectos.</string>
+    <string name="estado">Estado</string>
+    <string name="pendiente">Pendiente</string>
+    <string name="completado">Completado</string>
+    <string name="tarjeta">Tarjeta</string>
+    <string name="metodo_de_pago">Método de pago</string>
+    <string name="pagador">Pagador</string>
+    <string name="destinatario">Destinatario</string>
+    <string name="descripcion">Descripcion</string>
+    <string name="Detalle_del_movimiento">Detalle del movimiento</string>
+    <string name="confirmar">Confirmar</string>
 </resources>

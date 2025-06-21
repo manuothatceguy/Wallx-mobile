@@ -37,6 +37,8 @@ import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.data.model.SimpleCard
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
+import ar.edu.itba.hci.wallx.R
 
 @Composable
 fun MovimientoDetalleScreen( modifier: Modifier = Modifier,
@@ -55,7 +57,7 @@ fun MovimientoDetalleScreen( modifier: Modifier = Modifier,
 
     ) {
         Text(
-            text = "Detalle del movimiento",
+            text = stringResource(R.string.Detalle_del_movimiento),//"Detalle del movimiento",
             style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
             modifier = Modifier.padding(bottom = 16.dp)
         )
@@ -67,16 +69,16 @@ fun MovimientoDetalleScreen( modifier: Modifier = Modifier,
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
-                InfoRow("Monto", "$ ${payment?.amount?.format(2) ?: "-"}")
-                InfoRow("Descripción", payment?.description ?: "-")
-                InfoRow("Destinatario", payment?.receiver?.fullName() ?: "-")
-                InfoRow("Pagador", payment?.payer?.fullName() ?: "-")
-                InfoRow("Método de pago", payment?.method ?: "-")
+                InfoRow(stringResource(R.string.monto), "$ ${payment?.amount?.format(2) ?: "-"}")
+                InfoRow(stringResource(R.string.descripcion), payment?.description ?: "-")
+                InfoRow(stringResource(R.string.destinatario), payment?.receiver?.fullName() ?: "-")
+                InfoRow(stringResource(R.string.pagador), payment?.payer?.fullName() ?: "-")
+                InfoRow(stringResource(R.string.metodo_de_pago), payment?.method ?: "-")
                 InfoRow(
-                    "Tarjeta",
+                    stringResource(R.string.tarjeta),
                     payment?.card?.number?.takeLast(4)?.let { "**** $it" } ?: "-"
                 )
-                InfoRow("Estado", if (payment?.pending == true) "Pendiente" else "Completado")
+                InfoRow(stringResource(R.string.estado), if (payment?.pending == true) stringResource(R.string.pendiente) else stringResource(R.string.completado))
             }
         }
     }

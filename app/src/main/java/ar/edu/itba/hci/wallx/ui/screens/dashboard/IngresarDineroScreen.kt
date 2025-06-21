@@ -10,6 +10,8 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.*
@@ -20,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.window.Dialog
 import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.ui.screens.servicios.textFieldColors
@@ -38,15 +41,17 @@ import ar.edu.itba.hci.wallx.ui.theme.Selected
 
 
 @Composable
-fun IngresarDineroScreen(modifier: Modifier = Modifier,
-                         wallXViewModel: WallXViewModel,
-                         onNavigate: (String) -> Unit) {
+fun IngresarDineroScreen(
+    modifier: Modifier = Modifier,
+    wallXViewModel: WallXViewModel,
+    onNavigate: (String) -> Unit
+) {
     var monto by remember { mutableStateOf("") }
+    var montoError by remember { mutableStateOf<String?>(null) }
     var selectedCardIndex by remember { mutableStateOf(0) }
+    var showDialog by remember { mutableStateOf(false) }
     val uiState by wallXViewModel.uiState.collectAsState()
     val cards = uiState.cardsDetail ?: emptyList()
-
-    val formatter = SimpleDateFormat("MM/yy", Locale.getDefault())
 
     Column(
         modifier = modifier
@@ -72,14 +77,16 @@ fun IngresarDineroScreen(modifier: Modifier = Modifier,
                     text = stringResource(R.string.ingresar_dinero),
                     style = Typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
                     color = Black,
-                    modifier = Modifier.padding( 16.dp)
+                    modifier = Modifier.padding(16.dp)
                 )
 
                 Text(
                     text = stringResource(R.string.seleccionar_tarjeta) + ':',
                     style = Typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                     color = SecondaryDarken1,
-                    modifier = Modifier.align(Alignment.Start).padding(vertical = 19.dp)
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .padding(vertical = 19.dp)
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -103,46 +110,86 @@ fun IngresarDineroScreen(modifier: Modifier = Modifier,
                     text = stringResource(R.string.monto_deseado) + ':',
                     style = Typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                     color = SecondaryDarken1,
-                    modifier = Modifier.align(Alignment.Start).padding(vertical = 19.dp)
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .padding(vertical = 19.dp)
                 )
-
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 OutlinedTextField(
                     value = monto,
-                    onValueChange = { monto = it },
+                    onValueChange = {
+                        monto = it
+                        montoError = null
+                    },
                     placeholder = {
                         Text(
-                            text=stringResource(R.string.Ejemplo)+":"+"5000",
+                            text = stringResource(R.string.Ejemplo) + ": 5000",
                             style = Typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                            color = Grey) },
+                            color = Grey
+                        )
+                    },
                     singleLine = true,
-                    modifier = Modifier.fillMaxWidth().height(70.dp),
+                    isError = montoError != null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(70.dp),
                     colors = textFieldColors()
                 )
+
+                // Mensaje de error
+                montoError?.let {
+                    Text(
+                        text = it,
+                        color = MaterialTheme.colorScheme.error,
+                        style = Typography.bodySmall,
+                        modifier = Modifier.align(Alignment.Start).padding(top = 4.dp)
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Button(
                     onClick = {
-                        val tarjetaSeleccionada = cards[selectedCardIndex]
-                        // Aquí podrías usar monto y tarjetaSeleccionada
+                        val montoDouble = monto.toDoubleOrNull()
+                        if (montoDouble == null || montoDouble <= 0) {
+                            montoError = "El monto ingresado no es válido"
+                        } else if (cards.isEmpty()) {
+                            montoError = "No hay tarjetas disponibles"
+                        } else {
+                            montoError = null
+                            showDialog = true
+                        }
                     },
-                    modifier = Modifier.fillMaxWidth().height(70.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(70.dp),
                     shape = RoundedCornerShape(10.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Selected,
                         contentColor = White
                     ),
                 ) {
-                    Text(text=stringResource(R.string.ingresar), style = MaterialTheme.typography.titleLarge.copy(
-                        color = White,
-                        fontWeight = FontWeight.Bold)
+                    Text(
+                        text = stringResource(R.string.ingresar),
+                        style = MaterialTheme.typography.titleLarge.copy(
+                            color = White,
+                            fontWeight = FontWeight.Bold
+                        )
                     )
                 }
             }
         }
+    }
+
+    if (showDialog && monto.toDoubleOrNull() != null && cards.isNotEmpty()) {
+        IngresarDineroDialog(
+            amount = monto.toDouble(),
+            card = cards[selectedCardIndex],
+            wallXViewModel = wallXViewModel,
+            onDismiss = { showDialog = false }
+        )
     }
 }
 
@@ -197,4 +244,88 @@ fun MiniCardItem( card: Card,
         }
     }
 
+}
+
+
+@Composable
+fun InfoRow(label: String, value: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(text = label, fontWeight = FontWeight.Medium)
+        Text(text = value)
+    }
+}
+
+fun Double.format(decimals: Int): String = "%.${decimals}f".format(this)
+
+
+@Composable
+fun IngresarDineroDialog(
+    amount: Double,
+    card: Card,
+    onDismiss: () -> Unit,
+    wallXViewModel: WallXViewModel
+) {
+    Dialog(onDismissRequest = onDismiss) {
+        Card(
+            shape = RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(containerColor = Color.White),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Box(modifier = Modifier.fillMaxWidth()) {
+                IconButton(
+                    onClick = onDismiss,
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(8.dp)
+                ) {
+                    Icon(Icons.Default.Close, contentDescription = "Cerrar")
+                }
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Confirmar ingreso",
+                        style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+
+                    InfoRow("Monto", "$ ${amount.format(2)}")
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    MiniCardItem(
+                        card = card,
+                        isSelected = true,
+                        onClick = {}
+                    )
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    Button(
+                        onClick = {
+                            wallXViewModel.recharge(amount)
+                            onDismiss()
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(50.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                    ) {
+                        Text(stringResource(R.string.confirmar), color = Color.White)
+                    }
+                }
+            }
+        }
+    }
 }

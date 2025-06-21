@@ -247,7 +247,7 @@ fun LoginScreen(
                                     password = ""
                                 } else {
                                     errorMessage = null // para que no aparezca si hubo error antes
-                                    wallXViewModel.getUser()
+                                    //wallXViewModel.getUser()
                                     onNavigateTo(AppDestinations.DASHBOARD.route)
                                 }
 
@@ -278,16 +278,6 @@ fun LoginScreen(
 
                     }
 
-                }
-            }
-            val errorMessageRes = uiState.error?.let { error ->
-                stringResource(errorManager(error.message))
-            }
-
-            LaunchedEffect(errorMessageRes) {
-                if (errorMessageRes != null) {
-                    snackbarHostState.showSnackbar(errorMessageRes)
-                    wallXViewModel.clearError()
                 }
             }
         }

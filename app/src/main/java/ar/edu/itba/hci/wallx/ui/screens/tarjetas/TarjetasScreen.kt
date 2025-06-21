@@ -53,7 +53,7 @@ fun TarjetasScreen( modifier: Modifier = Modifier,
                 modifier = Modifier.weight(1f),
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Selected,
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     contentColor = White
                 ),
             )
@@ -70,7 +70,7 @@ fun TarjetasScreen( modifier: Modifier = Modifier,
                 modifier = Modifier.weight(1f),
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Selected,
+                    containerColor =  MaterialTheme.colorScheme.secondaryContainer,
                     contentColor = White
                 ),
             ) {

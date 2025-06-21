@@ -46,6 +46,7 @@ fun errorManager(error : String) : Int {
         "Missing last name." -> R.string.error_last_name_missing
         "Missing id identifier." -> R.string.error_id_missing
         "Invalid id identifier." -> R.string.error_id_invalid
+        "Invalid credentials." -> R.string.error_login
         else -> R.string.error_desconocido
     }
 }
