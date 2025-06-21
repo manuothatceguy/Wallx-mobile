@@ -246,6 +246,7 @@ fun LoginScreen(
                                     user = ""
                                     password = ""
                                 } else {
+                                    errorMessage = null // para que no aparezca si hubo error antes
                                     wallXViewModel.getUser()
                                     onNavigateTo(AppDestinations.DASHBOARD.route)
                                 }
