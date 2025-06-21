@@ -74,24 +74,23 @@ fun MainApp (
     val configuration = LocalConfiguration.current
     val tablet = configuration.screenWidthDp >= 600
 
-    val authRoutes = listOf(
-        AppDestinations.INICIO_DE_SESION.route,
-        AppDestinations.REGISTRO.route,
-        AppDestinations.VERIFICAR.route
-    )
+    val authRoutes = AppDestinations.entries.filter{entry -> entry.requiresAuth}.map { entry -> entry.route }
 
-    val includeBottomBar = currentRoute in authRoutes
+    val currentRouteIsAuth = currentRoute in authRoutes
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
     ModalNavigationDrawer(
         drawerState = drawerState,
-        drawerContent = { if (!includeBottomBar) SideBar(viewModel, currentRoute, navController) }
+        drawerContent = {
+            if (currentRouteIsAuth && uiState.isAuthenticated) {
+                SideBar(viewModel, currentRoute, navController, drawerState)
+            }
+        }
     ) {
         Scaffold(
             containerColor = MaterialTheme.colorScheme.background,
-            topBar = { if (currentRoute !in authRoutes) TopBar(viewModel, scope, drawerState, navController, currentRoute) else AuthTopBar(viewModel) },
-            bottomBar = { if (currentRoute == AppDestinations.DASHBOARD.route) BottomBar(viewModel, scope, drawerState) },
+            topBar = { if (currentRouteIsAuth) TopBar(viewModel, scope, drawerState, navController, currentRoute) else NotAuthTopBar() },
             snackbarHost = {
                 SnackbarHost(snackbarHostState) { data ->
                     Snackbar(
@@ -118,9 +117,11 @@ fun MainApp (
         stringResource(errorManager(error.message))
     }
 
-    LaunchedEffect(errorMessageRes) {
-        if (errorMessageRes != null) {
-            snackbarHostState.showSnackbar(errorMessageRes)
+
+
+    LaunchedEffect(uiState.completeUserDetail) {
+        if (uiState.isAuthenticated && uiState.completeUserDetail == null) {
+            snackbarHostState.showSnackbar(errorMessageRes?: "Error")
             viewModel.clearError()
         }
     }
@@ -141,6 +142,7 @@ fun TopBar(
         AppDestinations.NUEVA_TRANSFERENCIA.route,
         AppDestinations.MOVIMIENTO_DETALLE.route
     )
+    val firstName = uiState.completeUserDetail?.firstName ?: ""
 
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
@@ -176,7 +178,7 @@ fun TopBar(
                         imageVector = Icons.Filled.AccountCircle,
                         contentDescription = "Perfil"
                     )
-                    Text("${stringResource(R.string.saludo)}${(", " + uiState.completeUserDetail?.firstName)}")
+                    Text("${stringResource(R.string.saludo)}${(", $firstName")}")
                 }
             }
         },
@@ -190,7 +192,7 @@ fun TopBar(
 }
 
 @Composable
-fun AuthTopBar(viewModel: WallXViewModel) {
+fun NotAuthTopBar() {
     Card {
         Text(
             text = "WallX" ,
@@ -203,43 +205,13 @@ fun AuthTopBar(viewModel: WallXViewModel) {
 }
 
 @Composable
-fun BottomBar(viewModel: WallXViewModel?, scope: CoroutineScope, drawerState: DrawerState) {
-    BottomAppBar (
-        actions = {
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween
-            ){
-                IconButton(
-                    onClick = {
-                        scope.launch {  if (drawerState.isClosed) drawerState.open() else drawerState.close() }
-                    }
-                ) {
-                    Icon(Icons.Filled.Menu, contentDescription = null)
-                }
-                IconButton(
-                    onClick = {
-                        println("hola!!")
-                    }
-                ) {
-                    Icon(AppDestinations.MOVIMIENTOS.icon, contentDescription = null)
-                }
-            }
-        },
-        floatingActionButton = {
-            FloatingActionButton( // TODO: if is tablet, mostrar extendido
-                onClick = {
-                    println("qr!!!")
-                }
-            ) {
-                Icon(Icons.Filled.QrCodeScanner, "Scan QR Code")
-            }
-        },
-
-    )
-}
-
-@Composable
-fun SideBar(viewModel: WallXViewModel, currentRoute: String?, navController: NavController) {
+fun SideBar(
+    viewModel: WallXViewModel,
+    currentRoute: String?,
+    navController: NavController,
+    drawerState: DrawerState,
+    scope: CoroutineScope = rememberCoroutineScope()
+) {
     val uiState by viewModel.uiState.collectAsState()
     val drawerRoutes = listOf(
         AppDestinations.DASHBOARD,
@@ -248,6 +220,9 @@ fun SideBar(viewModel: WallXViewModel, currentRoute: String?, navController: Nav
         AppDestinations.SERVICIOS,
         AppDestinations.TARJETAS
     )
+    val firstName = uiState.completeUserDetail?.firstName ?: ""
+    val lastName = uiState.completeUserDetail?.lastName ?: ""
+
     ModalDrawerSheet{
         Column(
             modifier = Modifier
@@ -256,7 +231,7 @@ fun SideBar(viewModel: WallXViewModel, currentRoute: String?, navController: Nav
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(Modifier.height(12.dp))
-            Text(uiState.completeUserDetail?.firstName + " " + uiState.completeUserDetail?.lastName, modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleLarge)
+            Text("$firstName $lastName", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleLarge)
             HorizontalDivider()
 
             for (destination in drawerRoutes) {
@@ -272,7 +247,6 @@ fun SideBar(viewModel: WallXViewModel, currentRoute: String?, navController: Nav
 
             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
 
-            Text("Section 2", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleMedium)
             NavigationDrawerItem(
                 label = { Text(
                     text = stringResource(R.string.cerrar_sesion),
@@ -281,7 +255,10 @@ fun SideBar(viewModel: WallXViewModel, currentRoute: String?, navController: Nav
                 selected = false,
                 icon = { Icon(Icons.AutoMirrored.Outlined.Logout, contentDescription = null) },
                 onClick = {
-                    viewModel.logout()
+                    scope.launch {
+                        drawerState.close()
+                        viewModel.logout()
+                    }
                 },
             )
             Spacer(Modifier.height(12.dp))

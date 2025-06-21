@@ -47,7 +47,7 @@ fun CardItem(cardData: fullCard) {
     val card = cardData.card
     val brandLogo = getBrandLogo(cardData.brand)
     val backgroundColor = getCardColor(cardData.brand)
-    val expiry = SimpleDateFormat("MM/yy", Locale.getDefault()).format(card.expirationDate)
+    val expiry = card.expirationDate
 
     Box(
         modifier = Modifier
