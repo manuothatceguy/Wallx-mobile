@@ -33,11 +33,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.tooling.preview.Preview
 import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.data.model.SimpleCard
-
+import androidx.compose.runtime.getValue
 @Composable
 fun MovimientoDetalleScreen( modifier: Modifier = Modifier,
                              wallXViewModel: WallXViewModel,
                              onNavigateTo: (String) -> Unit) {
+
     val uiState by wallXViewModel.uiState.collectAsState()
     val payment=uiState.currentPayment
     Column(
@@ -59,16 +60,16 @@ fun MovimientoDetalleScreen( modifier: Modifier = Modifier,
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
-                InfoRow("Monto", "$ ${payment.amount?.format(2) ?: "-"}")
-                InfoRow("Descripción", payment.description ?: "-")
-                InfoRow("Destinatario", payment.receiver?.fullName() ?: "-")
-                InfoRow("Pagador", payment.payer?.fullName() ?: "-")
-                InfoRow("Método de pago", payment.method ?: "-")
+                InfoRow("Monto", "$ ${payment?.amount?.format(2) ?: "-"}")
+                InfoRow("Descripción", payment?.description ?: "-")
+                InfoRow("Destinatario", payment?.receiver?.fullName() ?: "-")
+                InfoRow("Pagador", payment?.payer?.fullName() ?: "-")
+                InfoRow("Método de pago", payment?.method ?: "-")
                 InfoRow(
                     "Tarjeta",
-                    payment.card?.number?.takeLast(4)?.let { "**** $it" } ?: "-"
+                    payment?.card?.number?.takeLast(4)?.let { "**** $it" } ?: "-"
                 )
-                InfoRow("Estado", if (payment.pending == true) "Pendiente" else "Completado")
+                InfoRow("Estado", if (payment?.pending == true) "Pendiente" else "Completado")
             }
         }
     }
