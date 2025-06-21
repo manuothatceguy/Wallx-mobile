@@ -31,9 +31,9 @@ fun YourInfo(viewModel: WallXViewModel){
     Card(
         modifier = Modifier
             .padding(horizontal = 12.dp, vertical = 12.dp)
-            .fillMaxWidth()
-            .heightIn(min = 210.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background) // o Secondary, si querés un bloque destacado
+            .fillMaxWidth(),
+            //.heightIn(min = 210.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
     ) {
         Column(
             modifier = Modifier

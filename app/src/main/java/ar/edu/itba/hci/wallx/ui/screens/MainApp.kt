@@ -242,7 +242,7 @@ fun SideBar(
                 onClick = {
                     scope.launch {
                         drawerState.close()
-                        viewModel.logout()
+                        navGuard(navController, AppDestinations.PERFIL.route, uiState.isAuthenticated)
                     }
                 },
             )
