@@ -162,6 +162,11 @@ class WallXViewModel (
         ) { state, response -> state.copy(cardsDetail = response) }
     }
 
+    fun clearError() {
+        _uiState.update { it.copy(error = null) }
+    }
+
+
     private fun <T> collectOnViewModelScope(
         flow: Flow<T>,
         updateState: (HomeUiState, T) -> HomeUiState
