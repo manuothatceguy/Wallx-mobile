@@ -58,7 +58,7 @@ fun IngresarDineroScreen(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .background(Background)
+            .background( MaterialTheme.colorScheme.background)
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -77,14 +77,14 @@ fun IngresarDineroScreen(
                 Text(
                     text = stringResource(R.string.ingresar_dinero),
                     style = Typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
-                    color = Black,
+                    color =  MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.padding(16.dp)
                 )
 
                 Text(
                     text = stringResource(R.string.seleccionar_tarjeta) + ':',
                     style = Typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                    color = SecondaryDarken1,
+                    color =  MaterialTheme.colorScheme.secondaryContainer,
                     modifier = Modifier
                         .align(Alignment.Start)
                         .padding(vertical = 19.dp)
@@ -119,7 +119,7 @@ fun IngresarDineroScreen(
                 Text(
                     text = stringResource(R.string.monto_deseado) + ':',
                     style = Typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                    color = SecondaryDarken1,
+                    color = MaterialTheme.colorScheme.secondaryContainer,
                     modifier = Modifier
                         .align(Alignment.Start)
                         .padding(vertical = 19.dp)
@@ -354,7 +354,7 @@ fun AddCardButton(onClick: () -> Unit) {
             .width(240.dp)
             .height(160.dp)
             .clickable { onClick() },
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = White),
         shape = RoundedCornerShape(12.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {

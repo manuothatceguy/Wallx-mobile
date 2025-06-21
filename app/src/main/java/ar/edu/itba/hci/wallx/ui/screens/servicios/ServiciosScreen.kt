@@ -99,7 +99,7 @@ fun ServiciosScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
-            colors = CardDefaults.cardColors(containerColor = Secondary),
+            colors = CardDefaults.cardColors( MaterialTheme.colorScheme.secondary),
             shape = RoundedCornerShape(16.dp)
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
