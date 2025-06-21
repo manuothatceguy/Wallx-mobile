@@ -90,7 +90,7 @@ fun MainApp (
     ) {
         Scaffold(
             containerColor = MaterialTheme.colorScheme.background,
-            topBar = { if (currentRouteIsAuth && uiState.isAuthenticated && uiState.completeUserDetail != null) TopBar(viewModel, scope, drawerState, navController, currentRoute) else NotAuthTopBar() },
+            topBar = { if (currentRouteIsAuth && uiState.isAuthenticated && uiState.completeUserDetail != null) TopBar(viewModel, scope, drawerState, navController, currentRoute) },
             snackbarHost = {
                 SnackbarHost(snackbarHostState) { data ->
                     Snackbar(
@@ -139,8 +139,9 @@ fun TopBar(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val backRoutes = listOf(
-        AppDestinations.NUEVA_TRANSFERENCIA.route,
-        AppDestinations.MOVIMIENTO_DETALLE.route
+        AppDestinations.MOVIMIENTO_DETALLE.route,
+        AppDestinations.INGRESAR_DINERO.route,
+        AppDestinations.AGREGAR_TARJETA.route
     )
     val firstName = uiState.completeUserDetail?.firstName ?: ""
 
@@ -185,23 +186,10 @@ fun TopBar(
         actions = {
             Button(onClick = { /* TODO: Acción ayuda */ }) {
                 Icon(Icons.AutoMirrored.Filled.Help, contentDescription = "Ayuda")
-                Text("Ayuda")
+                Text(stringResource(R.string.ayuda))
             }
         }
     )
-}
-
-@Composable
-fun NotAuthTopBar() {
-    Card {
-        Text(
-            text = "WallX" ,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            textAlign = TextAlign.Center
-        )
-    }
 }
 
 @Composable
@@ -216,7 +204,6 @@ fun SideBar(
     val drawerRoutes = listOf(
         AppDestinations.DASHBOARD,
         AppDestinations.MOVIMIENTOS,
-        AppDestinations.TRANSFERENCIAS,
         AppDestinations.SERVICIOS,
         AppDestinations.TARJETAS
     )

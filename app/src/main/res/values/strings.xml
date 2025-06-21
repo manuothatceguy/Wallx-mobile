@@ -125,4 +125,5 @@
     <string name="Detalle_del_movimiento">Detalle del movimiento</string>
     <string name="confirmar">Confirmar</string>
     <string name="error_obtener_usuario">Usuario no encontrado.</string>
+    <string name="ayuda">Ayuda</string>
 </resources>
