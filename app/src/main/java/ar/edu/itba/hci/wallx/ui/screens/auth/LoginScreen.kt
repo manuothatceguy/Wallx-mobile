@@ -22,7 +22,6 @@ import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -34,7 +33,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.InternalTextApi
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -124,49 +122,104 @@ fun LoginScreen(
                                 .fillMaxSize(),
                             colors = CardDefaults.cardColors(containerColor = Primary)
                         ) {
-                            // Usuario
-                            OutlinedTextField(
-                                value = user,
-                                onValueChange = { newUser -> user = newUser },
-                                label = {
+                            Column(
+
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                // Título centrado
+                                Text(
+                                    text = stringResource(R.string.inicio_de_sesión),
+                                    style = Typography.titleLarge
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Column(modifier = Modifier.fillMaxWidth()) {
                                     Text(
                                         text = stringResource(R.string.usuario),
-                                        style = Typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                                        style = Typography.bodyMedium,
+                                        modifier = Modifier.padding(bottom = 4.dp)
                                     )
-                                },
-                                singleLine = true,
-                                modifier = Modifier.fillMaxWidth(),
-                                colors = TextFieldDefaults.colors(
-                                    focusedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                                    unfocusedLabelColor = Info,
-                                    focusedContainerColor = MaterialTheme.colorScheme.secondary,
-                                    unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
-                                    disabledContainerColor = SurfaceLight
-                                )
-                            )
+                                    OutlinedTextField(
+                                        value = user,
+                                        onValueChange = { newUser -> user = newUser },
+                                        placeholder = {
+                                            Text(
+                                                text = stringResource(R.string.usuario),
+                                                color = Info
+                                            )
+                                        },
+                                        colors = OutlinedTextFieldDefaults.colors(
+                                            focusedTextColor = MaterialTheme.colorScheme.primary,
+                                            unfocusedTextColor = Info,
+                                            disabledTextColor = MaterialTheme.colorScheme.surfaceVariant,
+                                            errorTextColor = MaterialTheme.colorScheme.error,
 
-// Contraseña
-                            OutlinedTextField(
-                                value = password,
-                                onValueChange = { newPassword -> password = newPassword },
-                                label = {
+                                            focusedContainerColor = MaterialTheme.colorScheme.secondary,
+                                            unfocusedContainerColor = MaterialTheme.colorScheme.background,
+                                            disabledContainerColor = SurfaceLight,
+                                            errorContainerColor = MaterialTheme.colorScheme.error.copy(alpha = 0.1f),
+
+                                            cursorColor = MaterialTheme.colorScheme.secondary,
+
+                                            focusedBorderColor = SecondaryDarken1,
+                                            unfocusedBorderColor = Interactive,
+                                            disabledBorderColor = MaterialTheme.colorScheme.surfaceVariant,
+                                            errorBorderColor = MaterialTheme.colorScheme.error,
+
+                                            focusedLeadingIconColor = SecondaryDarken1,
+                                            unfocusedLeadingIconColor = Interactive.copy(alpha = 0.7f),
+
+                                            focusedTrailingIconColor = SecondaryDarken1,
+                                            unfocusedTrailingIconColor = Interactive.copy(alpha = 0.7f),
+                                        )
+                                    )
+                                }
+
+                                Spacer(modifier = Modifier.height(16.dp))
+
+                                // Subtítulo y TextField: Contraseña
+                                Column(modifier = Modifier.fillMaxWidth()) {
                                     Text(
                                         text = stringResource(R.string.contraseña),
-                                        style = Typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                                        style = Typography.bodyMedium,
+                                        modifier = Modifier.padding(bottom = 4.dp)
                                     )
-                                },
-                                singleLine = true,
-                                modifier = Modifier.fillMaxWidth(),
-                                colors = TextFieldDefaults.colors(
-                                    focusedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                                    unfocusedLabelColor = Info,
-                                    focusedContainerColor = MaterialTheme.colorScheme.secondary,
-                                    unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
-                                    disabledContainerColor = SurfaceLight
-                                )
-                            )
+                                    OutlinedTextField(
+                                        value = password,
+                                        onValueChange = { newPassword -> password = newPassword },
+                                        placeholder = {
+                                            Text(
+                                                text = stringResource(R.string.contraseña),
+                                                color = Info
+                                            )
+                                        },
+                                        colors = OutlinedTextFieldDefaults.colors(
+                                            focusedTextColor = MaterialTheme.colorScheme.primary,
+                                            unfocusedTextColor = Info,
+                                            disabledTextColor = MaterialTheme.colorScheme.surfaceVariant,
+                                            errorTextColor = MaterialTheme.colorScheme.error,
+
+                                            focusedContainerColor = MaterialTheme.colorScheme.secondary,
+                                            unfocusedContainerColor = MaterialTheme.colorScheme.background,
+                                            disabledContainerColor = SurfaceLight,
+                                            errorContainerColor = MaterialTheme.colorScheme.error.copy(alpha = 0.1f),
+
+                                            cursorColor = MaterialTheme.colorScheme.secondary,
+
+                                            focusedBorderColor = MaterialTheme.colorScheme.primary,
+                                            unfocusedBorderColor = Interactive,
+                                            disabledBorderColor = MaterialTheme.colorScheme.surfaceVariant,
+                                            errorBorderColor = MaterialTheme.colorScheme.error,
+
+                                            focusedLeadingIconColor = SecondaryDarken1,
+                                            unfocusedLeadingIconColor = Interactive.copy(alpha = 0.7f),
+
+                                            focusedTrailingIconColor = SecondaryDarken1,
+                                            unfocusedTrailingIconColor = Interactive.copy(alpha = 0.7f),
+                                        )
+                                    )
                                     Spacer(modifier = Modifier.height(2.dp))
                                     Text(
                                         text = stringResource(R.string.olvidaste_contra),
@@ -227,5 +280,7 @@ fun LoginScreen(
                 }
             }
         }
+        }
+    }
 
 
