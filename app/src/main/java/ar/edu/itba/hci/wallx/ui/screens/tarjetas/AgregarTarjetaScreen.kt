@@ -16,7 +16,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.focus.onFocusChanged
@@ -150,19 +149,35 @@ fun CreditCardPreview(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AgregarTarjetaScreen(modifier: Modifier = Modifier, viewModel : WallXViewModel) {
+fun AgregarTarjetaScreen(modifier: Modifier = Modifier, viewModel: WallXViewModel) {
     var number by remember { mutableStateOf("") }
     var fullName by remember { mutableStateOf("") }
     var cvv by remember { mutableStateOf("") }
     var cardType by remember { mutableStateOf(CardType.CREDIT) }
     var cvvFocused by remember { mutableStateOf(false) }
-    val type = detectCardBrandFromNumber(number)
+
     val currentYear = Calendar.getInstance().get(Calendar.YEAR)
     val years = (currentYear..currentYear + 10).toList()
     val months = (1..12).map { it.toString().padStart(2, '0') }
     var selectedMonth by remember { mutableStateOf(months.first()) }
     var selectedYear by remember { mutableStateOf(years.first().toString()) }
-    val rotationY by animateFloatAsState(targetValue = if (cvvFocused) 180f else 0f, label = "card-rotation")
+
+    val brand = detectCardBrandFromNumber(number)
+
+    data class CardInputRules(val panLength: Int, val cvvLength: Int)
+    fun getCardInputRules(brand: String): CardInputRules = when (brand.lowercase()) {
+        "mastercard" -> CardInputRules(16, 3)
+        "visa" -> CardInputRules(16, 3)
+        "amex" -> CardInputRules(15, 4)
+        "maestro" -> CardInputRules(19, 3)
+        else -> CardInputRules(19, 3)
+    }
+    val rules = getCardInputRules(brand)
+
+    val rotationY by animateFloatAsState(
+        targetValue = if (cvvFocused) 180f else 0f,
+        label = "card-rotation"
+    )
     val density = LocalDensity.current.density
     val scrollState = rememberScrollState()
 
@@ -178,7 +193,6 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier, viewModel : WallXViewMod
         Box(
             modifier = Modifier
                 .graphicsLayer {
-
                     cameraDistance = 12 * density
                     if (rotationY > 90f) scaleX = -1f
                 }
@@ -188,7 +202,7 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier, viewModel : WallXViewMod
                 number = number,
                 fullName = fullName,
                 expirationDate = "$selectedMonth/$selectedYear",
-                brand = type,
+                brand = brand,
                 cvv = cvv,
                 mostrarDorso = rotationY > 90f
             )
@@ -212,12 +226,16 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier, viewModel : WallXViewMod
                         .align(Alignment.CenterHorizontally)
                         .padding(bottom = 16.dp)
                 )
+
                 OutlinedTextField(
                     value = number,
-                    onValueChange = { number = it },
+                    onValueChange = { input ->
+                        val digits = input.filter { it.isDigit() }
+                        number = digits.take(rules.panLength)
+                    },
                     label = {
                         Text(
-                            text = stringResource(R.string.numero),
+                            text = "${stringResource(R.string.numero)} (${number.length}/${rules.panLength})",
                             style = Typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                             color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
@@ -258,75 +276,80 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier, viewModel : WallXViewMod
 
                 Spacer(Modifier.height(13.dp))
 
-                var expandedMonth by remember { mutableStateOf(false) }
-                ExposedDropdownMenuBox(
-                    expanded = expandedMonth,
-                    onExpandedChange = { expandedMonth = !expandedMonth }
-                ) {
-                    OutlinedTextField(
-                        value = selectedMonth,
-                        onValueChange = {},
-                        readOnly = true,
-                        label = { Text(stringResource(R.string.mes)) },
-                        modifier = Modifier
-                            .menuAnchor()
-                            .fillMaxWidth(0.48f),
-                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedMonth) },
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = MaterialTheme.colorScheme.secondary,
-                            unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
-                            disabledContainerColor = MaterialTheme.colorScheme.secondary
-                        )
-                    )
-                    ExposedDropdownMenu(
+                Row(Modifier.fillMaxWidth()) {
+                    var expandedMonth by remember { mutableStateOf(false) }
+                    ExposedDropdownMenuBox(
                         expanded = expandedMonth,
-                        onDismissRequest = { expandedMonth = false }
+                        onExpandedChange = { expandedMonth = !expandedMonth }
                     ) {
-                        months.forEach { selectionOption ->
-                            DropdownMenuItem(
-                                text = { Text(selectionOption) },
-                                onClick = {
-                                    selectedMonth = selectionOption
-                                    expandedMonth = false
-                                }
+                        OutlinedTextField(
+                            value = selectedMonth,
+                            onValueChange = {},
+                            readOnly = true,
+                            label = { Text(stringResource(R.string.mes)) },
+                            modifier = Modifier
+                                .menuAnchor()
+                                .weight(1f)
+                                .padding(end = 4.dp),
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedMonth) },
+                            colors = TextFieldDefaults.colors(
+                                focusedContainerColor = MaterialTheme.colorScheme.secondary,
+                                unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
+                                disabledContainerColor = MaterialTheme.colorScheme.secondary
                             )
+                        )
+                        ExposedDropdownMenu(
+                            expanded = expandedMonth,
+                            onDismissRequest = { expandedMonth = false }
+                        ) {
+                            months.forEach { selectionOption ->
+                                DropdownMenuItem(
+                                    text = { Text(selectionOption) },
+                                    onClick = {
+                                        selectedMonth = selectionOption
+                                        expandedMonth = false
+                                    }
+                                )
+                            }
                         }
                     }
-                }
 
-                var expandedYear by remember { mutableStateOf(false) }
-                Spacer(Modifier.width(10.dp))
-                ExposedDropdownMenuBox(
-                    expanded = expandedYear,
-                    onExpandedChange = { expandedYear = !expandedYear }
-                ) {
-                    OutlinedTextField(
-                        value = selectedYear,
-                        onValueChange = {},
-                        readOnly = true,
-                        label = { Text(stringResource(R.string.año)) },
-                        modifier = Modifier
-                            .menuAnchor()
-                            .fillMaxWidth(0.48f),
-                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedYear) },
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = MaterialTheme.colorScheme.secondary,
-                            unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
-                            disabledContainerColor = MaterialTheme.colorScheme.secondary
-                        )
-                    )
-                    ExposedDropdownMenu(
+                    Spacer(Modifier.width(8.dp))
+
+                    var expandedYear by remember { mutableStateOf(false) }
+                    ExposedDropdownMenuBox(
                         expanded = expandedYear,
-                        onDismissRequest = { expandedYear = false }
+                        onExpandedChange = { expandedYear = !expandedYear }
                     ) {
-                        years.forEach { yearOption ->
-                            DropdownMenuItem(
-                                text = { Text(yearOption.toString()) },
-                                onClick = {
-                                    selectedYear = yearOption.toString()
-                                    expandedYear = false
-                                }
+                        OutlinedTextField(
+                            value = selectedYear,
+                            onValueChange = {},
+                            readOnly = true,
+                            label = { Text(stringResource(R.string.año)) },
+                            modifier = Modifier
+                                .menuAnchor()
+                                .weight(1f)
+                                .padding(start = 4.dp),
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedYear) },
+                            colors = TextFieldDefaults.colors(
+                                focusedContainerColor = MaterialTheme.colorScheme.secondary,
+                                unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
+                                disabledContainerColor = MaterialTheme.colorScheme.secondary
                             )
+                        )
+                        ExposedDropdownMenu(
+                            expanded = expandedYear,
+                            onDismissRequest = { expandedYear = false }
+                        ) {
+                            years.forEach { yearOption ->
+                                DropdownMenuItem(
+                                    text = { Text(yearOption.toString()) },
+                                    onClick = {
+                                        selectedYear = yearOption.toString()
+                                        expandedYear = false
+                                    }
+                                )
+                            }
                         }
                     }
                 }
@@ -335,10 +358,13 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier, viewModel : WallXViewMod
 
                 OutlinedTextField(
                     value = cvv,
-                    onValueChange = { cvv = it },
+                    onValueChange = { input ->
+                        val digits = input.filter { it.isDigit() }
+                        cvv = digits.take(rules.cvvLength)
+                    },
                     label = {
                         Text(
-                            text = stringResource(R.string.CVV),
+                            text = "CVV (${cvv.length}/${rules.cvvLength})",
                             style = Typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                             color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
@@ -347,7 +373,6 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier, viewModel : WallXViewMod
                     modifier = Modifier
                         .fillMaxWidth()
                         .onFocusChanged { focusState -> cvvFocused = focusState.isFocused },
-                    visualTransformation = PasswordVisualTransformation(),
                     colors = TextFieldDefaults.colors(
                         focusedLabelColor = Black,
                         unfocusedLabelColor = Grey,
