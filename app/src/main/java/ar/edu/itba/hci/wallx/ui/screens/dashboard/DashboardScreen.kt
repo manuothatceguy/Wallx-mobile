@@ -1,17 +1,24 @@
 package ar.edu.itba.hci.wallx.ui.screens.dashboard
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ContentCopy
@@ -39,10 +46,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.WallXViewModel
+import ar.edu.itba.hci.wallx.data.model.Payment
 import ar.edu.itba.hci.wallx.ui.components.YourInfo
 import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
+import ar.edu.itba.hci.wallx.ui.screens.movimientos.MovementOverview
+import ar.edu.itba.hci.wallx.ui.screens.movimientos.isPositive
 import ar.edu.itba.hci.wallx.ui.theme.Black
 import ar.edu.itba.hci.wallx.ui.theme.Error
 import ar.edu.itba.hci.wallx.ui.theme.Info
@@ -266,25 +277,15 @@ fun LastMovements(viewModel: WallXViewModel){
                     )
                 )
             }
-            Column {
-                Single_movement(
-                    account = "Manuel Othaceguey",
-                    date = "18/06/2025",
-                    amount = "$5.000",
-                    isPositive = false
-                )
-                Single_movement(
-                    account = "Belupetri",
-                    date = "18/06/2025",
-                    amount = "$40.000",
-                    isPositive = true
-                )
-                Single_movement(
-                    account = "sushiPopPremium",
-                    date = "18/06/2025",
-                    amount = "$9.000",
-                    isPositive = false
-                )
+            val uiState by viewModel.uiState.collectAsState()
+            val payments = uiState.paymentsDetail ?: emptyList()
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.fillMaxHeight()
+            ) {
+                items(payments.take(3)) { movement ->
+                    MovementOverview(movement, viewModel)
+                }
             }
         }
     }
@@ -343,4 +344,31 @@ fun Single_movement(account: String, date: String, amount: String, isPositive: B
     }
 
 }
+@Composable
+fun MovementOverview(
+    movement: Payment,
+    wallXViewModel: WallXViewModel
+) {
 
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
+            .background(MaterialTheme.colorScheme.background, shape = RoundedCornerShape(8.dp)) // verde suave
+            .padding(12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        val isPositive = isPositive(wallXViewModel,movement)
+        Text(
+            text = (if(isPositive) "+ " else "- ") + movement.amount.toString() + " $",
+            modifier = Modifier.weight(1f),
+            fontWeight = FontWeight.SemiBold,
+            color = if(isPositive) Color.Green else Color.Red
+        )
+        Text(
+            text = if(isPositive)(movement.payer?.firstName ?: "") + " " + (movement.payer?.lastName ?: "") else (movement.receiver?.firstName ?: "") + " " + (movement.receiver?.lastName ?: ""),
+            modifier = Modifier.weight(1f),
+            fontSize = 14.sp
+        )
+    }
+}

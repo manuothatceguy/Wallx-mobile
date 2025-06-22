@@ -208,7 +208,7 @@ fun LoginScreen(
 
                                             cursorColor = MaterialTheme.colorScheme.secondary,
 
-                                            focusedBorderColor = SecondaryDarken1,
+                                            focusedBorderColor = MaterialTheme.colorScheme.primary,
                                             unfocusedBorderColor = Interactive,
                                             disabledBorderColor = MaterialTheme.colorScheme.surfaceVariant,
                                             errorBorderColor = MaterialTheme.colorScheme.error,

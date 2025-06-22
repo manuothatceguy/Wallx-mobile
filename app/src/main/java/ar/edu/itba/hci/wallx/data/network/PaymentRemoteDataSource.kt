@@ -16,7 +16,7 @@ class PaymentRemoteDataSource(
     val getAllPaymentsStream : Flow <CompletePaymentData> = flow {
         while(true) {
             val payments = handleApiResponse {
-                paymentApiService.getAllPayments()
+                paymentApiService.getAllPayments(pending = false)
             }
             emit(payments)
             delay(DELAY)

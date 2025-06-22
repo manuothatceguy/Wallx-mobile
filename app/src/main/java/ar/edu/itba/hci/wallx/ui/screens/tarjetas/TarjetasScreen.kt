@@ -42,7 +42,6 @@ fun TarjetasScreen( modifier: Modifier = Modifier,
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
             .padding(16.dp)
     ) {
         Row(

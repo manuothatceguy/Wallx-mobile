@@ -68,9 +68,6 @@ val Interactive = Color(0xFF468D7D)           // Verde más oscuro y sobrio
 val InfoCardColor = Color(0XFF6DA89D)         // Verde claro
 val Light= Color(0Xffd6fff4)
 
-val Header = Primary
-val Contrast = Primary
-val Emphasis = Info
 
 val Black = Color(0xFF1E1E1E)
 val White = Color(0xFFFFFFFF)

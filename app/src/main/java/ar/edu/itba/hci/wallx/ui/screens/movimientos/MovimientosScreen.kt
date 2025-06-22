@@ -130,13 +130,15 @@ fun MovementOverview(
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        val isPositive = isPositive(wallXViewModel,movement)
         Text(
-            text = movement.amount.toString(),
+            text = (if(isPositive) "+ " else "- ") + movement.amount.toString() + " $",
             modifier = Modifier.weight(1f),
-            fontWeight = FontWeight.SemiBold
+            fontWeight = FontWeight.SemiBold,
+            color = if(isPositive) Color.Green else Color.Red
         )
         Text(
-            text = (movement.payer?.firstName ?: "") + " " + (movement.payer?.lastName ?: ""),
+            text = if(isPositive)(movement.payer?.firstName ?: "") + " " + (movement.payer?.lastName ?: "") else (movement.receiver?.firstName ?: "") + " " + (movement.receiver?.lastName ?: ""),
             modifier = Modifier.weight(1f),
             fontSize = 14.sp
         )
@@ -154,4 +156,11 @@ fun MovementOverview(
     }
 }
 
-
+@Composable
+fun isPositive(
+    wallXViewModel: WallXViewModel,
+    payment: Payment
+): Boolean {
+    val uiState by wallXViewModel.uiState.collectAsState()
+    return uiState.completeUserDetail?.id == payment.receiver?.id
+}
