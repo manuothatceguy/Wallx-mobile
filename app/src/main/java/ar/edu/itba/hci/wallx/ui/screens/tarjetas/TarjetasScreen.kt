@@ -58,7 +58,7 @@ fun TarjetasVertical(modifier: Modifier = Modifier,
                      cards: List<Card>){
     Column(
         modifier = modifier
-            .fillMaxSize()
+            .fillMaxSize().background(MaterialTheme.colorScheme.background)
             .padding(16.dp)
     ) {
         Row(
@@ -129,7 +129,7 @@ fun TarjetasHorizontal(
         Row(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.background)
         ) {
             Button(
                 onClick = { onNavigateTo(AppDestinations.AGREGAR_TARJETA.route) },
