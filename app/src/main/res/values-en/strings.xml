@@ -122,6 +122,4 @@
     <string name="perfil">Profile</string>
     <string name="cambiar_contraseña">Change password</string>
     <string name="cambiar_alias">Change alias</string>
-    <string name="ingrese_su_email">Enter your email</string>
-    <string name="ingrese_su_contraseña">Enter your password</string>
 </resources>
