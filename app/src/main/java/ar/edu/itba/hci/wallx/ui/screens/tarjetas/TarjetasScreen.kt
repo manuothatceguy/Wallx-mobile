@@ -2,6 +2,9 @@ package ar.edu.itba.hci.wallx.ui.screens.tarjetas
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -28,6 +31,7 @@ import ar.edu.itba.hci.wallx.ui.components.CardItem
 import ar.edu.itba.hci.wallx.ui.components.detectCardBrandFromNumber
 import ar.edu.itba.hci.wallx.ui.components.fullCard
 import androidx.compose.runtime.getValue
+import ar.edu.itba.hci.wallx.ui.components.DeviceLayout
 import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
 
 
@@ -39,6 +43,19 @@ fun TarjetasScreen( modifier: Modifier = Modifier,
     val uiState by wallXViewModel.uiState.collectAsState()
     val cards = uiState.cardsDetail ?: emptyList()
 
+    DeviceLayout(
+        phoneVertical= {TarjetasVertical(modifier, onNavigateTo, cards)},
+        phoneHorizontal={TarjetasHorizontal(modifier, onNavigateTo, cards)},
+        tabletVertical={TarjetasVertical(modifier, onNavigateTo, cards)},
+        tabletHorizontal={TarjetasHorizontal(modifier, onNavigateTo, cards)}
+    )
+    
+}
+
+@Composable
+fun TarjetasVertical(modifier: Modifier = Modifier,
+                    onNavigateTo: (String) -> Unit,
+                     cards: List<Card>){
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -98,7 +115,77 @@ fun TarjetasScreen( modifier: Modifier = Modifier,
     }
 }
 
+@Composable
+fun TarjetasHorizontal(
+    modifier: Modifier = Modifier,
+    onNavigateTo: (String) -> Unit,
+    cards: List<Card>
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Button(
+                onClick = { onNavigateTo(AppDestinations.AGREGAR_TARJETA.route) },
+                modifier = Modifier.weight(1f),
+                shape = RoundedCornerShape(10.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    contentColor = White
+                )
+            ) {
+                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.agregar))
+                Spacer(Modifier.width(4.dp))
+                Text(
+                    text = stringResource(R.string.agregar),
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        color = White,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+            }
 
+            Button(
+                onClick = { /* escanear */ },
+                modifier = Modifier.weight(1f),
+                shape = RoundedCornerShape(10.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    contentColor = White
+                )
+            ) {
+                Icon(Icons.Default.PhotoCamera, contentDescription = stringResource(R.string.escanear))
+                Spacer(Modifier.width(4.dp))
+                Text(
+                    text = stringResource(R.string.escanear),
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        color = White,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+            }
+        }
+
+        Spacer(Modifier.height(24.dp))
+
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.fillMaxSize()
+        ) {
+            items(cards) { card ->
+                CardItem(fullCard(card, detectCardBrandFromNumber(card.number)))
+            }
+        }
+    }
+}
 
 
 
