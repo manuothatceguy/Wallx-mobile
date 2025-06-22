@@ -129,4 +129,6 @@
     <string name="perfil">Perfil</string>
     <string name="cambiar_contraseña">Cambiar contraseña</string>
     <string name="cambiar_alias">Cambiar alias</string>
+    <string name="ingrese_su_email">Ingrese su email</string>
+    <string name="ingrese_su_contraseña">Ingrese su contraseña</string>
 </resources>

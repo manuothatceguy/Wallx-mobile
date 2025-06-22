@@ -1,67 +1,99 @@
 package ar.edu.itba.hci.wallx.ui.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.WallXViewModel
-import ar.edu.itba.hci.wallx.ui.screens.dashboard.InfoCard
-import ar.edu.itba.hci.wallx.ui.theme.SurfaceVariant
 
 @Composable
-fun YourInfo(viewModel: WallXViewModel){
+fun YourInfo(viewModel: WallXViewModel) {
     val uiState by viewModel.uiState.collectAsState()
-    Card(
+    
+    WallXCard(
         modifier = Modifier
-            .padding(horizontal = 12.dp, vertical = 12.dp)
-            .fillMaxWidth(),
-            //.heightIn(min = 210.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
+            .fillMaxWidth()
+            .padding(16.dp)
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.SpaceBetween
+                .fillMaxWidth()
+                .padding(20.dp)
         ) {
+            // Header
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxWidth()
             ) {
-
-                Text(
+                WallXTitle(
                     text = stringResource(R.string.tu_información),
-                    style = MaterialTheme.typography.headlineLarge.copy(
-                        fontWeight = FontWeight.Bold, color=MaterialTheme.colorScheme.onSecondaryContainer)
+                    style = MaterialTheme.typography.headlineSmall
                 )
             }
-            HorizontalDivider(thickness = 1.dp,color = SurfaceVariant)
-            var aliasString = if(uiState.accountDetail != null) uiState.accountDetail!!.alias else "Error"
-            var cvuString = if(uiState.accountDetail != null) uiState.accountDetail!!.cvu else "Error"
-            Text(stringResource(R.string.alias))
-            InfoCard( aliasString)
-            Text(stringResource(R.string.CVU))
-            InfoCard(cvuString)
-            HorizontalDivider(thickness = 1.dp,color = MaterialTheme.colorScheme.outline)
 
+            WallXVerticalSpacer(16.dp)
+
+            Column(
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+
+                InfoCard(
+                    text = uiState.accountDetail?.cvu ?: "N/A",
+                    label = "CVU"
+                )
+
+                InfoCard(
+                    text = uiState.accountDetail?.alias ?: "N/A",
+                    label = stringResource(R.string.alias)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun InfoCard(
+    text: String,
+    label: String
+) {
+    WallXCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(64.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                WallXText(
+                    text = label,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                WallXText(
+                    text = text,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+            WallXIconButton(
+                onClick = { /* TODO: Implement copy functionality */ },
+                icon = Icons.Filled.ContentCopy,
+                contentDescription = "copy",
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
 }
