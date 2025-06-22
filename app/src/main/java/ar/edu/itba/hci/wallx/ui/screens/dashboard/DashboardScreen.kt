@@ -70,7 +70,7 @@ import ar.edu.itba.hci.wallx.ui.theme.White
 @Composable
 fun DashboardScreen(modifier: Modifier, onNavigate: (String) -> Unit, viewModel : WallXViewModel) {
     viewModel.getUser()
-    LazyColumn(modifier = modifier.fillMaxSize()) {
+    LazyColumn(modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         item {
             AvailableMoney(viewModel, onNavigate)
         }
@@ -135,7 +135,7 @@ fun AvailableMoney(viewModel: WallXViewModel, onNavigate: (String) -> Unit){
             {
 
                 Text(
-                    text = if (uiState.see) (uiState.accountDetail?.balance ?: 0.0).toString() else "*****",
+                    text = if (uiState.see) "%.2f".format(uiState.accountDetail?.balance ?: 0.0) else "*****",
                     fontSize = MaterialTheme.typography.displayMedium.fontSize,
                     fontWeight = FontWeight.Black,
                     modifier = Modifier.padding(end = 4.dp),

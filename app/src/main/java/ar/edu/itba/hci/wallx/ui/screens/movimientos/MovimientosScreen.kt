@@ -50,19 +50,22 @@ fun MovimientosScreen( modifier: Modifier = Modifier,
                        onNavigateTo: (String) -> Unit) {
     val uiState by wallXViewModel.uiState.collectAsState()
     val payments = uiState.paymentsDetail ?: emptyList()
-    Column {
-        Spacer(modifier = Modifier.heightIn(50.dp))
+    Column(
+        modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        //Spacer(modifier = Modifier.heightIn(50.dp))
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
                     horizontal = 16.dp,
-                    vertical = 30.dp
+                    vertical = 20.dp
                 )
                 .background(MaterialTheme.colorScheme.secondary, shape = RoundedCornerShape(12.dp))
         ) {
 
-            Column(modifier = Modifier.padding(16.dp)) {
+            Column(modifier = Modifier.padding(12.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
                         imageVector = Icons.Default.History,

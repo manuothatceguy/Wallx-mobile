@@ -1,10 +1,12 @@
 package ar.edu.itba.hci.wallx.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -211,7 +213,7 @@ fun SideBar(
     ModalDrawerSheet{
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize().background(MaterialTheme.colorScheme.background)
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -226,7 +228,7 @@ fun SideBar(
                         color = MaterialTheme.colorScheme.onSurface
                     ) },
                     selected = currentRoute == destination.route,
-                    icon = { Icon(destination.icon, contentDescription = null) },
+                    icon = { Icon(destination.icon, contentDescription = null, tint = MaterialTheme.colorScheme.onSurface) },
                     onClick = { navGuard(navController, destination.route, uiState.isAuthenticated) }
                 )
             }
@@ -239,7 +241,7 @@ fun SideBar(
                     color = MaterialTheme.colorScheme.onSurface
                 ) },
                 selected = false,
-                icon = { Icon(AppDestinations.PERFIL.icon, contentDescription = null) },
+                icon = { Icon(AppDestinations.PERFIL.icon, contentDescription = null,tint = MaterialTheme.colorScheme.onSurface) },
                 onClick = {
                     scope.launch {
                         drawerState.close()
@@ -256,7 +258,7 @@ fun SideBar(
                     color = MaterialTheme.colorScheme.onSurface
                 ) },
                 selected = false,
-                icon = { Icon(Icons.AutoMirrored.Outlined.Logout, contentDescription = null) },
+                icon = { Icon(Icons.AutoMirrored.Outlined.Logout, contentDescription = null, tint = MaterialTheme.colorScheme.onSurface) },
                 onClick = {
                     scope.launch {
                         drawerState.close()
