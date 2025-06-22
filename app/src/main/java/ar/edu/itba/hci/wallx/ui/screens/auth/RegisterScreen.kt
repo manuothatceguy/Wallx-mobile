@@ -17,6 +17,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
@@ -291,21 +292,26 @@ fun RegisterScreen(
 }
 @Composable
 fun registerFieldColors() = OutlinedTextFieldDefaults.colors(
-    focusedTextColor = Primary,
+    focusedTextColor = MaterialTheme.colorScheme.primary,
     unfocusedTextColor = Info,
-    disabledTextColor = SurfaceVariant,
-    errorTextColor = Error,
-    focusedContainerColor = Secondary,
-    unfocusedContainerColor = Background,
+    disabledTextColor = MaterialTheme.colorScheme.surfaceVariant,
+    errorTextColor = MaterialTheme.colorScheme.error,
+
+    focusedContainerColor = MaterialTheme.colorScheme.secondary,
+    unfocusedContainerColor = MaterialTheme.colorScheme.background,
     disabledContainerColor = SurfaceLight,
-    errorContainerColor = Error.copy(alpha = 0.1f),
-    cursorColor = Secondary,
+    errorContainerColor = MaterialTheme.colorScheme.error.copy(alpha = 0.1f),
+
+    cursorColor = MaterialTheme.colorScheme.secondary,
+
     focusedBorderColor = SecondaryDarken1,
     unfocusedBorderColor = Interactive,
-    disabledBorderColor = SurfaceVariant,
-    errorBorderColor = Error,
+    disabledBorderColor = MaterialTheme.colorScheme.surfaceVariant,
+    errorBorderColor = MaterialTheme.colorScheme.error,
+
     focusedLeadingIconColor = SecondaryDarken1,
     unfocusedLeadingIconColor = Interactive.copy(alpha = 0.7f),
+
     focusedTrailingIconColor = SecondaryDarken1,
     unfocusedTrailingIconColor = Interactive.copy(alpha = 0.7f),
 )
