@@ -135,7 +135,7 @@ fun AvailableMoney(viewModel: WallXViewModel, onNavigate: (String) -> Unit){
             {
 
                 Text(
-                    text = if (uiState.see) "%.2f".format(uiState.accountDetail?.balance ?: 0.0) else "*****",
+                    text = if (uiState.see) "%.2f $".format(uiState.accountDetail?.balance ?: 0.0) else "*****",
                     fontSize = MaterialTheme.typography.displayMedium.fontSize,
                     fontWeight = FontWeight.Black,
                     modifier = Modifier.padding(end = 4.dp),
@@ -315,7 +315,8 @@ fun MovementOverview(
             .fillMaxWidth()
             .padding(vertical = 4.dp)
             .background(MaterialTheme.colorScheme.background, shape = RoundedCornerShape(8.dp)) // verde suave
-            .padding(12.dp),
+            .padding(horizontal = 12.dp, vertical = 4.dp)
+            .heightIn(min= 50.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         val isPositive = isPositive(wallXViewModel,movement)
