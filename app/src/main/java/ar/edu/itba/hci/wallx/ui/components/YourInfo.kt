@@ -56,9 +56,15 @@ fun YourInfo(viewModel: WallXViewModel){
             HorizontalDivider(thickness = 1.dp,color = SurfaceVariant)
             val aliasString = if(uiState.accountDetail != null) uiState.accountDetail!!.alias else "Error"
             val cvuString = if(uiState.accountDetail != null) uiState.accountDetail!!.cvu else "Error"
-            Text(stringResource(R.string.alias))
-            InfoCard( aliasString)
-            Text(stringResource(R.string.CVU))
+            Text(
+                modifier = Modifier.padding(5.dp),
+                text = stringResource(R.string.alias),
+                )
+            InfoCard(aliasString)
+            Text(
+                modifier = Modifier.padding(5.dp),
+                text = stringResource(R.string.CVU),
+            )
             InfoCard(cvuString)
 
 

@@ -17,6 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import ar.edu.itba.hci.wallx.R
+import ar.edu.itba.hci.wallx.WallXViewModel
+import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
 import ar.edu.itba.hci.wallx.ui.screens.tarjetas.AgregarTarjetaScreen
 import ar.edu.itba.hci.wallx.ui.theme.Background
 import ar.edu.itba.hci.wallx.ui.theme.Error
@@ -36,19 +38,21 @@ import ar.edu.itba.hci.wallx.ui.theme.White
 @Composable
 fun ServiciosScreen(
     modifier: Modifier = Modifier,
+    viewModel: WallXViewModel,
     onNavigate: (String) -> Unit
 ) {
     var codigoPago by remember { mutableStateOf("") }
     var motivoCobro by remember { mutableStateOf("") }
     var montoCobro by remember { mutableStateOf("") }
 
-    Column(
+    Box(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .background(MaterialTheme.colorScheme.background)
             .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        contentAlignment = Alignment.Center
+
     ) {
         Card(
             modifier = Modifier
@@ -71,7 +75,7 @@ fun ServiciosScreen(
 
                 OutlinedTextField(
                     value = codigoPago,
-                    onValueChange = { codigoPago = it },
+                    onValueChange = { newCode -> codigoPago = newCode },
                     placeholder = { Text(stringResource(R.string.codigoPago), color = Info)},
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
@@ -81,7 +85,10 @@ fun ServiciosScreen(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Button(
-                    onClick = { /* Lógica para pagar */ },
+                    onClick = {
+                        viewModel.setCodigoDePago(codigoPago)
+                        onNavigate(AppDestinations.PAGAR_SERVICIO.route)
+                    },
                     modifier = Modifier.fillMaxWidth().height(70.dp),
                     colors = ButtonDefaults.buttonColors( contentColor =White,containerColor = Selected),
                     shape = RoundedCornerShape(10.dp),
@@ -94,6 +101,7 @@ fun ServiciosScreen(
             }
         }
 
+/*
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -156,7 +164,7 @@ fun ServiciosScreen(
                     Text(stringResource(R.string.generarCodigo), style = Typography.bodyLarge.copy(fontWeight = FontWeight.Bold) , color = White)
                 }
             }
-        }
+        }*/
     }
 }
 
@@ -177,11 +185,4 @@ fun textFieldColors(): TextFieldColors {
         disabledBorderColor =  MaterialTheme.colorScheme.surfaceVariant,
         errorBorderColor = MaterialTheme.colorScheme.error
     )
-}
-@Preview(showBackground = true)
-@Composable
-fun ServiciosScreenPreview() {
-    WallxTheme(dynamicColor = false) {
-       ServiciosScreen (modifier = Modifier, onNavigate ={})
-    }
 }

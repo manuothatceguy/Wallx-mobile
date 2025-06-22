@@ -35,6 +35,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -69,11 +70,16 @@ import ar.edu.itba.hci.wallx.ui.theme.White
 @Composable
 fun DashboardScreen(modifier: Modifier, onNavigate: (String) -> Unit, viewModel : WallXViewModel) {
     viewModel.getUser()
-    Column(modifier = modifier.fillMaxSize()) {
-        //Dinero disponible
-        AvailableMoney(viewModel, onNavigate)
-        YourInfo(viewModel)
-        LastMovements(viewModel)
+    LazyColumn(modifier = modifier.fillMaxSize()) {
+        item {
+            AvailableMoney(viewModel, onNavigate)
+        }
+        item {
+            YourInfo(viewModel)
+        }
+        item {
+            LastMovements(viewModel,onNavigate)
+        }
     }
 
 }
@@ -243,7 +249,10 @@ fun InfoCard(text: String){
 }
 
 @Composable
-fun LastMovements(viewModel: WallXViewModel){
+fun LastMovements(
+    viewModel: WallXViewModel,
+    onNavigateTo: (String) -> Unit
+){
     Card(
         modifier = Modifier
             .padding(horizontal = 12.dp, vertical = 12.dp)
@@ -268,82 +277,33 @@ fun LastMovements(viewModel: WallXViewModel){
                     modifier = Modifier.size(30.dp),
                     tint=MaterialTheme.colorScheme.onSecondaryContainer
                 )
-
+                Spacer(Modifier.size(9.dp))
                 Text(
                     text =stringResource( R.string.ultimos_movimientos ),
-                    style = MaterialTheme.typography.headlineLarge.copy(
+                    style = MaterialTheme.typography.headlineMedium.copy(
                         fontWeight = FontWeight.SemiBold,
                         color=MaterialTheme.colorScheme.onSecondaryContainer
-                    )
+                    ),
+                    modifier = Modifier.clickable {
+                        onNavigateTo(AppDestinations.MOVIMIENTOS.route)
+                    }
                 )
             }
             val uiState by viewModel.uiState.collectAsState()
             val payments = uiState.paymentsDetail ?: emptyList()
-            LazyColumn(
+            Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.fillMaxHeight()
             ) {
-                items(payments.take(3)) { movement ->
+                payments.take(3).forEach { movement ->
                     MovementOverview(movement, viewModel)
                 }
             }
+
         }
     }
 }
 
-@Composable
-fun Single_movement(account: String, date: String, amount: String, isPositive: Boolean) {
-    Card(
-        modifier = Modifier
-        .fillMaxWidth()
-        .height(70.dp)
-        .padding(vertical = 6.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceBright)
-    )
-    {
-        Row(
-            modifier = Modifier
-                .fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Column(modifier = Modifier.padding(horizontal = 8.dp))
-            {
-                Row {
-                    Text(
-                        text = (if (isPositive) "+ " else "- ") + amount,
-                        fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                        fontWeight = FontWeight.Black,
-                        color = if(isPositive) Success else Error
-                    )
-                }
-
-            }
-
-            Column(
-                modifier = Modifier.padding(horizontal = 8.dp),
-                horizontalAlignment = Alignment.End
-            )
-            {
-                Text(
-                    text = account,
-                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
-                Text(
-                    text = date,
-                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                    fontWeight = FontWeight.Normal,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
-
-            }
-        }
-
-    }
-
-}
 @Composable
 fun MovementOverview(
     movement: Payment,
@@ -363,7 +323,7 @@ fun MovementOverview(
             text = (if(isPositive) "+ " else "- ") + movement.amount.toString() + " $",
             modifier = Modifier.weight(1f),
             fontWeight = FontWeight.SemiBold,
-            color = if(isPositive) Color.Green else Color.Red
+            color = if(isPositive) Success else MaterialTheme.colorScheme.error
         )
         Text(
             text = if(isPositive)(movement.payer?.firstName ?: "") + " " + (movement.payer?.lastName ?: "") else (movement.receiver?.firstName ?: "") + " " + (movement.receiver?.lastName ?: ""),

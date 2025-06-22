@@ -20,7 +20,7 @@ class PaymentRepository (
         return remoteDataSource.pullPayment(newPaymentData)
     }
 
-    suspend fun pushPayment(uuid : String, cardId : Int) : PendingPaymentData{
+    suspend fun pushPayment(uuid : String, cardId : Int? = null) : PendingPaymentData{
         return remoteDataSource.pushPayment(
             uuid = uuid,
             cardId = cardId

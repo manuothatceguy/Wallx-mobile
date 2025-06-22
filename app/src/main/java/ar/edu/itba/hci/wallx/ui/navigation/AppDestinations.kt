@@ -31,5 +31,6 @@ enum class AppDestinations(
     INGRESAR_DINERO(R.string.ingresar, Icons.Filled.Payments, "ingresar_dinero", true),
     AGREGAR_TARJETA(R.string.agregarTarjeta, Icons.Filled.AddCard, "agregar_tarjeta", true),
     MOVIMIENTO_DETALLE(R.string.detalle, Icons.Filled.Add, "detalle_movimiento", true),
-    PERFIL(R.string.perfil, Icons.Filled.Person, "perfil", true)
+    PERFIL(R.string.perfil, Icons.Filled.Person, "perfil", true),
+    PAGAR_SERVICIO(R.string.pagar_servicio, Icons.Filled.Person, "pagar_servicio", true)
 }

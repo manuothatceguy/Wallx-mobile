@@ -40,6 +40,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.tooling.preview.Preview
 import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
 import ar.edu.itba.hci.wallx.ui.screens.tarjetas.TarjetasScreen
+import ar.edu.itba.hci.wallx.ui.theme.Success
 import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 
 
@@ -135,7 +136,7 @@ fun MovementOverview(
             text = (if(isPositive) "+ " else "- ") + movement.amount.toString() + " $",
             modifier = Modifier.weight(1f),
             fontWeight = FontWeight.SemiBold,
-            color = if(isPositive) Color.Green else Color.Red
+            color = if(isPositive) Success else MaterialTheme.colorScheme.error
         )
         Text(
             text = if(isPositive)(movement.payer?.firstName ?: "") + " " + (movement.payer?.lastName ?: "") else (movement.receiver?.firstName ?: "") + " " + (movement.receiver?.lastName ?: ""),

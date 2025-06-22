@@ -58,7 +58,6 @@ fun IngresarDineroScreen(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .background(Background)
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

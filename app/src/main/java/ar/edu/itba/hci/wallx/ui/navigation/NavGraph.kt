@@ -15,6 +15,7 @@ import ar.edu.itba.hci.wallx.ui.screens.dashboard.IngresarDineroScreen
 import ar.edu.itba.hci.wallx.ui.screens.movimientos.MovimientoDetalleScreen
 import ar.edu.itba.hci.wallx.ui.screens.movimientos.MovimientosScreen
 import ar.edu.itba.hci.wallx.ui.screens.perfil.PerfilScreen
+import ar.edu.itba.hci.wallx.ui.screens.servicios.PagarServicioScreen
 import ar.edu.itba.hci.wallx.ui.screens.servicios.ServiciosScreen
 import ar.edu.itba.hci.wallx.ui.screens.tarjetas.AgregarTarjetaScreen
 import ar.edu.itba.hci.wallx.ui.screens.tarjetas.TarjetasScreen
@@ -71,7 +72,7 @@ fun AppNavGraph(
             // NuevaTransferenciaScreen(modifier)
         }
         composable(AppDestinations.SERVICIOS.route) {
-            ServiciosScreen(modifier, onNavigate = navGuard)
+            ServiciosScreen(modifier,viewModel = viewModel ,onNavigate = navGuard)
         }
         composable(AppDestinations.TARJETAS.route) {
             TarjetasScreen(modifier, wallXViewModel = viewModel ,onNavigateTo = navGuard)
@@ -101,6 +102,9 @@ fun AppNavGraph(
                 modifier,
                 viewModel
             )
+        }
+        composable(AppDestinations.PAGAR_SERVICIO.route) {
+            PagarServicioScreen(modifier, viewModel,  navGuard)
         }
     }
 }

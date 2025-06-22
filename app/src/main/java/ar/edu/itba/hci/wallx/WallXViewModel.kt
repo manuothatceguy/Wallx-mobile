@@ -1,6 +1,7 @@
 package ar.edu.itba.hci.wallx
 
 import android.util.Log
+import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -36,7 +37,8 @@ class WallXViewModel (
     private val _uiState =
         MutableStateFlow(HomeUiState(isAuthenticated = sessionManager.loadAuthToken() != null))
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
-
+    private val _codigoParaPagar = MutableStateFlow<String?>(null)
+    val codigoDePago: StateFlow<String?> = _codigoParaPagar.asStateFlow()
     init {
         if (_uiState.value.isAuthenticated) {
             observeAccountStream()
@@ -191,6 +193,18 @@ class WallXViewModel (
         }
     )
 
+    fun payService(code : String, cardId: Int = -1) = runOnViewModelScope(
+        {
+            if (cardId == -1)paymentRepository.pushPayment(code) else paymentRepository.pushPayment(code, cardId)
+        },
+        {
+                state, _ -> state.copy()
+        }
+    )
+
+    fun setCodigoDePago(codigo: String){
+        _codigoParaPagar.value = codigo
+    }
 
 
 

@@ -129,4 +129,7 @@
     <string name="perfil">Perfil</string>
     <string name="cambiar_contraseña">Cambiar contraseña</string>
     <string name="cambiar_alias">Cambiar alias</string>
+    <string name="pagar_servicio">Pagar servicio</string>
+    <string name="codigo_pago">Código de pago</string>
+    <string name="seleccionar_metodo">Seleccione un método de pago</string>
 </resources>
