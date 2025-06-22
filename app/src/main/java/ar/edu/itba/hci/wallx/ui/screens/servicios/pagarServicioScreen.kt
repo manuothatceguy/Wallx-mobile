@@ -106,7 +106,6 @@ fun PagarServicioScreen(
                 Text(
                     text = stringResource(R.string.seleccionar_metodo) ,
                     style = Typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                    color = SecondaryDarken1,
                     modifier = Modifier
                         .align(Alignment.Start)
                         .padding(vertical = 19.dp)
@@ -179,11 +178,14 @@ fun PagarServicioScreen(
 
     if (showDialog && cards.isNotEmpty() && codigoPago != null) {
         PagarServicioDialog(
-            cards[selectedCardIndex],
+            if (selectedCardIndex != -1) cards[selectedCardIndex]else null,
             wallXViewModel = viewModel,
             onDismiss = { showDialog = false },
             codigo = codigoPago,
-            onConfirm = { onNavigate(AppDestinations.DASHBOARD.route) }
+            onConfirm = {
+                if(selectedCardIndex == -1 )viewModel.payService(codigoPago) else viewModel.payService(codigoPago, cards[selectedCardIndex].id)
+                onNavigate(AppDestinations.DASHBOARD.route)
+            }
         )
     }
 }

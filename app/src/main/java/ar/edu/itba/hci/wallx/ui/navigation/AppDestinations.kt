@@ -5,6 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Login
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCard
+import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.CheckBox
 import androidx.compose.material.icons.filled.CreditCard
 import androidx.compose.material.icons.filled.Home
@@ -25,7 +26,7 @@ enum class AppDestinations(
     MOVIMIENTOS(R.string.movimientos, Icons.Filled.Payments, "movimientos", true),
     TRANSFERENCIAS(R.string.transferencias, Icons.Filled.Payments, "transferencias", true),
     NUEVA_TRANSFERENCIA(R.string.nueva_transferencia, Icons.Filled.Payments, "nueva_transferencia", true),
-    SERVICIOS(R.string.servicios, Icons.Filled.Payments, "servicios", true),
+    SERVICIOS(R.string.servicios, Icons.Filled.Apps, "servicios", true),
     TARJETAS(R.string.tarjetas, Icons.Filled.CreditCard, "tarjetas", true),
     VERIFICAR(R.string.verificar_cuenta, Icons.Filled.CheckBox, "verificar", false),
     INGRESAR_DINERO(R.string.ingresar, Icons.Filled.Payments, "ingresar_dinero", true),
