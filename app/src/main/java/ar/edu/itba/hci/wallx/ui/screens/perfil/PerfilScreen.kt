@@ -50,25 +50,38 @@ import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 fun PerfilScreen(modifier: Modifier = Modifier, viewModel : WallXViewModel){
 
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+    Box(
+        modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
+        contentAlignment = Alignment.Center
+
     ) {
-        Card{
-            Text(stringResource(R.string.perfil))
+        Column{
             YourInfo(viewModel)
-            HorizontalDivider()
-            Button(onClick = {
+            Spacer(modifier = Modifier.heightIn(min = 4.dp))
+            Row{
+                Box(modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center)
+                {
+                    Button(onClick = {
 
-            }) {
-                Text(stringResource(R.string.cambiar_contraseña))
+                    }) {
+                        Text(stringResource(R.string.cambiar_contraseña))
+                    }
+                }
             }
-            Button(onClick = {
 
-            }) {
-                Text(stringResource(R.string.cambiar_alias))
+            Row{
+                Box(modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center)
+                {
+                    Button(onClick = {
+
+                    }) {
+                        Text(stringResource(R.string.cambiar_alias))
+                    }
+                }
             }
+
         }
 
     }

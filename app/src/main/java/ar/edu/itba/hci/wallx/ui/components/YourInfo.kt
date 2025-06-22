@@ -33,11 +33,11 @@ fun YourInfo(viewModel: WallXViewModel){
             .padding(horizontal = 12.dp, vertical = 12.dp)
             .fillMaxWidth(),
             //.heightIn(min = 210.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondary)
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                //.fillMaxSize()
                 .padding(16.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
@@ -54,13 +54,13 @@ fun YourInfo(viewModel: WallXViewModel){
                 )
             }
             HorizontalDivider(thickness = 1.dp,color = SurfaceVariant)
-            var aliasString = if(uiState.accountDetail != null) uiState.accountDetail!!.alias else "Error"
-            var cvuString = if(uiState.accountDetail != null) uiState.accountDetail!!.cvu else "Error"
+            val aliasString = if(uiState.accountDetail != null) uiState.accountDetail!!.alias else "Error"
+            val cvuString = if(uiState.accountDetail != null) uiState.accountDetail!!.cvu else "Error"
             Text(stringResource(R.string.alias))
             InfoCard( aliasString)
             Text(stringResource(R.string.CVU))
             InfoCard(cvuString)
-            HorizontalDivider(thickness = 1.dp,color = MaterialTheme.colorScheme.outline)
+
 
         }
     }
