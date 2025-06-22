@@ -47,7 +47,6 @@ val MastercardGrey = Color(0xFF807979)
 
 val Background = Color(0xFFE0F2E9)
 val Surface = Color(0xFFFFFFFF)
-val SurfaceBright = Color(0xFFFFFFFF)
 val SurfaceLight = Color(0xFFEEEEEE)
 val SurfaceVariant = Color(0xFF4A6F64)        // Verde agrisado para fondo secundario
 val OnSurfaceVariant = Color(0xFFE0F2E9)

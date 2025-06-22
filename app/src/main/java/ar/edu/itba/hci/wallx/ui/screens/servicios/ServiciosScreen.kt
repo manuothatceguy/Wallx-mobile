@@ -62,7 +62,6 @@ fun ServiciosScreen(
                     text = stringResource(R.string.Pagar),
                     style = Typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
                     modifier = Modifier.padding(bottom = 12.dp),
-                    color = MaterialTheme.colorScheme.inversePrimary
                 )
 
                 Text(text =stringResource(R.string.ingresarLink),style = Typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
@@ -99,7 +98,7 @@ fun ServiciosScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
-            colors = CardDefaults.cardColors(containerColor = Secondary),
+            colors = CardDefaults.cardColors(containerColor =MaterialTheme.colorScheme.secondary),
             shape = RoundedCornerShape(16.dp)
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
@@ -107,7 +106,7 @@ fun ServiciosScreen(
                     text =stringResource(R.string.Cobrar),
                     style = Typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
                     modifier = Modifier.padding(bottom = 12.dp),
-                    color = MaterialTheme.colorScheme.inversePrimary
+
 
                 )
 
@@ -167,16 +166,16 @@ fun textFieldColors(): TextFieldColors {
         focusedTextColor =  MaterialTheme.colorScheme.onPrimary,
         unfocusedTextColor = Info,
         disabledTextColor = MaterialTheme.colorScheme.surfaceVariant,
-        errorTextColor = Error,
+        errorTextColor = MaterialTheme.colorScheme.error,
         focusedContainerColor =  MaterialTheme.colorScheme.secondary,
         unfocusedContainerColor =  MaterialTheme.colorScheme.background,
         disabledContainerColor =  MaterialTheme.colorScheme.surfaceBright,
-        errorContainerColor = Error.copy(alpha = 0.1f),
+        errorContainerColor = MaterialTheme.colorScheme.error.copy(alpha = 0.1f),
         cursorColor =  MaterialTheme.colorScheme.secondary,
         focusedBorderColor =  MaterialTheme.colorScheme.secondaryContainer,
         unfocusedBorderColor = Interactive,
         disabledBorderColor =  MaterialTheme.colorScheme.surfaceVariant,
-        errorBorderColor = Error
+        errorBorderColor = MaterialTheme.colorScheme.error
     )
 }
 @Preview(showBackground = true)
