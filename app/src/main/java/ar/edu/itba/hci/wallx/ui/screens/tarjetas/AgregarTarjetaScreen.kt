@@ -11,7 +11,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
@@ -22,16 +21,28 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import ar.edu.itba.hci.wallx.R
+import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.data.network.model.card.NewCardData
 import ar.edu.itba.hci.wallx.ui.theme.*
 import ar.edu.itba.hci.wallx.ui.components.detectCardBrandFromNumber
 import ar.edu.itba.hci.wallx.ui.components.getBrandLogo
 import ar.edu.itba.hci.wallx.ui.components.getCardColor
+import java.util.Calendar
 import java.util.Locale
 
-enum class CardType { CREDITO, DEBITO }
+enum class CardType {
+    CREDIT {
+        override fun toString() : String {
+            return "CREDIT"
+        }
+    },
+    DEBIT {
+        override fun toString() : String {
+            return "DEBIT"
+        }
+    };
+}
 
 @Composable
 fun CreditCardPreview(
@@ -55,7 +66,6 @@ fun CreditCardPreview(
             .padding(16.dp)
     ) {
         if (!mostrarDorso) {
-            // FRENTE
             Column(Modifier.fillMaxSize()) {
                 Row(
                     Modifier.fillMaxWidth(),
@@ -94,7 +104,6 @@ fun CreditCardPreview(
                 }
             }
         } else {
-            // DORSO
             Column(
                 Modifier
                     .fillMaxSize()
@@ -118,7 +127,6 @@ fun CreditCardPreview(
                             .padding(end = 10.dp),
                         contentAlignment = Alignment.CenterEnd
                     ) {
-                        // Espejado: Text será espejado si la tarjeta está girada!
                         Text(
                             text = if (cvv.isNotBlank()) cvv else "CVV",
                             color = Color.Black,
@@ -128,7 +136,7 @@ fun CreditCardPreview(
                                 .fillMaxWidth()
                                 .then(
                                     Modifier.graphicsLayer {
-                                        scaleX = -1f // invierte el texto para que se lea bien al girar la tarjeta
+                                        scaleX = -1f
                                     }
                                 )
                         )
@@ -140,16 +148,20 @@ fun CreditCardPreview(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AgregarTarjetaScreen(modifier: Modifier = Modifier) {
+fun AgregarTarjetaScreen(modifier: Modifier = Modifier, viewModel : WallXViewModel) {
     var number by remember { mutableStateOf("") }
     var fullName by remember { mutableStateOf("") }
-    var expirationDate by remember { mutableStateOf("") }
     var cvv by remember { mutableStateOf("") }
-    var cardType by remember { mutableStateOf(CardType.CREDITO) }
+    var cardType by remember { mutableStateOf(CardType.CREDIT) }
     var cvvFocused by remember { mutableStateOf(false) }
     val type = detectCardBrandFromNumber(number)
-
+    val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+    val years = (currentYear..currentYear + 10).toList()
+    val months = (1..12).map { it.toString().padStart(2, '0') }
+    var selectedMonth by remember { mutableStateOf(months.first()) }
+    var selectedYear by remember { mutableStateOf(years.first().toString()) }
     val rotationY by animateFloatAsState(targetValue = if (cvvFocused) 180f else 0f, label = "card-rotation")
     val density = LocalDensity.current.density
     val scrollState = rememberScrollState()
@@ -163,13 +175,11 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Tarjeta visual, con giro animado (y proyección correcta 3D)
         Box(
             modifier = Modifier
                 .graphicsLayer {
-                   
+
                     cameraDistance = 12 * density
-                    // Aplica scaleX=-1 SOLO cuando está de dorso, para espejar bien el texto atrás
                     if (rotationY > 90f) scaleX = -1f
                 }
                 .padding(bottom = 18.dp)
@@ -177,7 +187,7 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier) {
             CreditCardPreview(
                 number = number,
                 fullName = fullName,
-                expirationDate = expirationDate,
+                expirationDate = "$selectedMonth/$selectedYear",
                 brand = type,
                 cvv = cvv,
                 mostrarDorso = rotationY > 90f
@@ -248,26 +258,78 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier) {
 
                 Spacer(Modifier.height(13.dp))
 
-                OutlinedTextField(
-                    value = expirationDate,
-                    onValueChange = { expirationDate = it },
-                    label = {
-                        Text(
-                            text = stringResource(R.string.vencimiento),
-                            style = Typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                var expandedMonth by remember { mutableStateOf(false) }
+                ExposedDropdownMenuBox(
+                    expanded = expandedMonth,
+                    onExpandedChange = { expandedMonth = !expandedMonth }
+                ) {
+                    OutlinedTextField(
+                        value = selectedMonth,
+                        onValueChange = {},
+                        readOnly = true,
+                        label = { Text(stringResource(R.string.mes)) },
+                        modifier = Modifier
+                            .menuAnchor()
+                            .fillMaxWidth(0.48f),
+                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedMonth) },
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = MaterialTheme.colorScheme.secondary,
+                            unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
+                            disabledContainerColor = MaterialTheme.colorScheme.secondary
                         )
-                    },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.colors(
-                        focusedLabelColor = Black,
-                        unfocusedLabelColor = Grey,
-                        focusedContainerColor = MaterialTheme.colorScheme.secondary,
-                        unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
-                        disabledContainerColor = MaterialTheme.colorScheme.secondary
                     )
-                )
+                    ExposedDropdownMenu(
+                        expanded = expandedMonth,
+                        onDismissRequest = { expandedMonth = false }
+                    ) {
+                        months.forEach { selectionOption ->
+                            DropdownMenuItem(
+                                text = { Text(selectionOption) },
+                                onClick = {
+                                    selectedMonth = selectionOption
+                                    expandedMonth = false
+                                }
+                            )
+                        }
+                    }
+                }
+
+                var expandedYear by remember { mutableStateOf(false) }
+                Spacer(Modifier.width(10.dp))
+                ExposedDropdownMenuBox(
+                    expanded = expandedYear,
+                    onExpandedChange = { expandedYear = !expandedYear }
+                ) {
+                    OutlinedTextField(
+                        value = selectedYear,
+                        onValueChange = {},
+                        readOnly = true,
+                        label = { Text(stringResource(R.string.año)) },
+                        modifier = Modifier
+                            .menuAnchor()
+                            .fillMaxWidth(0.48f),
+                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedYear) },
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = MaterialTheme.colorScheme.secondary,
+                            unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
+                            disabledContainerColor = MaterialTheme.colorScheme.secondary
+                        )
+                    )
+                    ExposedDropdownMenu(
+                        expanded = expandedYear,
+                        onDismissRequest = { expandedYear = false }
+                    ) {
+                        years.forEach { yearOption ->
+                            DropdownMenuItem(
+                                text = { Text(yearOption.toString()) },
+                                onClick = {
+                                    selectedYear = yearOption.toString()
+                                    expandedYear = false
+                                }
+                            )
+                        }
+                    }
+                }
 
                 Spacer(Modifier.height(13.dp))
 
@@ -297,20 +359,19 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier) {
 
                 Spacer(Modifier.height(18.dp))
 
-                // --- RadioButtons Crédito/Débito ---
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.padding(bottom = 8.dp)
                 ) {
                     RadioButton(
-                        selected = cardType == CardType.CREDITO,
-                        onClick = { cardType = CardType.CREDITO }
+                        selected = cardType == CardType.CREDIT,
+                        onClick = { cardType = CardType.CREDIT }
                     )
                     Text(text = "Crédito", style = MaterialTheme.typography.bodyMedium)
                     Spacer(modifier = Modifier.width(16.dp))
                     RadioButton(
-                        selected = cardType == CardType.DEBITO,
-                        onClick = { cardType = CardType.DEBITO }
+                        selected = cardType == CardType.DEBIT,
+                        onClick = { cardType = CardType.DEBIT }
                     )
                     Text(text = "Débito", style = MaterialTheme.typography.bodyMedium)
                 }
@@ -320,14 +381,18 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier) {
                 Button(
                     onClick = {
                         val nuevaTarjeta = NewCardData(
-                            type = detectCardBrandFromNumber(number),
+                            type = cardType.toString(),
                             number = number,
-                            expirationDate = expirationDate,
+                            expirationDate = "$selectedMonth/$selectedYear",
                             fullName = fullName,
                             cvv = cvv
-                            // Agrega aquí cardType si tu backend lo necesita
                         )
-                        // falta llamada API
+                        viewModel.addCard(nuevaTarjeta)
+                        number = ""
+                        fullName = ""
+                        cvv = ""
+                        selectedMonth = months.first()
+                        selectedYear = years.first().toString()
                     },
                     modifier = Modifier
                         .fillMaxWidth()

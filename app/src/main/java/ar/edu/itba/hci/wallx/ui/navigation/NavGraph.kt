@@ -89,7 +89,7 @@ fun AppNavGraph(
             IngresarDineroScreen(modifier, wallXViewModel = viewModel, onNavigate = navGuard)
         }
         composable(AppDestinations.AGREGAR_TARJETA.route) {
-            AgregarTarjetaScreen(modifier)
+            AgregarTarjetaScreen(modifier, viewModel = viewModel)
         }
         composable (
             route=AppDestinations.MOVIMIENTO_DETALLE.route,

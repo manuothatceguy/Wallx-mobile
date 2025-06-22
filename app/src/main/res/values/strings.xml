@@ -132,4 +132,6 @@
     <string name="pagar_servicio">Pagar servicio</string>
     <string name="codigo_pago">Código de pago</string>
     <string name="seleccionar_metodo">Seleccione un método de pago</string>
+    <string name="año">Año</string>
+    <string name="mes">Mes</string>
 </resources>
