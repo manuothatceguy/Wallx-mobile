@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -276,7 +277,10 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier, viewModel: WallXViewMode
 
                 Spacer(Modifier.height(13.dp))
 
-                Row(Modifier.fillMaxWidth()) {
+                Row(
+                    Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceAround
+                ) {
                     var expandedMonth by remember { mutableStateOf(false) }
                     ExposedDropdownMenuBox(
                         expanded = expandedMonth,
@@ -313,8 +317,6 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier, viewModel: WallXViewMode
                             }
                         }
                     }
-
-                    Spacer(Modifier.width(8.dp))
 
                     var expandedYear by remember { mutableStateOf(false) }
                     ExposedDropdownMenuBox(
