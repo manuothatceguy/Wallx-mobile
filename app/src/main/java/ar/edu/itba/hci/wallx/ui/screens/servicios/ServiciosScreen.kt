@@ -62,10 +62,13 @@ fun ServiciosScreen(
                     text = stringResource(R.string.Pagar),
                     style = Typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
                     modifier = Modifier.padding(bottom = 12.dp),
-                    color = MaterialTheme.colorScheme.inversePrimary
+
                 )
 
-                Text(text =stringResource(R.string.ingresarLink),style = Typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                Text(
+                    text =stringResource(R.string.ingresarLink),
+
+                    style = Typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -99,7 +102,7 @@ fun ServiciosScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
-            colors = CardDefaults.cardColors(containerColor = Secondary),
+            colors = CardDefaults.cardColors( MaterialTheme.colorScheme.secondary),
             shape = RoundedCornerShape(16.dp)
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
@@ -107,7 +110,6 @@ fun ServiciosScreen(
                     text =stringResource(R.string.Cobrar),
                     style = Typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
                     modifier = Modifier.padding(bottom = 12.dp),
-                    color = MaterialTheme.colorScheme.inversePrimary
 
                 )
 

@@ -15,7 +15,7 @@ import ar.edu.itba.hci.wallx.WallXViewModel
 @Composable
 fun YourInfo(viewModel: WallXViewModel) {
     val uiState by viewModel.uiState.collectAsState()
-    
+
     WallXCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -25,6 +25,9 @@ fun YourInfo(viewModel: WallXViewModel) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(20.dp)
+                //.fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
             // Header
             Row(
@@ -53,6 +56,20 @@ fun YourInfo(viewModel: WallXViewModel) {
                     label = stringResource(R.string.alias)
                 )
             }
+            HorizontalDivider(thickness = 1.dp,color = SurfaceVariant)
+            var aliasString = if(uiState.accountDetail != null) uiState.accountDetail!!.alias else "Error"
+            var cvuString = if(uiState.accountDetail != null) uiState.accountDetail!!.cvu else "Error"
+            Text(stringResource(R.string.alias))
+            InfoCard(
+                aliasString,
+                label = stringResource(R.string.alias)
+            )
+            Text(stringResource(R.string.CVU))
+            InfoCard(
+                cvuString,
+                label = stringResource(R.string.CVU)
+            )
+
         }
     }
 }
