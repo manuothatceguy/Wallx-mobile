@@ -49,7 +49,7 @@ fun TarjetasScreen( modifier: Modifier = Modifier,
         tabletVertical={TarjetasVertical(modifier, onNavigateTo, cards)},
         tabletHorizontal={TarjetasHorizontal(modifier, onNavigateTo, cards)}
     )
-    
+
 }
 
 @Composable
