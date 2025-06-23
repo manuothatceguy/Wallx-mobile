@@ -87,7 +87,7 @@ fun RegisterScreen(
                         .padding(horizontal = 120.dp, vertical = 16.dp)
                         .fillMaxWidth()
                         .height(60.dp),
-                    colors = CardDefaults.cardColors(containerColor = Secondary)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)
                 ) {
                     Box(
                         modifier = Modifier.fillMaxSize(),
@@ -108,7 +108,7 @@ fun RegisterScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 30.dp, vertical = 10.dp)
                         .heightIn(min = 400.dp),
-                    colors = CardDefaults.cardColors(containerColor = Secondary)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondary)
                 ) {
                     Column(
                         modifier = Modifier
