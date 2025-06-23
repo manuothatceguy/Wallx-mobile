@@ -47,7 +47,6 @@ import ar.edu.itba.hci.wallx.ui.theme.White
 import java.util.Calendar
 
 @SuppressLint("DefaultLocale")
-@OptIn(InternalTextApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun RegisterScreen(
@@ -124,7 +123,6 @@ fun RegisterScreen(
                                     style = Typography.titleLarge
                                 )
 
-                                // --- Nombre
                                 Column(modifier = Modifier.fillMaxWidth()) {
                                     Text(
                                         text = stringResource(R.string.nombre),
@@ -145,7 +143,6 @@ fun RegisterScreen(
 
                                 Spacer(modifier = Modifier.height(16.dp))
 
-                                // --- Apellido
                                 Column(modifier = Modifier.fillMaxWidth()) {
                                     Text(
                                         text = stringResource(R.string.apellido),
@@ -166,7 +163,6 @@ fun RegisterScreen(
 
                                 Spacer(modifier = Modifier.height(16.dp))
 
-                                // --- Email
                                 Column(modifier = Modifier.fillMaxWidth()) {
                                     Text(
                                         text = stringResource(R.string.email),
@@ -187,7 +183,6 @@ fun RegisterScreen(
 
                                 Spacer(modifier = Modifier.height(16.dp))
 
-                                // --- Contraseña
                                 Column(modifier = Modifier.fillMaxWidth()) {
                                     Text(
                                         text = stringResource(R.string.password),

@@ -1,7 +1,6 @@
 package ar.edu.itba.hci.wallx
 
 import android.util.Log
-import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope

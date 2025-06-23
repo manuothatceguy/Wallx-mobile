@@ -2,7 +2,6 @@ package ar.edu.itba.hci.wallx.ui.screens.dashboard
 
 import androidx.compose.foundation.Image
 import ar.edu.itba.hci.wallx.data.model.Card
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -19,7 +18,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.font.FontWeight
@@ -29,7 +27,6 @@ import androidx.compose.ui.window.Dialog
 import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.ui.screens.servicios.textFieldColors
-import ar.edu.itba.hci.wallx.ui.theme.Background
 import ar.edu.itba.hci.wallx.ui.theme.SecondaryDarken1
 import ar.edu.itba.hci.wallx.ui.theme.Typography
 import ar.edu.itba.hci.wallx.ui.theme.White

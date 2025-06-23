@@ -1,12 +1,9 @@
 package ar.edu.itba.hci.wallx.ui.components
 
-import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -18,7 +15,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -30,17 +26,14 @@ import ar.edu.itba.hci.wallx.ui.theme.SurfaceVariant
 @Composable
 fun YourInfo(viewModel: WallXViewModel, moreInfo: Boolean = false){
     val uiState by viewModel.uiState.collectAsState()
-    val clipboardManager = LocalContext.current.getSystemService(Context.CLIPBOARD_SERVICE)
     Card(
         modifier = Modifier
             .padding(horizontal = 12.dp, vertical = 12.dp)
             .fillMaxWidth(),
-            //.heightIn(min = 210.dp),
         colors = CardDefaults.cardColors(containerColor =  MaterialTheme.colorScheme.primaryContainer)
     ) {
         Column(
             modifier = Modifier
-                //.fillMaxSize()
                 .padding(16.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {

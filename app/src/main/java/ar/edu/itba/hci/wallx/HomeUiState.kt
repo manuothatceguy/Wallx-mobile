@@ -5,7 +5,6 @@ import ar.edu.itba.hci.wallx.data.model.Card
 import ar.edu.itba.hci.wallx.data.model.CompleteUser
 import ar.edu.itba.hci.wallx.data.model.Payment
 import ar.edu.itba.hci.wallx.data.model.Error
-import ar.edu.itba.hci.wallx.ui.components.errorManager
 
 data class HomeUiState(
     val isAuthenticated: Boolean = false,

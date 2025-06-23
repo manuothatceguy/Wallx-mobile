@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -37,11 +36,8 @@ import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.data.model.Payment
 import androidx.compose.foundation.lazy.items
-import androidx.compose.ui.tooling.preview.Preview
 import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
-import ar.edu.itba.hci.wallx.ui.screens.tarjetas.TarjetasScreen
 import ar.edu.itba.hci.wallx.ui.theme.Success
-import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 
 
 @Composable
@@ -54,7 +50,6 @@ fun MovimientosScreen( modifier: Modifier = Modifier,
         modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        //Spacer(modifier = Modifier.heightIn(50.dp))
         Box(
             modifier = Modifier
                 .fillMaxSize()

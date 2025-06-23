@@ -10,18 +10,18 @@ val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
-/*
+
+
 val Background = Color(0xFFE0F2E9)
 val Surface = Color(0xFFFFFFFF)
-val SurfaceBright = Color(0xFFFFFFFF)
 val SurfaceLight = Color(0xFFEEEEEE)
-val SurfaceVariant = Color(0xFF424242)
-val OnSurfaceVariant = Color(0xFFEEEEEE)
+val SurfaceVariant = Color(0xFF4A6F64)
+val OnSurfaceVariant = Color(0xFFE0F2E9)
 
 val Primary = Color(0xFF2F7D69)
-val PrimaryDarken1 = Color(0xFF1F5592)
+val PrimaryDarken1 = Color(0xFF256555)
 val Secondary = Color(0xFFA5D9C8)
-val SecondaryDarken1 = Color(0xFF018786)
+val SecondaryDarken1 = Color(0xFF3A8F7A)
 
 val Error = Color(0xFFB00020)
 val Info = Color(0xFF1B5E4A)
@@ -30,42 +30,9 @@ val Warning = Color(0xFFFB8C00)
 
 val ButtonColor = Color(0xFF6DB8A8)
 val Selected = Color(0xFF85C4AE)
-val Accent = Color(0xFF6DB8A8)
-val Interactive = Color(0xFF4A9D8F)
-
-val Header = Color(0xFF2F7D69)
-val Contrast = Color(0xFF2F7D69)
-val Emphasis = Color(0xFF1B5E4A)
-
-val Black = Color(0xFF1E1E1E)
-val White = Color(0xFFFFFFFF)
-
-val VisaBlack = Color(0xFF282828)
-val AmexGrey = Color(0xFFBEBEBE)
-val MastercardGrey = Color(0xFF807979)
-*/
-
-val Background = Color(0xFFE0F2E9)
-val Surface = Color(0xFFFFFFFF)
-val SurfaceLight = Color(0xFFEEEEEE)
-val SurfaceVariant = Color(0xFF4A6F64)        // Verde agrisado para fondo secundario
-val OnSurfaceVariant = Color(0xFFE0F2E9)
-
-val Primary = Color(0xFF2F7D69)               // Verde hoja
-val PrimaryDarken1 = Color(0xFF256555)        // Verde más profundo, no azul
-val Secondary = Color(0xFFA5D9C8)             // Verde menta claro
-val SecondaryDarken1 = Color(0xFF3A8F7A)      // Verde más oscuro, sin azul
-
-val Error = Color(0xFFB00020)
-val Info = Color(0xFF1B5E4A)
-val Success = Color(0xFF4CAF50)
-val Warning = Color(0xFFFB8C00)
-
-val ButtonColor = Color(0xFF6DB8A8)           // Verde turquesa
-val Selected = Color(0xFF85C4AE)              // Verde pastel
-val Accent = Color(0xFF5BAE9B)                // Verde suave, menos saturado que Button
-val Interactive = Color(0xFF468D7D)           // Verde más oscuro y sobrio
-val InfoCardColor = Color(0XFF6DA89D)         // Verde claro
+val Accent = Color(0xFF5BAE9B)
+val Interactive = Color(0xFF468D7D)
+val InfoCardColor = Color(0XFF6DA89D)
 val Light= Color(0Xffd6fff4)
 
 
@@ -81,12 +48,11 @@ val MaestroBlue= Color(0xFF001440)
 val DefaultCard=Grey
 
 
-// Colores adicionales sugeridos
-val Outline = Color(0xFF94BEB0)          // Verde grisáceo para bordes
-val OutlineVariant = Color(0xFF6E9383)   // Más oscuro, para modo oscuro
-val Tertiary = Color(0xFFC7EBDD)         // Verde muy claro, usado como tercer acento en light
-val TertiaryDark = Color(0xFF3F665A)     // Equivalente en dark
-val Scrim = Color(0x80000000)            // Fondo semitransparente para modales o diálogos
-val SurfaceDim = Color(0xFF1A2B26)       // Superficie aún más oscura en dark
-val SurfaceBrightDark = Color(0xFF2A3F38) // Alternativa a Surface para dark theme
+val Outline = Color(0xFF94BEB0)
+val OutlineVariant = Color(0xFF6E9383)
+val Tertiary = Color(0xFFC7EBDD)
+val TertiaryDark = Color(0xFF3F665A)
+val Scrim = Color(0x80000000)
+val SurfaceDim = Color(0xFF1A2B26)
+val SurfaceBrightDark = Color(0xFF2A3F38)
 
