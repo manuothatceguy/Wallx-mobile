@@ -17,6 +17,7 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.AlertDialogDefaults.containerColor
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -126,7 +127,7 @@ fun LoginScreen(
                     modifier = modifier
                         .fillMaxWidth()
                         .padding(horizontal = 30.dp, vertical = 10.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondary)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
                 ) {
                     Column(
                         modifier = Modifier
@@ -140,7 +141,7 @@ fun LoginScreen(
                                 .padding(5.dp)
                                 .height(300.dp)
                                 .fillMaxSize(),
-                            colors = CardDefaults.cardColors(containerColor = Primary)
+                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondary)
                         ) {
                             Column(
 
@@ -180,7 +181,7 @@ fun LoginScreen(
 
                                             cursorColor = MaterialTheme.colorScheme.secondary,
 
-                                            focusedBorderColor = SecondaryDarken1,
+                                            focusedBorderColor = MaterialTheme.colorScheme.primary,
                                             unfocusedBorderColor = Interactive,
                                             disabledBorderColor = MaterialTheme.colorScheme.surfaceVariant,
                                             errorBorderColor = MaterialTheme.colorScheme.error,
@@ -282,10 +283,10 @@ fun LoginScreen(
                                 .fillMaxWidth()
                                 .padding(16.dp)
                                 .height(50.dp),
-                            /*colors = ButtonDefaults.buttonColors(
-                                containerColor = Accent,
-                                contentColor = White
-                            )*/
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.secondary,
+
+                            )
                         ) {
                             Box {
                                 Text(text = stringResource(R.string.inicio_sesion))
