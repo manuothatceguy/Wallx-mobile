@@ -244,7 +244,7 @@ fun TopBar(
     )
     val firstName = uiState.completeUserDetail?.firstName ?: ""
 
-    val tablet = LocalConfiguration.current.screenWidthDp > 300
+    val tablet = LocalConfiguration.current.screenWidthDp > 600
 
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
