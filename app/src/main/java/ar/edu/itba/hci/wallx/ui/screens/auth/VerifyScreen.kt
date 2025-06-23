@@ -84,8 +84,8 @@ fun VerifyScreen(
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedTextColor = MaterialTheme.colorScheme.onPrimary,
                             unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
-                            focusedBorderColor = MaterialTheme.colorScheme.surfaceVariant,
-                            unfocusedBorderColor = Interactive,
+                            focusedBorderColor = MaterialTheme.colorScheme.secondary,
+                            unfocusedBorderColor = MaterialTheme.colorScheme.secondary.copy(0.7f),
                             disabledBorderColor = MaterialTheme.colorScheme.surfaceVariant,
                         ),
 
@@ -101,8 +101,8 @@ fun VerifyScreen(
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedTextColor = MaterialTheme.colorScheme.onPrimary,
                             unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
-                            focusedBorderColor = MaterialTheme.colorScheme.surfaceVariant,
-                            unfocusedBorderColor = Interactive,
+                            focusedBorderColor = MaterialTheme.colorScheme.secondary,
+                            unfocusedBorderColor = MaterialTheme.colorScheme.secondary.copy(0.7f),
                             disabledBorderColor = MaterialTheme.colorScheme.surfaceVariant,
                         ),
                     )
