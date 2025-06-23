@@ -2,9 +2,21 @@ package ar.edu.itba.hci.wallx.ui.screens.tarjetas
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.TextButton
+import androidx.compose.foundation.layout.Column // Necesario para el contenido del diálogo
+import androidx.compose.foundation.layout.Spacer // Para espaciado dentro del diálogo
+import androidx.compose.foundation.layout.height // Para espaciado dentro del diálogo
+import androidx.compose.ui.unit.dp // Para el espaciado
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,6 +30,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenuItem
@@ -28,20 +41,25 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.error
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -209,258 +227,318 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier, viewModel: WallXViewMode
     val density = LocalDensity.current.density
     val scrollState = rememberScrollState()
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .verticalScroll(scrollState)
-            .padding(horizontal = 32.dp, vertical = 24.dp),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Box(
-            modifier = Modifier
-                .graphicsLayer {
-                    cameraDistance = 12 * density
-                    if (rotationY > 90f) scaleX = -1f
+    var showConfirmationDialog by rememberSaveable { mutableStateOf(false) }
+    var cardDetailsForDialog by remember { mutableStateOf<NewCardData?>(null) }
+
+    if (showConfirmationDialog && cardDetailsForDialog != null) {
+        val details = cardDetailsForDialog!! // Sabemos que no es null por la condición
+
+        AlertDialog(
+            onDismissRequest = {
+                showConfirmationDialog = false
+                number = ""
+                fullName = ""
+                cvv = ""
+                selectedMonth = months.first()
+                selectedYear = years.first().toString()
+            },
+            title = {
+                Text(stringResource(R.string.confirmar_tarjeta))
+            },
+            text = {
+                Column {
+                    Text(stringResource(R.string.confirmar_tarjeta_detalle))
+                    Spacer(Modifier.height(8.dp))
+                    Text("Tipo: ${details.type}")
+                    Text("Número: ${(details.number)?.takeLast(4)}") // Función para enmascarar
+                    Text("Nombre: ${details.fullName}")
+                    Text("Vencimiento: ${details.expirationDate}")
                 }
-                .padding(bottom = 18.dp)
-        ) {
-            CreditCardPreview(
-                number = number,
-                fullName = fullName,
-                expirationDate = "$selectedMonth/$selectedYear",
-                brand = brand,
-                cvv = cvv,
-                mostrarDorso = rotationY > 90f
-            )
-        }
-
-        Box(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.secondary, shape = RoundedCornerShape(16.dp))
-                .padding(24.dp)
-                .fillMaxWidth()
-        ) {
-            Column {
-                Text(
-                    text = stringResource(R.string.agregarTarjeta),
-                    style = MaterialTheme.typography.headlineLarge,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.CenterHorizontally)
-                        .padding(bottom = 16.dp)
-                )
-
-                OutlinedTextField(
-                    value = number,
-                    onValueChange = { input ->
-                        val digits = input.filter { it.isDigit() }
-                        number = digits.take(rules.panLength)
-                    },
-                    label = {
-                        Text(
-                            text = "${stringResource(R.string.numero)} (${number.length}/${rules.panLength})",
-                            style = Typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                            color = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-                    },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.colors(
-                        focusedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        unfocusedLabelColor = Grey,
-                        focusedContainerColor = MaterialTheme.colorScheme.secondary,
-                        unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
-                        disabledContainerColor = MaterialTheme.colorScheme.secondary
-                    )
-                )
-
-                Spacer(Modifier.height(13.dp))
-
-                OutlinedTextField(
-                    value = fullName,
-                    onValueChange = { fullName = it },
-                    label = {
-                        Text(
-                            text = stringResource(R.string.nombre),
-                            style = Typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                            color = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-                    },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.colors(
-                        focusedLabelColor = Black,
-                        unfocusedLabelColor = Grey,
-                        focusedContainerColor = MaterialTheme.colorScheme.secondary,
-                        unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
-                        disabledContainerColor = MaterialTheme.colorScheme.secondary
-                    )
-                )
-
-                Spacer(Modifier.height(13.dp))
-
-                Column{
-                    var expandedMonth by remember { mutableStateOf(false) }
-                    ExposedDropdownMenuBox(
-                        expanded = expandedMonth,
-                        onExpandedChange = { expandedMonth = !expandedMonth }
-                    ) {
-                        OutlinedTextField(
-                            value = selectedMonth,
-                            onValueChange = {},
-                            readOnly = true,
-                            label = { Text(stringResource(R.string.mes)) },
-                            modifier = Modifier
-                                .menuAnchor()
-                                .weight(1f)
-                                .padding(end = 4.dp),
-                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedMonth) },
-                            colors = TextFieldDefaults.colors(
-                                focusedContainerColor = MaterialTheme.colorScheme.secondary,
-                                unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
-                                disabledContainerColor = MaterialTheme.colorScheme.secondary
-                            )
-                        )
-                        ExposedDropdownMenu(
-                            expanded = expandedMonth,
-                            onDismissRequest = { expandedMonth = false }
-                        ) {
-                            months.forEach { selectionOption ->
-                                DropdownMenuItem(
-                                    text = { Text(selectionOption) },
-                                    onClick = {
-                                        selectedMonth = selectionOption
-                                        expandedMonth = false
-                                    }
-                                )
-                            }
-                        }
-                    }
-
-                    var expandedYear by remember { mutableStateOf(false) }
-                    ExposedDropdownMenuBox(
-                        expanded = expandedYear,
-                        onExpandedChange = { expandedYear = !expandedYear }
-                    ) {
-                        OutlinedTextField(
-                            value = selectedYear,
-                            onValueChange = {},
-                            readOnly = true,
-                            label = { Text(stringResource(R.string.año)) },
-                            modifier = Modifier
-                                .menuAnchor()
-                                .weight(1f)
-                                .padding(start = 4.dp),
-                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedYear) },
-                            colors = TextFieldDefaults.colors(
-                                focusedContainerColor = MaterialTheme.colorScheme.secondary,
-                                unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
-                                disabledContainerColor = MaterialTheme.colorScheme.secondary
-                            )
-                        )
-                        ExposedDropdownMenu(
-                            expanded = expandedYear,
-                            onDismissRequest = { expandedYear = false }
-                        ) {
-                            years.forEach { yearOption ->
-                                DropdownMenuItem(
-                                    text = { Text(yearOption.toString()) },
-                                    onClick = {
-                                        selectedYear = yearOption.toString()
-                                        expandedYear = false
-                                    }
-                                )
-                            }
-                        }
-                    }
-                }
-
-                Spacer(Modifier.height(13.dp))
-
-                OutlinedTextField(
-                    value = cvv,
-                    onValueChange = { input ->
-                        val digits = input.filter { it.isDigit() }
-                        cvv = digits.take(rules.cvvLength)
-                    },
-                    label = {
-                        Text(
-                            text = "CVV (${cvv.length}/${rules.cvvLength})",
-                            style = Typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                            color = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-                    },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .onFocusChanged { focusState -> cvvFocused = focusState.isFocused },
-                    colors = TextFieldDefaults.colors(
-                        focusedLabelColor = Black,
-                        unfocusedLabelColor = Grey,
-                        focusedContainerColor = MaterialTheme.colorScheme.secondary,
-                        unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
-                        disabledContainerColor = MaterialTheme.colorScheme.secondary
-                    )
-                )
-
-                Spacer(Modifier.height(18.dp))
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(bottom = 8.dp)
-                ) {
-                    RadioButton(
-                        selected = cardType == CardType.CREDIT,
-                        onClick = { cardType = CardType.CREDIT }
-                    )
-                    Text(text = "Crédito", style = MaterialTheme.typography.bodyMedium)
-                    Spacer(modifier = Modifier.width(16.dp))
-                    RadioButton(
-                        selected = cardType == CardType.DEBIT,
-                        onClick = { cardType = CardType.DEBIT }
-                    )
-                    Text(text = "Débito", style = MaterialTheme.typography.bodyMedium)
-                }
-
-                Spacer(Modifier.height(20.dp))
-
-                Button(
+            },
+            confirmButton = {
+                TextButton(
                     onClick = {
-                        val nuevaTarjeta = NewCardData(
-                            type = cardType.toString(),
-                            number = number,
-                            expirationDate = "$selectedMonth/${selectedYear}",
-                            fullName = fullName,
-                            cvv = cvv
-                        )
-                        viewModel.addCard(nuevaTarjeta)
+                        showConfirmationDialog = false
+                        viewModel.addCard(details)
                         number = ""
                         fullName = ""
                         cvv = ""
                         selectedMonth = months.first()
                         selectedYear = years.first().toString()
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(70.dp),
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        contentColor = White
-                    ),
+                    }
                 ) {
+                    Text(stringResource(R.string.confirmar))
+                }
+            },
+            dismissButton = { // Opcional: si quieres un botón para cancelar explícitamente
+                TextButton(
+                    onClick = {
+                        showConfirmationDialog = false
+                        // No limpiar campos o no agregar la tarjeta si se cancela
+                    }
+                ) {
+                    Text("Cancelar")
+                }
+            }
+        )
+    }
+
+    Scaffold { paddingValues ->
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .verticalScroll(scrollState)
+                .padding(paddingValues) // Aplicar padding del Scaffold
+                .padding(horizontal = 32.dp, vertical = 24.dp), // Padding original de tu Column
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Box(
+                modifier = Modifier
+                    .graphicsLayer {
+                        cameraDistance = 12 * density
+                        if (rotationY > 90f) scaleX = -1f
+                    }
+                    .padding(bottom = 18.dp)
+            ) {
+                CreditCardPreview(
+                    number = number,
+                    fullName = fullName,
+                    expirationDate = "$selectedMonth/$selectedYear",
+                    brand = brand,
+                    cvv = cvv,
+                    mostrarDorso = rotationY > 90f
+                )
+            }
+
+            Box(
+                modifier = Modifier
+                    .background(
+                        MaterialTheme.colorScheme.secondary,
+                        shape = RoundedCornerShape(16.dp)
+                    )
+                    .padding(24.dp)
+                    .fillMaxWidth()
+            ) {
+                Column {
                     Text(
-                        text = stringResource(R.string.agregar),
-                        style = MaterialTheme.typography.titleLarge.copy(
-                            color = White,
-                            fontWeight = FontWeight.Bold
+                        text = stringResource(R.string.agregarTarjeta),
+                        style = MaterialTheme.typography.headlineLarge,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .align(Alignment.CenterHorizontally)
+                            .padding(bottom = 16.dp)
+                    )
+
+                    OutlinedTextField(
+                        value = number,
+                        onValueChange = { input ->
+                            val digits = input.filter { it.isDigit() }
+                            number = digits.take(rules.panLength)
+                        },
+                        label = {
+                            Text(
+                                text = "${stringResource(R.string.numero)} (${number.length}/${rules.panLength})",
+                                style = Typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                        },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = TextFieldDefaults.colors(
+                            focusedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            unfocusedLabelColor = Grey,
+                            focusedContainerColor = MaterialTheme.colorScheme.secondary,
+                            unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
+                            disabledContainerColor = MaterialTheme.colorScheme.secondary
                         )
                     )
+
+                    Spacer(Modifier.height(13.dp))
+
+                    OutlinedTextField(
+                        value = fullName,
+                        onValueChange = { fullName = it },
+                        label = {
+                            Text(
+                                text = stringResource(R.string.nombre),
+                                style = Typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                        },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = TextFieldDefaults.colors(
+                            focusedLabelColor = Black,
+                            unfocusedLabelColor = Grey,
+                            focusedContainerColor = MaterialTheme.colorScheme.secondary,
+                            unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
+                            disabledContainerColor = MaterialTheme.colorScheme.secondary
+                        )
+                    )
+
+                    Spacer(Modifier.height(13.dp))
+
+                    // ExposedDropdownMenu para Mes y Año (sin cambios, solo por completitud)
+                    Row(Modifier.fillMaxWidth()) { // Asegúrate que los Dropdowns estén en una Row si quieres que estén lado a lado
+                        var expandedMonth by remember { mutableStateOf(false) }
+                        ExposedDropdownMenuBox(
+                            expanded = expandedMonth,
+                            onExpandedChange = { expandedMonth = !expandedMonth },
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(end = 4.dp)
+                        ) {
+                            OutlinedTextField(
+                                value = selectedMonth,
+                                onValueChange = {},
+                                readOnly = true,
+                                label = { Text(stringResource(R.string.mes)) },
+                                modifier = Modifier.menuAnchor(),
+                                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedMonth) },
+                                colors = TextFieldDefaults.colors(
+                                    focusedContainerColor = MaterialTheme.colorScheme.secondary,
+                                    unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
+                                    disabledContainerColor = MaterialTheme.colorScheme.secondary
+                                )
+                            )
+                            ExposedDropdownMenu(
+                                expanded = expandedMonth,
+                                onDismissRequest = { expandedMonth = false }
+                            ) {
+                                months.forEach { selectionOption ->
+                                    DropdownMenuItem(
+                                        text = { Text(selectionOption) },
+                                        onClick = {
+                                            selectedMonth = selectionOption
+                                            expandedMonth = false
+                                        }
+                                    )
+                                }
+                            }
+                        }
+
+                        var expandedYear by remember { mutableStateOf(false) }
+                        ExposedDropdownMenuBox(
+                            expanded = expandedYear,
+                            onExpandedChange = { expandedYear = !expandedYear },
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(start = 4.dp)
+                        ) {
+                            OutlinedTextField(
+                                value = selectedYear,
+                                onValueChange = {},
+                                readOnly = true,
+                                label = { Text(stringResource(R.string.año)) },
+                                modifier = Modifier.menuAnchor(),
+                                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedYear) },
+                                colors = TextFieldDefaults.colors(
+                                    focusedContainerColor = MaterialTheme.colorScheme.secondary,
+                                    unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
+                                    disabledContainerColor = MaterialTheme.colorScheme.secondary
+                                )
+                            )
+                            ExposedDropdownMenu(
+                                expanded = expandedYear,
+                                onDismissRequest = { expandedYear = false }
+                            ) {
+                                years.forEach { yearOption ->
+                                    DropdownMenuItem(
+                                        text = { Text(yearOption.toString()) },
+                                        onClick = {
+                                            selectedYear = yearOption.toString()
+                                            expandedYear = false
+                                        }
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+
+                    Spacer(Modifier.height(13.dp))
+
+                    OutlinedTextField(
+                        value = cvv,
+                        onValueChange = { input ->
+                            val digits = input.filter { it.isDigit() }
+                            cvv = digits.take(rules.cvvLength)
+                        },
+                        label = {
+                            Text(
+                                text = "CVV (${cvv.length}/${rules.cvvLength})",
+                                style = Typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                        },
+                        singleLine = true,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .onFocusChanged { focusState -> cvvFocused = focusState.isFocused },
+                        colors = TextFieldDefaults.colors(
+                            focusedLabelColor = Black,
+                            unfocusedLabelColor = Grey,
+                            focusedContainerColor = MaterialTheme.colorScheme.secondary,
+                            unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
+                            disabledContainerColor = MaterialTheme.colorScheme.secondary
+                        )
+                    )
+
+                    Spacer(Modifier.height(18.dp))
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    ) {
+                        RadioButton(
+                            selected = cardType == CardType.CREDIT,
+                            onClick = { cardType = CardType.CREDIT }
+                        )
+                        Text(text = "Crédito", style = MaterialTheme.typography.bodyMedium)
+                        Spacer(modifier = Modifier.width(16.dp))
+                        RadioButton(
+                            selected = cardType == CardType.DEBIT,
+                            onClick = { cardType = CardType.DEBIT }
+                        )
+                        Text(text = "Débito", style = MaterialTheme.typography.bodyMedium)
+                    }
+
+                    Spacer(Modifier.height(20.dp))
+
+                    Button(
+                        onClick = {
+                            val nuevaTarjeta = NewCardData(
+                                type = cardType.toString(),
+                                number = number,
+                                expirationDate = "$selectedMonth/$selectedYear",
+                                fullName = fullName,
+                                cvv = cvv
+                            )
+                            cardDetailsForDialog = nuevaTarjeta
+                            showConfirmationDialog = true
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(70.dp),
+                        shape = RoundedCornerShape(10.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            contentColor = White
+                        ),
+                    ) {
+                        Text(
+                            text = stringResource(R.string.agregar),
+                            style = MaterialTheme.typography.titleLarge.copy(
+                                color = White,
+                                fontWeight = FontWeight.Bold
+                            )
+                        )
+                    }
                 }
             }
         }
