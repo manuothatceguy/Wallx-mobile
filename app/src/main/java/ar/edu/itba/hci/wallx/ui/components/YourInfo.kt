@@ -69,8 +69,6 @@ fun YourInfo(viewModel: WallXViewModel){
                 text = stringResource(R.string.CVU),
             )
             InfoCard(cvuString)
-
-
         }
     }
 }
