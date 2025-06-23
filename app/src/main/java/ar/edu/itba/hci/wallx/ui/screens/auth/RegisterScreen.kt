@@ -2,6 +2,8 @@ package ar.edu.itba.hci.wallx.ui.screens.auth
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -56,10 +58,13 @@ import ar.edu.itba.hci.wallx.ui.theme.SurfaceVariant
 import ar.edu.itba.hci.wallx.ui.theme.Typography
 import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 import ar.edu.itba.hci.wallx.ui.theme.White
+import java.time.LocalDate
+import java.time.Period
 import java.util.Calendar
 
 @SuppressLint("DefaultLocale")
 @OptIn(InternalTextApi::class)
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun RegisterScreen(
     modifier: Modifier = Modifier,
@@ -78,6 +83,8 @@ fun RegisterScreen(
     fun isValidPassword(password: String) = password.length >= 6
     fun isValidName(name: String) = name.length >= 2
     fun isValidDate(date: String) = date.matches(Regex("\\d{4}-\\d{2}-\\d{2}"))
+
+
 
     Scaffold { innerPadding ->
         Column(modifier = modifier.fillMaxSize().padding(innerPadding)) {
@@ -217,7 +224,6 @@ fun RegisterScreen(
 
                                 Spacer(modifier = Modifier.height(16.dp))
 
-                                // --- Fecha de nacimiento
                                 Column(modifier = Modifier.fillMaxWidth()) {
                                     Text(
                                         text = stringResource(R.string.fecha_nacimiento),
@@ -250,7 +256,7 @@ fun RegisterScreen(
                                             }
                                     )
                                     if (birthDate.isNotEmpty() && !isValidDate(birthDate)) {
-                                        Text(stringResource(R.string.formato_fecha_invalido), color = Error)
+                                        Text(stringResource(R.string.formato_fecha_invalido), color = MaterialTheme.colorScheme.error)
                                     }
                                 }
                             }
@@ -292,28 +298,27 @@ fun RegisterScreen(
 }
 @Composable
 fun registerFieldColors() = OutlinedTextFieldDefaults.colors(
-    focusedTextColor = MaterialTheme.colorScheme.primary,
-    unfocusedTextColor = Info,
-    disabledTextColor = MaterialTheme.colorScheme.surfaceVariant,
-    errorTextColor = MaterialTheme.colorScheme.error,
+        focusedTextColor = MaterialTheme.colorScheme.onPrimary,
+        unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
+        disabledTextColor = MaterialTheme.colorScheme.surfaceVariant,
+        errorTextColor = MaterialTheme.colorScheme.error,
+        errorContainerColor = MaterialTheme.colorScheme.error.copy(
+            alpha = 0.1f
+        ),
 
-    focusedContainerColor = MaterialTheme.colorScheme.secondary,
-    unfocusedContainerColor = MaterialTheme.colorScheme.background,
-    disabledContainerColor = SurfaceLight,
-    errorContainerColor = MaterialTheme.colorScheme.error.copy(alpha = 0.1f),
+        cursorColor = Info,
 
-    cursorColor = MaterialTheme.colorScheme.secondary,
+        focusedBorderColor = Info,
+        unfocusedBorderColor = Info.copy(0.8f),
+        disabledBorderColor = MaterialTheme.colorScheme.surfaceVariant,
+        errorBorderColor = MaterialTheme.colorScheme.error,
 
-    focusedBorderColor = SecondaryDarken1,
-    unfocusedBorderColor = Interactive,
-    disabledBorderColor = MaterialTheme.colorScheme.surfaceVariant,
-    errorBorderColor = MaterialTheme.colorScheme.error,
+        focusedLeadingIconColor = SecondaryDarken1,
+        unfocusedLeadingIconColor = Interactive.copy(alpha = 0.7f),
 
-    focusedLeadingIconColor = SecondaryDarken1,
-    unfocusedLeadingIconColor = Interactive.copy(alpha = 0.7f),
+        focusedTrailingIconColor = SecondaryDarken1,
+        unfocusedTrailingIconColor = Interactive.copy(alpha = 0.7f),
+    )
 
-    focusedTrailingIconColor = SecondaryDarken1,
-    unfocusedTrailingIconColor = Interactive.copy(alpha = 0.7f),
-)
 
 

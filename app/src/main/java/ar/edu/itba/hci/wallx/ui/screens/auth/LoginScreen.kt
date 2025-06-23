@@ -38,6 +38,7 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.InternalTextApi
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -132,10 +133,11 @@ fun LoginScreen(
                         Card(
                             modifier = Modifier
                                 .padding(5.dp)
-                                .height(270.dp)
+                                .height(250.dp)
                                 .fillMaxSize(),
                             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondary)
                         ) {
+
                             Column(
 
                                 modifier = Modifier
@@ -146,7 +148,7 @@ fun LoginScreen(
                                 // Título centrado
                                 Text(
                                     text = stringResource(R.string.inicio_de_sesión),
-                                    style = Typography.titleLarge
+                                    style = Typography.headlineMedium.copy(fontWeight = FontWeight.Bold)
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
 
@@ -157,22 +159,18 @@ fun LoginScreen(
                                             Text(text = stringResource(R.string.usuario), color = Info)
                                         },
                                         colors = OutlinedTextFieldDefaults.colors(
-                                            focusedTextColor = MaterialTheme.colorScheme.primary,
-                                            unfocusedTextColor = Info,
+                                            focusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                                            unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
                                             disabledTextColor = MaterialTheme.colorScheme.surfaceVariant,
                                             errorTextColor = MaterialTheme.colorScheme.error,
-
-                                            focusedContainerColor = MaterialTheme.colorScheme.secondary,
-                                            unfocusedContainerColor = MaterialTheme.colorScheme.background,
-                                            disabledContainerColor = SurfaceLight,
                                             errorContainerColor = MaterialTheme.colorScheme.error.copy(
                                                 alpha = 0.1f
                                             ),
 
-                                            cursorColor = MaterialTheme.colorScheme.secondary,
+                                            cursorColor = Info,
 
-                                            focusedBorderColor = MaterialTheme.colorScheme.primary,
-                                            unfocusedBorderColor = Interactive,
+                                            focusedBorderColor = Info,
+                                            unfocusedBorderColor = Info.copy(0.8f),
                                             disabledBorderColor = MaterialTheme.colorScheme.surfaceVariant,
                                             errorBorderColor = MaterialTheme.colorScheme.error,
 
@@ -204,22 +202,18 @@ fun LoginScreen(
                                             Text(text = stringResource(R.string.contraseña), color = Info)
                                         },
                                         colors = OutlinedTextFieldDefaults.colors(
-                                            focusedTextColor = MaterialTheme.colorScheme.primary,
-                                            unfocusedTextColor = Info,
+                                            focusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                                            unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
                                             disabledTextColor = MaterialTheme.colorScheme.surfaceVariant,
                                             errorTextColor = MaterialTheme.colorScheme.error,
-
-                                            focusedContainerColor = MaterialTheme.colorScheme.secondary,
-                                            unfocusedContainerColor = MaterialTheme.colorScheme.background,
-                                            disabledContainerColor = SurfaceLight,
                                             errorContainerColor = MaterialTheme.colorScheme.error.copy(
                                                 alpha = 0.1f
                                             ),
 
-                                            cursorColor = MaterialTheme.colorScheme.secondary,
+                                            cursorColor = Info,
 
-                                            focusedBorderColor = MaterialTheme.colorScheme.primary,
-                                            unfocusedBorderColor = Interactive,
+                                            focusedBorderColor = Info,
+                                            unfocusedBorderColor = Info.copy(0.8f),
                                             disabledBorderColor = MaterialTheme.colorScheme.surfaceVariant,
                                             errorBorderColor = MaterialTheme.colorScheme.error,
 
@@ -249,7 +243,7 @@ fun LoginScreen(
                                             handleLogin()
                                         })
                                     )
-                                    Spacer(modifier = Modifier.height(2.dp))
+                                    Spacer(modifier = Modifier.height(8.dp))
                                     Text(
                                         text = stringResource(R.string.olvidaste_contra),
                                         textDecoration = TextDecoration.Underline,

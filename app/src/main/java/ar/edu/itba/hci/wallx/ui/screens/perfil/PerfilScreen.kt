@@ -64,6 +64,7 @@ fun PerfilScreen(modifier: Modifier = Modifier, viewModel: WallXViewModel) {
         contentAlignment = Alignment.Center
     ) {
         Column {
+
             YourInfo(viewModel)
             Spacer(modifier = Modifier.height(4.dp))
 

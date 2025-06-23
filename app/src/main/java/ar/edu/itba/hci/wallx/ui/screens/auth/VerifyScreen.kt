@@ -1,5 +1,6 @@
 package ar.edu.itba.hci.wallx.ui.screens.auth
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,8 +8,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults.buttonColors
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,11 +24,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.WallXViewModel
+import ar.edu.itba.hci.wallx.ui.theme.Interactive
+import ar.edu.itba.hci.wallx.ui.theme.Typography
 
 
 @Composable
@@ -48,38 +55,56 @@ fun VerifyScreen(
         ) {
             Card(
                 modifier = Modifier
-                    .fillMaxWidth()
                     .padding(horizontal = 24.dp)
+                    .fillMaxWidth()
+
             ) {
                 Column(
-                    modifier = Modifier.padding(24.dp),
+                    modifier = Modifier.background(color = MaterialTheme.colorScheme.secondaryContainer).padding(24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     Text(
                         text = stringResource(R.string.wallx_verificacion),
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(16.dp),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        style = Typography.headlineMedium.copy(fontWeight = FontWeight.Bold)
                     )
 
                     OutlinedTextField(
                         value = email,
                         onValueChange = { email = it },
-                        label = { Text(stringResource(R.string.email)) },
+                        label = { Text(stringResource(R.string.email),color = MaterialTheme.colorScheme.onSecondaryContainer) },
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                            unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                            focusedBorderColor = MaterialTheme.colorScheme.surfaceVariant,
+                            unfocusedBorderColor = Interactive,
+                            disabledBorderColor = MaterialTheme.colorScheme.surfaceVariant,
+                        ),
+
                     )
 
                     OutlinedTextField(
                         value = verificationCode,
                         onValueChange = { verificationCode = it },
-                        label = { Text(stringResource(R.string.codigo_verificacion)) },
+                        label = { Text(stringResource(R.string.codigo_verificacion),color = MaterialTheme.colorScheme.onSecondaryContainer) },
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                            unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                            focusedBorderColor = MaterialTheme.colorScheme.surfaceVariant,
+                            unfocusedBorderColor = Interactive,
+                            disabledBorderColor = MaterialTheme.colorScheme.surfaceVariant,
+                        ),
                     )
 
                     Button(
@@ -94,9 +119,10 @@ fun VerifyScreen(
                             verificationCode = ""
                             email = ""
                         },
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
                     ) {
-                        Text(stringResource(R.string.verificar))
+                        Text(stringResource(R.string.verificar), color = MaterialTheme.colorScheme.onSecondary)
                     }
                 }
             }

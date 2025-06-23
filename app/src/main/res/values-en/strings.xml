@@ -9,7 +9,7 @@
     <string name="inicio_de_sesión">Log in</string>
     <string name="recuperar_contraseña">Password recovery</string>
     <string name="verificar_cuenta">Verify account</string>
-    <string name="no_tenés_una_cuenta">Don\'t have an account?</string>
+    <string name="no_tenés_una_cuenta">Don\'t have an account? Sign up</string>
     <string name="tu_información">Your information</string>
     <string name="ingresar">Deposit</string>
     <string name="transferir">Transfer</string>
@@ -129,4 +129,5 @@
     <string name="mes">Month</string>
     <string name="confirmar_tarjeta">Confirm card</string>
     <string name="confirmar_tarjeta_detalle">Confirm card details</string>
+    <string name="fecha_invalida">Must be at least 16 years old</string>
 </resources>

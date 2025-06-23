@@ -28,7 +28,7 @@ import ar.edu.itba.hci.wallx.ui.screens.dashboard.InfoCard
 import ar.edu.itba.hci.wallx.ui.theme.SurfaceVariant
 
 @Composable
-fun YourInfo(viewModel: WallXViewModel){
+fun YourInfo(viewModel: WallXViewModel, moreInfo: Boolean = false){
     val uiState by viewModel.uiState.collectAsState()
     val clipboardManager = LocalContext.current.getSystemService(Context.CLIPBOARD_SERVICE)
     Card(
@@ -56,6 +56,9 @@ fun YourInfo(viewModel: WallXViewModel){
                         fontWeight = FontWeight.Bold, color=MaterialTheme.colorScheme.onSecondaryContainer)
                 )
             }
+            Text(
+                text = (uiState.completeUserDetail?.firstName ?:"" ) + " " + (uiState.completeUserDetail?.lastName ?: ""),
+            )
             HorizontalDivider(thickness = 1.dp,color = SurfaceVariant)
             val aliasString = if(uiState.accountDetail != null) uiState.accountDetail!!.alias else "Error"
             val cvuString = if(uiState.accountDetail != null) uiState.accountDetail!!.cvu else "Error"
