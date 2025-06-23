@@ -154,10 +154,7 @@ fun PagarServicioScreen(
                         .fillMaxWidth()
                         .height(70.dp),
                     shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Selected,
-                        contentColor = White
-                    )
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
                 ) {
                     Text(
                         text = stringResource(R.string.Pagar),
@@ -218,7 +215,7 @@ fun PagarServicioDialog(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Confirmar pago",
+                        text = stringResource(R.string.confirmar),
                         style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
@@ -292,11 +289,11 @@ fun MiniCardItem( card: Card? = null,
                     )
                 }else{
                     Text(
-                        text = "Dinero en cuenta",
+                        text = stringResource(R.string.dinero_en_cuenta),
                         style = Typography.titleLarge.copy(fontWeight = FontWeight.SemiBold),
                     )
 
-                    Text(text = uiState.accountDetail?.balance.toString())
+                    Text(text = "$%.2f".format(uiState.accountDetail?.balance ?: 0.0))
                 }
                 if (card != null) {
                     Text(
