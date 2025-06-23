@@ -2,6 +2,7 @@ package ar.edu.itba.hci.wallx.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -78,13 +79,17 @@ fun MainApp (
     val snackbarHostState = remember { SnackbarHostState() }
     viewModel.getSee()
 
+    BoxWithConstraints {
+        val tablet = this.maxWidth > 600.dp
+        if(tablet){
+            Tablet(snackbarHostState, currentRouteIsAuth, startRoute, currentRoute, navController, viewModel, scope, drawerState)
+        } else {
+            Phone(snackbarHostState, currentRouteIsAuth, startRoute, currentRoute, navController, viewModel, scope, drawerState)
+        }
+    }
 
-    DeviceLayout(
-        tabletVertical = { Tablet(snackbarHostState, currentRouteIsAuth, startRoute, currentRoute, navController, viewModel, scope, drawerState) },
-        tabletHorizontal = { Tablet(snackbarHostState, currentRouteIsAuth, startRoute, currentRoute, navController, viewModel, scope, drawerState) },
-        phoneVertical = { Phone(snackbarHostState, currentRouteIsAuth, startRoute, currentRoute, navController, viewModel, scope, drawerState) },
-        phoneHorizontal = { Phone(snackbarHostState, currentRouteIsAuth, startRoute, currentRoute, navController, viewModel, scope, drawerState) }
-    )
+
+
 
     val errorMessageRes = uiState.error?.let { error ->
         stringResource(errorManager(error.message))
@@ -282,7 +287,8 @@ fun TopBar(
                 }) {
                     Icon(Icons.Filled.Menu, contentDescription = "Menú")
                 }
-            } else if(tablet && currentRoute in backRoutes) {
+            }
+            if(currentRoute in backRoutes) {
                 IconButton(onClick = {
                     viewModel.setCurrentPayment(null)
                     navController.popBackStack()
