@@ -24,8 +24,6 @@ enum class AppDestinations(
     REGISTRO(R.string.registrate, Icons.AutoMirrored.Filled.Login, "registro", false),
     DASHBOARD(R.string.dashboard, Icons.Filled.Home, "dashboard", true),
     MOVIMIENTOS(R.string.movimientos, Icons.Filled.Payments, "movimientos", true),
-    TRANSFERENCIAS(R.string.transferencias, Icons.Filled.Payments, "transferencias", true),
-    NUEVA_TRANSFERENCIA(R.string.nueva_transferencia, Icons.Filled.Payments, "nueva_transferencia", true),
     SERVICIOS(R.string.servicios, Icons.Filled.Apps, "servicios", true),
     TARJETAS(R.string.tarjetas, Icons.Filled.CreditCard, "tarjetas", true),
     VERIFICAR(R.string.verificar_cuenta, Icons.Filled.CheckBox, "verificar", false),

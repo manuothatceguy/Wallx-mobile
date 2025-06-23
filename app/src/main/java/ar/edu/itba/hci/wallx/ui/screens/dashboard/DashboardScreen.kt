@@ -170,9 +170,7 @@ fun AvailableMoney(viewModel: WallXViewModel, onNavigate: (String) -> Unit){
                     icon = ImageVector.vectorResource(R.drawable.send_money_24dp_e3e3e3_fill0_wght400_grad0_opsz24),
                     label = stringResource( R.string.transferir  ),
                 )
-                {
-                    onNavigate(AppDestinations.TRANSFERENCIAS.route)
-                }
+                {}
 
             }
 

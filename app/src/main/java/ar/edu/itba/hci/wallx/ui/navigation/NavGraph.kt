@@ -68,12 +68,6 @@ fun AppNavGraph(
                 onNavigateTo = navGuard
             )
         }
-        composable(AppDestinations.TRANSFERENCIAS.route) {
-            //TransferenciasScreen(modifier)
-        }
-        composable(AppDestinations.NUEVA_TRANSFERENCIA.route) {
-            // NuevaTransferenciaScreen(modifier)
-        }
         composable(AppDestinations.SERVICIOS.route) {
             ServiciosScreen(modifier,viewModel = viewModel ,onNavigate = navGuard)
         }
@@ -83,9 +77,7 @@ fun AppNavGraph(
         composable(AppDestinations.VERIFICAR.route) {
             VerifyScreen(
                 viewModel = viewModel,
-                onVerifySuccess = {
-                    navGuard(AppDestinations.DASHBOARD.route)
-                }
+                onNavigate = navGuard
             )
         }
         composable(AppDestinations.INGRESAR_DINERO.route) {
