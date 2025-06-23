@@ -338,6 +338,29 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier, viewModel: WallXViewMode
                     )
 
                     OutlinedTextField(
+                        value = fullName,
+                        onValueChange = { fullName = it },
+                        label = {
+                            Text(
+                                text = stringResource(R.string.nombre),
+                                style = Typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                        },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = TextFieldDefaults.colors(
+                            focusedLabelColor = Black,
+                            unfocusedLabelColor = Grey,
+                            focusedContainerColor = MaterialTheme.colorScheme.secondary,
+                            unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
+                            disabledContainerColor = MaterialTheme.colorScheme.secondary
+                        )
+                    )
+
+                    Spacer(Modifier.height(13.dp))
+
+                    OutlinedTextField(
                         value = number,
                         onValueChange = { input ->
                             val digits = input.filter { it.isDigit() }
@@ -354,29 +377,6 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier, viewModel: WallXViewMode
                         modifier = Modifier.fillMaxWidth(),
                         colors = TextFieldDefaults.colors(
                             focusedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                            unfocusedLabelColor = Grey,
-                            focusedContainerColor = MaterialTheme.colorScheme.secondary,
-                            unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
-                            disabledContainerColor = MaterialTheme.colorScheme.secondary
-                        )
-                    )
-
-                    Spacer(Modifier.height(13.dp))
-
-                    OutlinedTextField(
-                        value = fullName,
-                        onValueChange = { fullName = it },
-                        label = {
-                            Text(
-                                text = stringResource(R.string.nombre),
-                                style = Typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
-                        },
-                        singleLine = true,
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = TextFieldDefaults.colors(
-                            focusedLabelColor = Black,
                             unfocusedLabelColor = Grey,
                             focusedContainerColor = MaterialTheme.colorScheme.secondary,
                             unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
