@@ -1,7 +1,9 @@
 package ar.edu.itba.hci.wallx.ui.screens
 
+import android.provider.ContactsContract
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,6 +27,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.NavigationRail
+import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
@@ -42,16 +46,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.WallXApplication
 import ar.edu.itba.hci.wallx.WallXViewModel
+import ar.edu.itba.hci.wallx.ui.components.DeviceLayout
 import ar.edu.itba.hci.wallx.ui.components.errorManager
 import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
 import ar.edu.itba.hci.wallx.ui.navigation.AppNavGraph
@@ -67,7 +74,6 @@ fun MainApp (
     val startRoute = if (uiState.isAuthenticated) AppDestinations.DASHBOARD.route else AppDestinations.INICIO_DE_SESION.route
     val currentRoute = navController.currentBackStackEntry?.destination?.route
     val configuration = LocalConfiguration.current
-    val tablet = configuration.screenWidthDp >= 600
     val authRoutes = AppDestinations.entries.filter{entry -> entry.requiresAuth}.map { entry -> entry.route }
     val currentRouteIsAuth = currentRoute in authRoutes
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -76,49 +82,170 @@ fun MainApp (
     viewModel.getSee()
 
 
+    DeviceLayout(
+        tabletVertical = { Tablet(snackbarHostState, currentRouteIsAuth, startRoute, currentRoute, navController, viewModel, scope, drawerState) },
+        tabletHorizontal = { Tablet(snackbarHostState, currentRouteIsAuth, startRoute, currentRoute, navController, viewModel, scope, drawerState) },
+        phoneVertical = { Phone(snackbarHostState, currentRouteIsAuth, startRoute, currentRoute, navController, viewModel, scope, drawerState) },
+        phoneHorizontal = { Phone(snackbarHostState, currentRouteIsAuth, startRoute, currentRoute, navController, viewModel, scope, drawerState) }
+    )
+
+    val errorMessageRes = uiState.error?.let { error ->
+        stringResource(errorManager(error.message))
+    }
+
+    LaunchedEffect(uiState.completeUserDetail) {
+        if (uiState.isAuthenticated && uiState.completeUserDetail == null) {
+            snackbarHostState.showSnackbar(errorMessageRes?: "Error")
+            viewModel.clearError()
+        }
+    }
+}
+
+@Composable
+fun Phone(    snackbarHostState : SnackbarHostState,
+              currentRouteIsAuth : Boolean,
+              startRoute : String,
+              currentRoute : String?,
+              navController : NavHostController,
+              viewModel : WallXViewModel,
+              scope : CoroutineScope,
+              drawerState : DrawerState){
+    val uiState by viewModel.uiState.collectAsState()
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
             if (currentRouteIsAuth && uiState.isAuthenticated) {
                 SideBar(viewModel, currentRoute, navController, drawerState)
             }
+        },
+        content = {
+            MainScaffold(
+                snackbarHostState,
+                currentRouteIsAuth,
+                startRoute,
+                currentRoute,
+                navController,
+                viewModel,
+                scope,
+                drawerState
+            )
         }
-    ) {
-        Scaffold(
-            containerColor = MaterialTheme.colorScheme.background,
-            topBar = { if (currentRouteIsAuth && uiState.isAuthenticated && uiState.completeUserDetail != null) TopBar(viewModel, scope, drawerState, navController, currentRoute) },
-            snackbarHost = {
-                SnackbarHost(snackbarHostState) { data ->
-                    Snackbar(
-                        snackbarData = data,
-                        containerColor = MaterialTheme.colorScheme.error
+    )
+}
+
+@Composable
+fun Tablet(    snackbarHostState : SnackbarHostState,
+               currentRouteIsAuth : Boolean,
+               startRoute : String,
+               currentRoute : String?,
+               navController : NavHostController,
+               viewModel : WallXViewModel,
+               scope : CoroutineScope,
+               drawerState : DrawerState) {
+
+    val uiState by viewModel.uiState.collectAsState()
+    Row {
+        if(uiState.isAuthenticated){
+            NavigationRail(
+                containerColor = MaterialTheme.colorScheme.primaryContainer.copy(0.8f)
+            ) {
+
+                val drawerRoutes = listOf(
+                    AppDestinations.DASHBOARD,
+                    AppDestinations.MOVIMIENTOS,
+                    AppDestinations.SERVICIOS,
+                    AppDestinations.TARJETAS,
+                    AppDestinations.PERFIL
+                )
+
+                    drawerRoutes.forEach { destination ->
+                        NavigationRailItem(
+                            label = {
+                                Text(
+                                    text = stringResource(destination.title),
+                                )
+                            },
+                            selected = currentRoute == destination.route,
+                            onClick = { navGuard(navController, destination.route, uiState.isAuthenticated) },
+                            enabled = true,
+                            alwaysShowLabel = true,
+                            icon = {
+                                Icon(destination.icon, contentDescription = null)
+                            }
+                        )
+                    }
+
+                    NavigationRailItem(
+                        label = {
+                            Text(
+                                text = stringResource(R.string.cerrar_sesion),
+                            )
+                        },
+                        selected = false,
+                        onClick = {
+                            scope.launch {
+                                drawerState.close()
+                                viewModel.logout()
+                            }
+                        },
+                        enabled = true,
+                        alwaysShowLabel = true,
+                        icon = {
+                            Icon(Icons.AutoMirrored.Outlined.Logout, contentDescription = stringResource(R.string.cerrar_sesion))
+                        }
                     )
                 }
             }
-            ) { padding ->
-            Surface{
-                AppNavGraph(
-                    startRoute = startRoute,
-                    currentRoute = currentRoute,
-                    viewModel = viewModel,
-                    navController = navController,
-                    modifier = Modifier.padding(padding),
-                ) { route ->
-                   navGuard(navController, route, uiState.isAuthenticated)
-                }
+        }
+
+        // Contenido principal
+        MainScaffold(
+            snackbarHostState,
+            currentRouteIsAuth,
+            startRoute,
+            currentRoute,
+            navController,
+            viewModel,
+            scope,
+            drawerState
+        )
+
+}
+
+@Composable
+fun MainScaffold(
+    snackbarHostState : SnackbarHostState,
+    currentRouteIsAuth : Boolean,
+    startRoute : String,
+    currentRoute : String?,
+    navController : NavHostController,
+    viewModel : WallXViewModel,
+    scope : CoroutineScope,
+    drawerState : DrawerState
+) {
+    val uiState by viewModel.uiState.collectAsState()
+    Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
+        topBar = { if (currentRouteIsAuth && uiState.isAuthenticated && uiState.completeUserDetail != null) TopBar(viewModel, scope, drawerState, navController, currentRoute) },
+        snackbarHost = {
+            SnackbarHost(snackbarHostState) { data ->
+                Snackbar(
+                    snackbarData = data,
+                    containerColor = MaterialTheme.colorScheme.error
+                )
             }
         }
-    }
-    val errorMessageRes = uiState.error?.let { error ->
-        stringResource(errorManager(error.message))
-    }
-
-
-
-    LaunchedEffect(uiState.completeUserDetail) {
-        if (uiState.isAuthenticated && uiState.completeUserDetail == null) {
-            snackbarHostState.showSnackbar(errorMessageRes?: "Error")
-            viewModel.clearError()
+    ) { padding ->
+        Surface{
+            AppNavGraph(
+                startRoute = startRoute,
+                currentRoute = currentRoute,
+                viewModel = viewModel,
+                navController = navController,
+                modifier = Modifier.padding(padding),
+            ) { route ->
+                navGuard(navController, route, uiState.isAuthenticated)
+            }
         }
     }
 }
@@ -142,13 +269,15 @@ fun TopBar(
     )
     val firstName = uiState.completeUserDetail?.firstName ?: ""
 
+    val tablet = LocalConfiguration.current.screenWidthDp > 300
+
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer.copy(0.8f),
             titleContentColor = MaterialTheme.colorScheme.primary,
         ),
         navigationIcon = {
-            if (currentRoute !in backRoutes) {
+            if (currentRoute !in backRoutes && !tablet) {
                 IconButton(onClick = {
                     scope.launch {
                         if (drawerState.isClosed) drawerState.open()
@@ -157,7 +286,7 @@ fun TopBar(
                 }) {
                     Icon(Icons.Filled.Menu, contentDescription = "Menú")
                 }
-            } else {
+            } else if(tablet && currentRoute in backRoutes) {
                 IconButton(onClick = {
                     viewModel.setCurrentPayment(null)
                     navController.popBackStack()
@@ -165,6 +294,7 @@ fun TopBar(
                     Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
                 }
             }
+
         },
         title = {
             if (currentRoute == AppDestinations.DASHBOARD.route) {
@@ -209,7 +339,8 @@ fun SideBar(
     ModalDrawerSheet{
         Column(
             modifier = Modifier
-                .fillMaxSize().background(MaterialTheme.colorScheme.background)
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

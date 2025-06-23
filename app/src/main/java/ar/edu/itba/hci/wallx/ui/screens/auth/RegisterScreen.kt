@@ -87,8 +87,8 @@ fun RegisterScreen(
 
 
     Scaffold { innerPadding ->
-        Column(modifier = modifier.fillMaxSize().padding(innerPadding)) {
-            Row(modifier = modifier) {
+        Column(modifier = modifier.fillMaxSize().padding(innerPadding), horizontalAlignment = Alignment.CenterHorizontally) {
+            Row(modifier = modifier.align(Alignment.CenterHorizontally)) {
                 Card(
                     modifier = modifier
                         .padding(horizontal = 120.dp, vertical = 16.dp)
