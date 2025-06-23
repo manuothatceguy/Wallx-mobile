@@ -93,8 +93,9 @@ fun AvailableMoney(viewModel: WallXViewModel, onNavigate: (String) -> Unit){
         modifier = Modifier
             .padding(horizontal = 12.dp, vertical = 12.dp)
             .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.background)
             .height(250.dp),
-        colors = CardDefaults.cardColors(containerColor = Interactive),
+        colors = CardDefaults.cardColors(containerColor =  MaterialTheme.colorScheme.primaryContainer) ,
     ) {
         Column(
             modifier = Modifier
@@ -135,7 +136,7 @@ fun AvailableMoney(viewModel: WallXViewModel, onNavigate: (String) -> Unit){
             {
 
                 Text(
-                    text = if (uiState.see) "%.2f $".format(uiState.accountDetail?.balance ?: 0.0) else "*****",
+                    text = if (uiState.see) "$ %.2f".format(uiState.accountDetail?.balance ?: 0.0) else "*****",
                     fontSize = MaterialTheme.typography.displayMedium.fontSize,
                     fontWeight = FontWeight.Black,
                     modifier = Modifier.padding(end = 4.dp),
@@ -273,7 +274,7 @@ fun LastMovements(
             .padding(horizontal = 12.dp, vertical = 12.dp)
             .fillMaxWidth()
             .height(280.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer) // o Secondary, si querés un bloque destacado
+        colors = CardDefaults.cardColors(containerColor =  MaterialTheme.colorScheme.primaryContainer)
     ) {
         Column(
             modifier = Modifier
@@ -336,7 +337,7 @@ fun MovementOverview(
     ) {
         val isPositive = isPositive(wallXViewModel,movement)
         Text(
-            text = (if(isPositive) "+ " else "- ") + movement.amount.toString() + " $",
+            text =  (if(isPositive) "+ " else "- ")+"$ " + movement.amount.toString(),
             modifier = Modifier.weight(1f),
             fontWeight = FontWeight.SemiBold,
             color = if(isPositive) Success else MaterialTheme.colorScheme.error

@@ -149,14 +149,14 @@ fun TopBar(
 
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(0.8f),
             titleContentColor = MaterialTheme.colorScheme.primary,
         ),
         navigationIcon = {
             if (currentRoute !in backRoutes) {
                 IconButton(onClick = {
                     scope.launch {
-                        if (drawerState.isClosed == true) drawerState.open()
+                        if (drawerState.isClosed) drawerState.open()
                         else drawerState.close()
                     }
                 }) {
@@ -178,7 +178,8 @@ fun TopBar(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text("${stringResource(R.string.saludo)}${(", $firstName")}",
-                        modifier = Modifier.clickable { navController.navigate(AppDestinations.PERFIL.route) }
+                        modifier = Modifier.clickable { navController.navigate(AppDestinations.PERFIL.route) },
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
             }
