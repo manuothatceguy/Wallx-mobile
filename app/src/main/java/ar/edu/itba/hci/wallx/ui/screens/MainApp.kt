@@ -79,6 +79,8 @@ fun MainApp (
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
+    viewModel.getSee()
+
 
     DeviceLayout(
         tabletVertical = { Tablet(snackbarHostState, currentRouteIsAuth, startRoute, currentRoute, navController, viewModel, scope, drawerState) },
