@@ -1,6 +1,5 @@
 package ar.edu.itba.hci.wallx.ui.screens.tarjetas
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -23,15 +22,12 @@ import androidx.compose.ui.unit.dp
 import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.data.model.Card
-import ar.edu.itba.hci.wallx.ui.theme.Selected
 import ar.edu.itba.hci.wallx.ui.theme.White
-import java.text.SimpleDateFormat
-import java.util.Locale
 import ar.edu.itba.hci.wallx.ui.components.CardItem
 import ar.edu.itba.hci.wallx.ui.components.detectCardBrandFromNumber
-import ar.edu.itba.hci.wallx.ui.components.fullCard
 import androidx.compose.runtime.getValue
 import ar.edu.itba.hci.wallx.ui.components.DeviceLayout
+import ar.edu.itba.hci.wallx.ui.components.FullCard
 import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
 
 
@@ -39,15 +35,14 @@ import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
 fun TarjetasScreen( modifier: Modifier = Modifier,
                     wallXViewModel: WallXViewModel,
                     onNavigateTo: (String) -> Unit) {
-    val formatter = SimpleDateFormat("MM/yy", Locale.getDefault())
     val uiState by wallXViewModel.uiState.collectAsState()
     val cards = uiState.cardsDetail ?: emptyList()
 
     DeviceLayout(
-        phoneVertical= {TarjetasVertical(modifier, onNavigateTo, cards)},
-        phoneHorizontal={TarjetasHorizontal(modifier, onNavigateTo, cards)},
-        tabletVertical={TarjetasVertical(modifier, onNavigateTo, cards)},
-        tabletHorizontal={TarjetasHorizontal(modifier, onNavigateTo, cards)}
+        phoneVertical= {TarjetasVertical(modifier, onNavigateTo, cards,wallXViewModel)},
+        phoneHorizontal={TarjetasHorizontal(modifier, onNavigateTo, cards,wallXViewModel)},
+        tabletVertical={TarjetasVertical(modifier, onNavigateTo, cards,wallXViewModel)},
+        tabletHorizontal={TarjetasHorizontal(modifier, onNavigateTo, cards,wallXViewModel)}
     )
 
 }
@@ -55,7 +50,8 @@ fun TarjetasScreen( modifier: Modifier = Modifier,
 @Composable
 fun TarjetasVertical(modifier: Modifier = Modifier,
                     onNavigateTo: (String) -> Unit,
-                     cards: List<Card>){
+                     cards: List<Card>,
+                     viewModel: WallXViewModel){
     Column(
         modifier = modifier
             .fillMaxSize().background(MaterialTheme.colorScheme.background)
@@ -83,7 +79,7 @@ fun TarjetasVertical(modifier: Modifier = Modifier,
                 )
             }
 
-            Button(onClick = { /* escanear */ },
+            Button(onClick = {  },
                 modifier = Modifier.weight(1f),
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(
@@ -109,7 +105,7 @@ fun TarjetasVertical(modifier: Modifier = Modifier,
                 .weight(1f)
         ) {
             items(cards) { card ->
-                CardItem(fullCard(card, detectCardBrandFromNumber(card.number)))
+                CardItem(FullCard(card, detectCardBrandFromNumber(card.number)),viewModel)
             }
         }
     }
@@ -119,7 +115,8 @@ fun TarjetasVertical(modifier: Modifier = Modifier,
 fun TarjetasHorizontal(
     modifier: Modifier = Modifier,
     onNavigateTo: (String) -> Unit,
-    cards: List<Card>
+    cards: List<Card>,
+    viewModel: WallXViewModel
 ) {
     Column(
         modifier = modifier
@@ -152,7 +149,7 @@ fun TarjetasHorizontal(
             }
 
             Button(
-                onClick = { /* escanear */ },
+                onClick = {  },
                 modifier = Modifier.weight(1f),
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(
@@ -181,7 +178,7 @@ fun TarjetasHorizontal(
             modifier = Modifier.fillMaxSize()
         ) {
             items(cards) { card ->
-                CardItem(fullCard(card, detectCardBrandFromNumber(card.number)))
+                CardItem(FullCard(card, detectCardBrandFromNumber(card.number)),viewModel)
             }
         }
     }

@@ -2,6 +2,7 @@ package ar.edu.itba.hci.wallx.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ar.edu.itba.hci.wallx.R
+import ar.edu.itba.hci.wallx.WallXViewModel
 import ar.edu.itba.hci.wallx.data.model.Card
 import ar.edu.itba.hci.wallx.ui.theme.AmexGrey
 import ar.edu.itba.hci.wallx.ui.theme.DefaultCard
@@ -32,18 +34,17 @@ import ar.edu.itba.hci.wallx.ui.theme.MaestroBlue
 import ar.edu.itba.hci.wallx.ui.theme.MastercardGrey
 import ar.edu.itba.hci.wallx.ui.theme.VisaBlack
 import ar.edu.itba.hci.wallx.ui.theme.White
-import java.text.SimpleDateFormat
 import java.util.Locale
 
 
-data class fullCard(
+data class FullCard(
     val card: Card,
     val brand: String?
 )
 
 
 @Composable
-fun CardItem(cardData: fullCard) {
+fun CardItem(cardData: FullCard, viewModel : WallXViewModel) {
     val card = cardData.card
     val brandLogo = getBrandLogo(cardData.brand)
     val backgroundColor = getCardColor(cardData.brand)
@@ -80,7 +81,6 @@ fun CardItem(cardData: fullCard) {
                 fontWeight = FontWeight.SemiBold),
             modifier = Modifier.align(Alignment.BottomEnd)
         )
-        // Aquí pongo logo y tipo juntos en un Row
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.align(Alignment.TopStart)
@@ -91,10 +91,11 @@ fun CardItem(cardData: fullCard) {
                 modifier = Modifier
                     .size(90.dp)
                     .padding(10.dp)
+
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = card.type.capitalize(Locale.getDefault()),
+                text = card.type.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },
                 style = MaterialTheme.typography.titleMedium.copy(
                     color = White,
                     fontWeight = FontWeight.Bold)
@@ -108,6 +109,9 @@ fun CardItem(cardData: fullCard) {
                 .align(Alignment.BottomEnd)
                 .padding(bottom = 30.dp)
                 .size(30.dp)
+                .clickable {
+                    viewModel.deleteCard(cardData.card.id)
+                }
         )
     }
 }

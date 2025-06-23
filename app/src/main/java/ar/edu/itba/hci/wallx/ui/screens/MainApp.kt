@@ -1,9 +1,7 @@
 package ar.edu.itba.hci.wallx.ui.screens
 
-import android.provider.ContactsContract
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -46,7 +44,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color.Companion.Transparent
+
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -73,7 +71,6 @@ fun MainApp (
     val navController = rememberNavController()
     val startRoute = if (uiState.isAuthenticated) AppDestinations.DASHBOARD.route else AppDestinations.INICIO_DE_SESION.route
     val currentRoute = navController.currentBackStackEntry?.destination?.route
-    val configuration = LocalConfiguration.current
     val authRoutes = AppDestinations.entries.filter{entry -> entry.requiresAuth}.map { entry -> entry.route }
     val currentRouteIsAuth = currentRoute in authRoutes
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -198,7 +195,7 @@ fun Tablet(    snackbarHostState : SnackbarHostState,
             }
         }
 
-        // Contenido principal
+
         MainScaffold(
             snackbarHostState,
             currentRouteIsAuth,

@@ -1,5 +1,7 @@
 package ar.edu.itba.hci.wallx.ui.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -20,6 +22,7 @@ import ar.edu.itba.hci.wallx.ui.screens.servicios.ServiciosScreen
 import ar.edu.itba.hci.wallx.ui.screens.tarjetas.AgregarTarjetaScreen
 import ar.edu.itba.hci.wallx.ui.screens.tarjetas.TarjetasScreen
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AppNavGraph(
     modifier: Modifier = Modifier,

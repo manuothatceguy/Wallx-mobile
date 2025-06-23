@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import android.content.ClipboardManager
-import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.foundation.layout.Spacer
@@ -61,7 +60,6 @@ import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
 import ar.edu.itba.hci.wallx.ui.screens.movimientos.isPositive
 import ar.edu.itba.hci.wallx.ui.theme.Info
 import ar.edu.itba.hci.wallx.ui.theme.InfoCardColor
-import ar.edu.itba.hci.wallx.ui.theme.Interactive
 import ar.edu.itba.hci.wallx.ui.theme.Success
 import ar.edu.itba.hci.wallx.ui.theme.White
 import kotlinx.coroutines.delay
@@ -253,7 +251,7 @@ fun InfoCard(text: String){
                                 copy = false
                             }
                         },
-                        
+
                         tint= MaterialTheme.colorScheme.surfaceVariant
                     )
 
