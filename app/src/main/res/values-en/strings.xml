@@ -130,4 +130,5 @@
     <string name="confirmar_tarjeta">Confirm card</string>
     <string name="confirmar_tarjeta_detalle">Confirm card details</string>
     <string name="fecha_invalida">Must be at least 16 years old</string>
+    <string name="nuevo_alias">New alias</string>
 </resources>

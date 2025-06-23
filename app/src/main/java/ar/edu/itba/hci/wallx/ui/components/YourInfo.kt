@@ -56,9 +56,12 @@ fun YourInfo(viewModel: WallXViewModel, moreInfo: Boolean = false){
                         fontWeight = FontWeight.Bold, color=MaterialTheme.colorScheme.onSecondaryContainer)
                 )
             }
-            Text(
-                text = (uiState.completeUserDetail?.firstName ?:"" ) + " " + (uiState.completeUserDetail?.lastName ?: ""),
-            )
+            if(moreInfo) {
+                Text(
+                    text = (uiState.completeUserDetail?.firstName
+                        ?: "") + " " + (uiState.completeUserDetail?.lastName ?: ""),
+                )
+            }
             HorizontalDivider(thickness = 1.dp,color = SurfaceVariant)
             val aliasString = if(uiState.accountDetail != null) uiState.accountDetail!!.alias else "Error"
             val cvuString = if(uiState.accountDetail != null) uiState.accountDetail!!.cvu else "Error"

@@ -42,6 +42,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -50,6 +51,9 @@ import androidx.compose.ui.window.Dialog
 import ar.edu.itba.hci.wallx.ui.components.YourInfo
 import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
 import ar.edu.itba.hci.wallx.ui.screens.tarjetas.TarjetasScreen
+import ar.edu.itba.hci.wallx.ui.theme.Info
+import ar.edu.itba.hci.wallx.ui.theme.Interactive
+import ar.edu.itba.hci.wallx.ui.theme.SecondaryDarken1
 import ar.edu.itba.hci.wallx.ui.theme.WallxTheme
 
 @Composable
@@ -65,7 +69,7 @@ fun PerfilScreen(modifier: Modifier = Modifier, viewModel: WallXViewModel) {
     ) {
         Column {
 
-            YourInfo(viewModel)
+            YourInfo(viewModel,true)
             Spacer(modifier = Modifier.height(4.dp))
 
             Row {
@@ -73,9 +77,7 @@ fun PerfilScreen(modifier: Modifier = Modifier, viewModel: WallXViewModel) {
                     modifier = Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Button(onClick = {
-                        // Acción cambiar contraseña
-                    }) {
+                    Button(onClick = {}) {
                         Text(stringResource(R.string.cambiar_contraseña))
                     }
                 }
@@ -103,7 +105,7 @@ fun PerfilScreen(modifier: Modifier = Modifier, viewModel: WallXViewModel) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(
-                            color = MaterialTheme.colorScheme.surface,
+                            color = MaterialTheme.colorScheme.background,
                             shape = RoundedCornerShape(16.dp)
                         )
                         .padding(16.dp)
@@ -115,8 +117,9 @@ fun PerfilScreen(modifier: Modifier = Modifier, viewModel: WallXViewModel) {
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = "Cambiar alias",
-                                style = MaterialTheme.typography.titleMedium
+                                text = stringResource(R.string.cambiar_alias),
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onBackground,
                             )
                             IconButton(onClick = { showDialog = false }) {
                                 Icon(
@@ -131,8 +134,29 @@ fun PerfilScreen(modifier: Modifier = Modifier, viewModel: WallXViewModel) {
                         OutlinedTextField(
                             value = newAlias,
                             onValueChange = { newAlias = it },
-                            label = { Text("Nuevo alias") },
-                            modifier = Modifier.fillMaxWidth()
+                            label = { Text(stringResource(R.string.nuevo_alias), color = Info) },
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedTextColor = Info,
+                                unfocusedTextColor = Info,
+                                disabledTextColor = MaterialTheme.colorScheme.surfaceVariant,
+                                errorTextColor = MaterialTheme.colorScheme.error,
+                                errorContainerColor = MaterialTheme.colorScheme.error.copy(
+                                    alpha = 0.1f
+                                ),
+
+                                cursorColor = Info,
+
+                                focusedBorderColor = Info,
+                                unfocusedBorderColor = Info.copy(0.8f),
+                                disabledBorderColor = MaterialTheme.colorScheme.surfaceVariant,
+                                errorBorderColor = MaterialTheme.colorScheme.error,
+
+                                focusedLeadingIconColor = SecondaryDarken1,
+                                unfocusedLeadingIconColor = Interactive.copy(alpha = 0.7f),
+
+                                focusedTrailingIconColor = SecondaryDarken1,
+                                unfocusedTrailingIconColor = Interactive.copy(alpha = 0.7f),)
                         )
 
                         Spacer(modifier = Modifier.height(16.dp))
