@@ -434,7 +434,7 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier, viewModel: WallXViewMode
                         val nuevaTarjeta = NewCardData(
                             type = cardType.toString(),
                             number = number,
-                            expirationDate = "$selectedMonth/$selectedYear",
+                            expirationDate = "$selectedMonth/${selectedYear.subSequence(2,5)}",
                             fullName = fullName,
                             cvv = cvv
                         )
