@@ -241,23 +241,22 @@ fun InfoCard(text: String){
                 val clip = ClipData.newPlainText("text", text)
                 var copy by remember { mutableStateOf(false) }
                 val coroutineScope = rememberCoroutineScope()
-                Button(
-                    onClick = {
-                        clipboardManager.setPrimaryClip(clip)
-                        copy = true
-                        coroutineScope.launch {
-                            delay(3000)
-                            copy = false
-                        }
-                    }
-                ) {
+
                     Icon(
                         if(copy) Icons.Filled.Check else Icons.Filled.ContentCopy,
                         contentDescription = "copy",
-                        modifier = Modifier.size(25.dp),
+                        modifier = Modifier.size(25.dp).clickable{
+                            clipboardManager.setPrimaryClip(clip)
+                            copy = true
+                            coroutineScope.launch {
+                                delay(3000)
+                                copy = false
+                            }
+                        },
+                        
                         tint= MaterialTheme.colorScheme.surfaceVariant
                     )
-                }
+
             }
         }
 

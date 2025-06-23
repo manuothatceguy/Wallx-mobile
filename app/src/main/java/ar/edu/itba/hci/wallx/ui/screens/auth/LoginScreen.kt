@@ -115,7 +115,7 @@ fun LoginScreen(
                     }
                 }
             }
-            Row(modifier = modifier.padding(horizontal = 30.dp, vertical = 10.dp)) {
+            Row(modifier = modifier.padding(horizontal = 15.dp, vertical = 10.dp)) {
                 Card(
                     modifier = modifier
                         .fillMaxWidth()
@@ -132,7 +132,7 @@ fun LoginScreen(
                         Card(
                             modifier = Modifier
                                 .padding(5.dp)
-                                .height(300.dp)
+                                .height(270.dp)
                                 .fillMaxSize(),
                             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondary)
                         ) {
@@ -153,11 +153,8 @@ fun LoginScreen(
                                     OutlinedTextField(
                                         value = user,
                                         onValueChange = { newUser -> user = newUser },
-                                        label = {
-                                            Text(
-                                                text = stringResource(R.string.usuario),
-                                                color = Info
-                                            )
+                                        placeholder = {
+                                            Text(text = stringResource(R.string.usuario), color = Info)
                                         },
                                         colors = OutlinedTextFieldDefaults.colors(
                                             focusedTextColor = MaterialTheme.colorScheme.primary,
@@ -203,11 +200,8 @@ fun LoginScreen(
                                     OutlinedTextField(
                                         value = password,
                                         onValueChange = { newPassword -> password = newPassword },
-                                        label = {
-                                            Text(
-                                                text = stringResource(R.string.contraseña),
-                                                color = Info
-                                            )
+                                        placeholder = {
+                                            Text(text = stringResource(R.string.contraseña), color = Info)
                                         },
                                         colors = OutlinedTextFieldDefaults.colors(
                                             focusedTextColor = MaterialTheme.colorScheme.primary,
@@ -282,7 +276,9 @@ fun LoginScreen(
                             )
                         ) {
                             Box {
-                                Text(text = stringResource(R.string.inicio_sesion))
+                                Text(text = stringResource(R.string.inicio_sesion),
+                                    color = MaterialTheme.colorScheme.onSecondary
+                                )
                             }
                         }
                         Text(

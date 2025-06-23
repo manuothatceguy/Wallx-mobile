@@ -102,7 +102,7 @@ fun RegisterScreen(
                 }
             }
 
-            Row(modifier = modifier.padding(horizontal = 30.dp, vertical = 10.dp)) {
+            Row(modifier = modifier.padding( vertical = 10.dp)) {
                 Card(
                     modifier = modifier
                         .fillMaxWidth()

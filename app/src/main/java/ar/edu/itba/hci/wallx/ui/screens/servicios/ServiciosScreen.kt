@@ -90,13 +90,13 @@ fun ServiciosScreen(
                         onNavigate(AppDestinations.PAGAR_SERVICIO.route)
                     },
                     modifier = Modifier.fillMaxWidth().height(70.dp),
-                    colors = ButtonDefaults.buttonColors( contentColor =White,containerColor = Selected),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
                     shape = RoundedCornerShape(10.dp),
 
 
 
                 ) {
-                    Text(stringResource(R.string.pagarServicio), style = Typography.bodyLarge.copy(fontWeight = FontWeight.Bold), color = White)
+                    Text(stringResource(R.string.pagarServicio), style = Typography.bodyLarge.copy(fontWeight = FontWeight.Bold))
                 }
             }
         }

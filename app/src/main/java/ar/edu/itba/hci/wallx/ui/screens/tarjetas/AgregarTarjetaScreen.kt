@@ -249,8 +249,10 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier, viewModel: WallXViewMode
                 Column {
                     Text(stringResource(R.string.confirmar_tarjeta_detalle))
                     Spacer(Modifier.height(8.dp))
+
+                    // TODO: strinResourse
                     Text("Tipo: ${details.type}")
-                    Text("Número: ${(details.number)?.takeLast(4)}") // Función para enmascarar
+                    Text("Número: ${(details.number)?.takeLast(4)}")
                     Text("Nombre: ${details.fullName}")
                     Text("Vencimiento: ${details.expirationDate}")
                 }
@@ -265,16 +267,17 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier, viewModel: WallXViewMode
                         cvv = ""
                         selectedMonth = months.first()
                         selectedYear = years.first().toString()
+                        onSuccess()
                     }
                 ) {
                     Text(stringResource(R.string.confirmar))
                 }
             },
-            dismissButton = { // Opcional: si quieres un botón para cancelar explícitamente
+            dismissButton = {
                 TextButton(
                     onClick = {
                         showConfirmationDialog = false
-                        // No limpiar campos o no agregar la tarjeta si se cancela
+
                     }
                 ) {
                     Text("Cancelar")
