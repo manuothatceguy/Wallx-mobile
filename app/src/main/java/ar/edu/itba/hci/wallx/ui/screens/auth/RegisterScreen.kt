@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.InternalTextApi
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.WallXViewModel
@@ -120,7 +121,8 @@ fun RegisterScreen(
                             ) {
                                 Text(
                                     text = stringResource(R.string.registrate),
-                                    style = Typography.titleLarge
+                                    style = Typography.titleLarge,
+                                    fontWeight = FontWeight.Bold
                                 )
 
                                 Column(modifier = Modifier.fillMaxWidth()) {
