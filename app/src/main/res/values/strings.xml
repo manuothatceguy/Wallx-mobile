@@ -134,4 +134,6 @@
     <string name="seleccionar_metodo">Seleccione un método de pago</string>
     <string name="año">Año</string>
     <string name="mes">Mes</string>
+    <string name="confirmar_tarjeta">Confirmar tarjeta</string>
+    <string name="confirmar_tarjeta_detalle">Confirmar los detalles de la tarjeta</string>
 </resources>
