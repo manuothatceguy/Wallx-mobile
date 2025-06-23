@@ -1,5 +1,6 @@
 package ar.edu.itba.hci.wallx.ui.screens.auth
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.InternalTextApi
 import androidx.compose.ui.text.font.FontWeight
@@ -99,20 +101,16 @@ fun LoginScreen(
                 Card(
                     modifier = modifier
                         .padding(horizontal = 120.dp, vertical = 16.dp)
-                        .fillMaxWidth()
-                        .height(60.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)
+                        .height(80.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
                 ) {
                     Box(
                         modifier = Modifier
                             .fillMaxSize(),
                         contentAlignment = Alignment.Center
+
                     ) {
-                        Text(
-                            text = stringResource(R.string.app_name),
-                            modifier = Modifier.padding(16.dp),
-                            style = Typography.titleLarge
-                        )
+                        Image(painter = painterResource(R.drawable.wallx_logo_white), contentDescription = "logo")
                     }
                 }
             }

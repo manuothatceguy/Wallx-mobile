@@ -121,7 +121,7 @@ fun TarjetasHorizontal(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(16.dp).background(MaterialTheme.colorScheme.background)
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
