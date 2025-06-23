@@ -155,22 +155,22 @@ fun Tablet(    snackbarHostState : SnackbarHostState,
                     AppDestinations.PERFIL
                 )
 
-                    drawerRoutes.forEach { destination ->
-                        NavigationRailItem(
-                            label = {
-                                Text(
-                                    text = stringResource(destination.title),
-                                )
-                            },
-                            selected = currentRoute == destination.route,
-                            onClick = { navGuard(navController, destination.route, uiState.isAuthenticated) },
-                            enabled = true,
-                            alwaysShowLabel = true,
-                            icon = {
-                                Icon(destination.icon, contentDescription = null)
-                            }
-                        )
-                    }
+                drawerRoutes.forEach { destination ->
+                    NavigationRailItem(
+                        label = {
+                            Text(
+                                text = stringResource(destination.title),
+                            )
+                        },
+                        selected = currentRoute == destination.route,
+                        onClick = { navGuard(navController, destination.route, true) },
+                        enabled = true,
+                        alwaysShowLabel = true,
+                        icon = {
+                            Icon(destination.icon, contentDescription = null)
+                        }
+                    )
+                }
 
                     NavigationRailItem(
                         label = {
@@ -181,7 +181,6 @@ fun Tablet(    snackbarHostState : SnackbarHostState,
                         selected = false,
                         onClick = {
                             scope.launch {
-                                drawerState.close()
                                 viewModel.logout()
                             }
                         },
