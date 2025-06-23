@@ -33,7 +33,7 @@ fun YourInfo(viewModel: WallXViewModel){
             .padding(horizontal = 12.dp, vertical = 12.dp)
             .fillMaxWidth(),
             //.heightIn(min = 210.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondary)
+        colors = CardDefaults.cardColors(containerColor =  MaterialTheme.colorScheme.primaryContainer)
     ) {
         Column(
             modifier = Modifier

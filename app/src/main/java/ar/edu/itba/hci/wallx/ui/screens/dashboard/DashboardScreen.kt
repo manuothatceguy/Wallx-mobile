@@ -85,7 +85,7 @@ fun AvailableMoney(viewModel: WallXViewModel, onNavigate: (String) -> Unit){
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.background)
             .height(250.dp),
-        colors = CardDefaults.cardColors(containerColor = Interactive),
+        colors = CardDefaults.cardColors(containerColor =  MaterialTheme.colorScheme.primaryContainer) ,
     ) {
         Column(
             modifier = Modifier
@@ -249,7 +249,7 @@ fun LastMovements(
             .padding(horizontal = 12.dp, vertical = 12.dp)
             .fillMaxWidth()
             .height(280.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer) // o Secondary, si querés un bloque destacado
+        colors = CardDefaults.cardColors(containerColor =  MaterialTheme.colorScheme.primaryContainer)
     ) {
         Column(
             modifier = Modifier
