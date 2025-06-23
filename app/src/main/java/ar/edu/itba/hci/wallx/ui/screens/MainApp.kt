@@ -80,6 +80,8 @@ fun MainApp (
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
+    viewModel.getSee()
+
 
     ModalNavigationDrawer(
         drawerState = drawerState,
