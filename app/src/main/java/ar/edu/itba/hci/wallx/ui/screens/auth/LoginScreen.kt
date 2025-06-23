@@ -15,7 +15,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.AlertDialogDefaults.containerColor
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -26,12 +25,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -52,9 +47,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.WallXViewModel
-import ar.edu.itba.hci.wallx.ui.components.errorManager
 import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
-import ar.edu.itba.hci.wallx.ui.theme.Error
 import ar.edu.itba.hci.wallx.ui.theme.Info
 import ar.edu.itba.hci.wallx.ui.theme.Interactive
 import ar.edu.itba.hci.wallx.ui.theme.Primary
@@ -299,6 +292,15 @@ fun LoginScreen(
                             fontSize = 13.sp,
                             modifier = Modifier.clickable {
                                 onNavigateTo(AppDestinations.REGISTRO.route)
+                            }
+                        )
+                        Text(
+                            text = stringResource(R.string.verificar_cuenta),
+                            textDecoration = TextDecoration.Underline,
+                            //color = Info,
+                            fontSize = 13.sp,
+                            modifier = Modifier.clickable {
+                                onNavigateTo(AppDestinations.VERIFICAR.route)
                             }
                         )
 
