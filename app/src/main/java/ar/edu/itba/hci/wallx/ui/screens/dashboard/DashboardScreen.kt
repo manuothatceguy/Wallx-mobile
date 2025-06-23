@@ -1,11 +1,17 @@
 package ar.edu.itba.hci.wallx.ui.screens.dashboard
 
+import android.content.ClipData
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import android.content.ClipboardManager
+import android.widget.Toast
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,6 +25,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.CreditCard
 import androidx.compose.material.icons.filled.History
@@ -33,14 +40,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.runtime.*
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -56,6 +64,8 @@ import ar.edu.itba.hci.wallx.ui.theme.InfoCardColor
 import ar.edu.itba.hci.wallx.ui.theme.Interactive
 import ar.edu.itba.hci.wallx.ui.theme.Success
 import ar.edu.itba.hci.wallx.ui.theme.White
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun DashboardScreen(modifier: Modifier, onNavigate: (String) -> Unit, viewModel : WallXViewModel) {
@@ -225,13 +235,28 @@ fun InfoCard(text: String){
             }
             Column( horizontalAlignment= Alignment.End)
             {
-                Icon(
-                    Icons.Filled.ContentCopy,
-                    contentDescription = "copy",
-                    modifier = Modifier.size(25.dp),
-                    tint= MaterialTheme.colorScheme.surfaceVariant
-
-                )
+                val context = LocalContext.current
+                val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("text", text)
+                var copy by remember { mutableStateOf(false) }
+                val coroutineScope = rememberCoroutineScope()
+                Button(
+                    onClick = {
+                        clipboardManager.setPrimaryClip(clip)
+                        copy = true
+                        coroutineScope.launch {
+                            delay(3000)
+                            copy = false
+                        }
+                    }
+                ) {
+                    Icon(
+                        if(copy) Icons.Filled.Check else Icons.Filled.ContentCopy,
+                        contentDescription = "copy",
+                        modifier = Modifier.size(25.dp),
+                        tint= MaterialTheme.colorScheme.surfaceVariant
+                    )
+                }
             }
         }
 
