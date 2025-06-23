@@ -105,7 +105,7 @@ fun TarjetasVertical(modifier: Modifier = Modifier,
                 .weight(1f)
         ) {
             items(cards) { card ->
-                CardItem(FullCard(card, detectCardBrandFromNumber(card.number)),viewModel)
+                CardItem(FullCard(card, detectCardBrandFromNumber(card.number)),viewModel,onNavigateTo)
             }
         }
     }
@@ -178,7 +178,7 @@ fun TarjetasHorizontal(
             modifier = Modifier.fillMaxSize()
         ) {
             items(cards) { card ->
-                CardItem(FullCard(card, detectCardBrandFromNumber(card.number)),viewModel)
+                CardItem(FullCard(card, detectCardBrandFromNumber(card.number)),viewModel,onNavigateTo)
             }
         }
     }

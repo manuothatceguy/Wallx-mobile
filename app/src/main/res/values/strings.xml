@@ -139,4 +139,8 @@
     <string name="fecha_invalida">Debe ser mayor a 16 años</string>
     <string name="nuevo_alias">Nuevo alias</string>
     <string name="cancelar">Cancelar</string>
+    <string name="tipo">Tipo</string>
+    <string name="eliminar_tarjeta">Eliminar tarjeta</string>
+    <string name="confirmar_eliminacion">¿Esta seguro que desea eliminar la tarjeta?</string>
+    <string name="borrar">Borrar</string>
 </resources>

@@ -236,11 +236,10 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier, viewModel: WallXViewMode
                     Text(stringResource(R.string.confirmar_tarjeta_detalle))
                     Spacer(Modifier.height(8.dp))
 
-                    // TODO: strinResourse
-                    Text("Tipo: ${details.type}")
-                    Text("Número: ${(details.number)?.takeLast(4)}")
-                    Text("Nombre: ${details.fullName}")
-                    Text("Vencimiento: ${details.expirationDate}")
+                    Text(stringResource(R.string.tipo) + ": ${details.type}")
+                    Text(stringResource(R.string.numero) + ": ${(details.number)?.takeLast(4)}")
+                    Text(stringResource(R.string.nombre) + ": ${details.fullName}")
+                    Text(stringResource(R.string.vencimiento) + ": ${details.expirationDate}")
                 }
             },
             confirmButton = {
@@ -266,7 +265,7 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier, viewModel: WallXViewMode
 
                     }
                 ) {
-                    Text("Cancelar")
+                    Text(stringResource(R.string.cancelar))
                 }
             }
         )
