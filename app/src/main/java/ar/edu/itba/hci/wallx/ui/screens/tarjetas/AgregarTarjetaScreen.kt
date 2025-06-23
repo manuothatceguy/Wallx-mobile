@@ -184,7 +184,7 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier, viewModel: WallXViewMode
     var cardType by remember { mutableStateOf(CardType.CREDIT) }
     var cvvFocused by remember { mutableStateOf(false) }
 
-    val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+    val currentYear = Calendar.getInstance().get(Calendar.YEAR) % 100
     val years = (currentYear..currentYear + 10).toList()
     val months = (1..12).map { it.toString().padStart(2, '0') }
     var selectedMonth by remember { mutableStateOf(months.first()) }
@@ -434,7 +434,7 @@ fun AgregarTarjetaScreen(modifier: Modifier = Modifier, viewModel: WallXViewMode
                         val nuevaTarjeta = NewCardData(
                             type = cardType.toString(),
                             number = number,
-                            expirationDate = "$selectedMonth/${selectedYear.subSequence(2,5)}",
+                            expirationDate = "$selectedMonth/${selectedYear}",
                             fullName = fullName,
                             cvv = cvv
                         )
