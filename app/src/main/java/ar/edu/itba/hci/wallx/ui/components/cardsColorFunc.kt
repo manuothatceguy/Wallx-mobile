@@ -148,6 +148,9 @@ fun CardItem(cardData: FullCard, viewModel : WallXViewModel,onNavigate: (String)
                     Text(stringResource(R.string.borrar))
                 }
             },
+            containerColor = MaterialTheme.colorScheme.background,
+            titleContentColor = MaterialTheme.colorScheme.onBackground,
+            textContentColor = MaterialTheme.colorScheme.onBackground,
             dismissButton = {
                 TextButton(
                     onClick = {
