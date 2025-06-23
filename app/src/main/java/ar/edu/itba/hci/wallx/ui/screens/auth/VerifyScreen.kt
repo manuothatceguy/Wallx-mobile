@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ar.edu.itba.hci.wallx.R
 import ar.edu.itba.hci.wallx.WallXViewModel
+import ar.edu.itba.hci.wallx.ui.navigation.AppDestinations
 import ar.edu.itba.hci.wallx.ui.theme.Interactive
 import ar.edu.itba.hci.wallx.ui.theme.Typography
 
@@ -38,7 +39,7 @@ import ar.edu.itba.hci.wallx.ui.theme.Typography
 fun VerifyScreen(
     modifier: Modifier = Modifier,
     viewModel: WallXViewModel,
-    onVerifySuccess: () -> Unit
+    onNavigate: (String) -> Unit
 ) {
     var email by remember { mutableStateOf("") }
     var verificationCode by remember { mutableStateOf("") }
@@ -113,11 +114,12 @@ fun VerifyScreen(
                                 code = verificationCode,
                                 email = email,
                             )
-                            if(uiState.error == null){
-                                onVerifySuccess()
-                            }
                             verificationCode = ""
                             email = ""
+                            if(uiState.error == null){
+                                onNavigate(AppDestinations.INICIO_DE_SESION.route)
+                            }
+
                         },
                         modifier = Modifier.fillMaxWidth(),
                         colors = buttonColors(containerColor = MaterialTheme.colorScheme.secondary)

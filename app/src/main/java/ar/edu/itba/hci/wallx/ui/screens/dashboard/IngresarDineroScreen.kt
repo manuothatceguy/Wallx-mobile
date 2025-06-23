@@ -54,7 +54,6 @@ fun IngresarDineroScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -80,7 +79,7 @@ fun IngresarDineroScreen(
                 Text(
                     text = stringResource(R.string.seleccionar_tarjeta) + ':',
                     style = Typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                    color = SecondaryDarken1,
+                    color = MaterialTheme.colorScheme.onSecondary,
                     modifier = Modifier
                         .align(Alignment.Start)
                         .padding(vertical = 19.dp)
@@ -115,7 +114,7 @@ fun IngresarDineroScreen(
                 Text(
                     text = stringResource(R.string.monto_deseado) + ':',
                     style = Typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                    color = SecondaryDarken1,
+                    color = MaterialTheme.colorScheme.onSecondary,
                     modifier = Modifier
                         .align(Alignment.Start)
                         .padding(vertical = 19.dp)

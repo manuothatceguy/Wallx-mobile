@@ -54,7 +54,8 @@ fun TarjetasVertical(modifier: Modifier = Modifier,
                      viewModel: WallXViewModel){
     Column(
         modifier = modifier
-            .fillMaxSize().background(MaterialTheme.colorScheme.background)
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
             .padding(16.dp)
     ) {
         Row(
@@ -120,8 +121,9 @@ fun TarjetasHorizontal(
 ) {
     Column(
         modifier = modifier
+            .background(MaterialTheme.colorScheme.background)
             .fillMaxSize()
-            .padding(16.dp).background(MaterialTheme.colorScheme.background)
+            .padding(16.dp)
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(12.dp),

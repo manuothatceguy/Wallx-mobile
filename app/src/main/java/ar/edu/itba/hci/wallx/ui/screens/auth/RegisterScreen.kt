@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -73,7 +75,7 @@ fun RegisterScreen(
 
 
     Scaffold { innerPadding ->
-        Column(modifier = modifier.fillMaxSize().padding(innerPadding), horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(modifier = modifier.fillMaxSize().padding(innerPadding).verticalScroll(rememberScrollState()), horizontalAlignment = Alignment.CenterHorizontally) {
             Row(modifier = modifier.align(Alignment.CenterHorizontally)) {
                 Card(
                     modifier = modifier
@@ -98,7 +100,7 @@ fun RegisterScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 30.dp, vertical = 10.dp)
                         .heightIn(min = 400.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondary)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
                 ) {
                     Column(
                         modifier = Modifier
@@ -110,7 +112,7 @@ fun RegisterScreen(
                             modifier = Modifier
                                 .padding(5.dp)
                                 .wrapContentHeight(),
-                            colors = CardDefaults.cardColors(containerColor = Primary)
+                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondary)
                         ) {
                             Column(
                                 modifier = Modifier
@@ -264,8 +266,8 @@ fun RegisterScreen(
                                 .fillMaxWidth()
                                 .padding(top = 16.dp),
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = Primary,
-                                contentColor = White
+                                containerColor = MaterialTheme.colorScheme.secondary,
+                                contentColor = MaterialTheme.colorScheme.onSecondary
                             )
                         ) {
                             Text(text = stringResource(R.string.registrarse))
