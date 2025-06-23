@@ -195,7 +195,7 @@ fun CreditCardPreview(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AgregarTarjetaScreen(modifier: Modifier = Modifier, viewModel: WallXViewModel) {
+fun AgregarTarjetaScreen(modifier: Modifier = Modifier, viewModel: WallXViewModel, onSuccess: () -> Unit) {
     var number by remember { mutableStateOf("") }
     var fullName by remember { mutableStateOf("") }
     var cvv by remember { mutableStateOf("") }
