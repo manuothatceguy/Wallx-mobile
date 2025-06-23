@@ -82,9 +82,92 @@ fun MainApp (
     BoxWithConstraints {
         val tablet = this.maxWidth > 600.dp
         if(tablet){
-            Tablet(snackbarHostState, currentRouteIsAuth, startRoute, currentRoute, navController, viewModel, scope, drawerState)
+            Row {
+                if(uiState.isAuthenticated){
+                    NavigationRail(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer.copy(0.8f)
+                    ) {
+
+                        val drawerRoutes = listOf(
+                            AppDestinations.DASHBOARD,
+                            AppDestinations.MOVIMIENTOS,
+                            AppDestinations.SERVICIOS,
+                            AppDestinations.TARJETAS,
+                            AppDestinations.PERFIL
+                        )
+
+                        drawerRoutes.forEach { destination ->
+                            NavigationRailItem(
+                                label = {
+                                    Text(
+                                        text = stringResource(destination.title),
+                                    )
+                                },
+                                selected = currentRoute == destination.route,
+                                onClick = { navGuard(navController, destination.route, true) },
+                                enabled = true,
+                                alwaysShowLabel = true,
+                                icon = {
+                                    Icon(destination.icon, contentDescription = null)
+                                }
+                            )
+                        }
+
+                        NavigationRailItem(
+                            label = {
+                                Text(
+                                    text = stringResource(R.string.cerrar_sesion),
+                                )
+                            },
+                            selected = false,
+                            onClick = {
+                                scope.launch {
+                                    viewModel.logout()
+                                }
+                            },
+                            enabled = true,
+                            alwaysShowLabel = true,
+                            icon = {
+                                Icon(Icons.AutoMirrored.Outlined.Logout, contentDescription = stringResource(R.string.cerrar_sesion))
+                            }
+                        )
+                    }
+                }
+                MainScaffold(
+                    snackbarHostState,
+                    currentRouteIsAuth,
+                    startRoute,
+                    currentRoute,
+                    navController,
+                    viewModel,
+                    scope,
+                    drawerState
+                )
+            }
+
+
+
         } else {
-            Phone(snackbarHostState, currentRouteIsAuth, startRoute, currentRoute, navController, viewModel, scope, drawerState)
+            ModalNavigationDrawer(
+                drawerState = drawerState,
+                drawerContent = {
+                    if (currentRouteIsAuth && uiState.isAuthenticated) {
+                        SideBar(viewModel, currentRoute, navController, drawerState)
+                    }
+                },
+                content = {
+                    MainScaffold(
+                        snackbarHostState,
+                        currentRouteIsAuth,
+                        startRoute,
+                        currentRoute,
+                        navController,
+                        viewModel,
+                        scope,
+                        drawerState
+                    )
+                }
+            )
         }
     }
 
@@ -103,115 +186,6 @@ fun MainApp (
     }
 }
 
-@Composable
-fun Phone(    snackbarHostState : SnackbarHostState,
-              currentRouteIsAuth : Boolean,
-              startRoute : String,
-              currentRoute : String?,
-              navController : NavHostController,
-              viewModel : WallXViewModel,
-              scope : CoroutineScope,
-              drawerState : DrawerState){
-    val uiState by viewModel.uiState.collectAsState()
-    ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent = {
-            if (currentRouteIsAuth && uiState.isAuthenticated) {
-                SideBar(viewModel, currentRoute, navController, drawerState)
-            }
-        },
-        content = {
-            MainScaffold(
-                snackbarHostState,
-                currentRouteIsAuth,
-                startRoute,
-                currentRoute,
-                navController,
-                viewModel,
-                scope,
-                drawerState
-            )
-        }
-    )
-}
-
-@Composable
-fun Tablet(    snackbarHostState : SnackbarHostState,
-               currentRouteIsAuth : Boolean,
-               startRoute : String,
-               currentRoute : String?,
-               navController : NavHostController,
-               viewModel : WallXViewModel,
-               scope : CoroutineScope,
-               drawerState : DrawerState) {
-
-    val uiState by viewModel.uiState.collectAsState()
-    Row {
-        if(uiState.isAuthenticated){
-            NavigationRail(
-                containerColor = MaterialTheme.colorScheme.primaryContainer.copy(0.8f)
-            ) {
-
-                val drawerRoutes = listOf(
-                    AppDestinations.DASHBOARD,
-                    AppDestinations.MOVIMIENTOS,
-                    AppDestinations.SERVICIOS,
-                    AppDestinations.TARJETAS,
-                    AppDestinations.PERFIL
-                )
-
-                drawerRoutes.forEach { destination ->
-                    NavigationRailItem(
-                        label = {
-                            Text(
-                                text = stringResource(destination.title),
-                            )
-                        },
-                        selected = currentRoute == destination.route,
-                        onClick = { navGuard(navController, destination.route, true) },
-                        enabled = true,
-                        alwaysShowLabel = true,
-                        icon = {
-                            Icon(destination.icon, contentDescription = null)
-                        }
-                    )
-                }
-
-                    NavigationRailItem(
-                        label = {
-                            Text(
-                                text = stringResource(R.string.cerrar_sesion),
-                            )
-                        },
-                        selected = false,
-                        onClick = {
-                            scope.launch {
-                                viewModel.logout()
-                            }
-                        },
-                        enabled = true,
-                        alwaysShowLabel = true,
-                        icon = {
-                            Icon(Icons.AutoMirrored.Outlined.Logout, contentDescription = stringResource(R.string.cerrar_sesion))
-                        }
-                    )
-                }
-            }
-        }
-
-
-        MainScaffold(
-            snackbarHostState,
-            currentRouteIsAuth,
-            startRoute,
-            currentRoute,
-            navController,
-            viewModel,
-            scope,
-            drawerState
-        )
-
-}
 
 @Composable
 fun MainScaffold(
