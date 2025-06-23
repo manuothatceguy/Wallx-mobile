@@ -73,7 +73,6 @@ fun MainApp (
     val navController = rememberNavController()
     val startRoute = if (uiState.isAuthenticated) AppDestinations.DASHBOARD.route else AppDestinations.INICIO_DE_SESION.route
     val currentRoute = navController.currentBackStackEntry?.destination?.route
-    val configuration = LocalConfiguration.current
     val authRoutes = AppDestinations.entries.filter{entry -> entry.requiresAuth}.map { entry -> entry.route }
     val currentRouteIsAuth = currentRoute in authRoutes
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -158,22 +157,22 @@ fun Tablet(    snackbarHostState : SnackbarHostState,
                     AppDestinations.PERFIL
                 )
 
-                    drawerRoutes.forEach { destination ->
-                        NavigationRailItem(
-                            label = {
-                                Text(
-                                    text = stringResource(destination.title),
-                                )
-                            },
-                            selected = currentRoute == destination.route,
-                            onClick = { navGuard(navController, destination.route, uiState.isAuthenticated) },
-                            enabled = true,
-                            alwaysShowLabel = true,
-                            icon = {
-                                Icon(destination.icon, contentDescription = null)
-                            }
-                        )
-                    }
+                drawerRoutes.forEach { destination ->
+                    NavigationRailItem(
+                        label = {
+                            Text(
+                                text = stringResource(destination.title),
+                            )
+                        },
+                        selected = currentRoute == destination.route,
+                        onClick = { navGuard(navController, destination.route, true) },
+                        enabled = true,
+                        alwaysShowLabel = true,
+                        icon = {
+                            Icon(destination.icon, contentDescription = null)
+                        }
+                    )
+                }
 
                     NavigationRailItem(
                         label = {
@@ -184,7 +183,6 @@ fun Tablet(    snackbarHostState : SnackbarHostState,
                         selected = false,
                         onClick = {
                             scope.launch {
-                                drawerState.close()
                                 viewModel.logout()
                             }
                         },
