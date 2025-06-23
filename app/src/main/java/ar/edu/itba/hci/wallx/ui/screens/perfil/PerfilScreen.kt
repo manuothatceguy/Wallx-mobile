@@ -134,11 +134,11 @@ fun PerfilScreen(modifier: Modifier = Modifier, viewModel: WallXViewModel) {
                         OutlinedTextField(
                             value = newAlias,
                             onValueChange = { newAlias = it },
-                            label = { Text(stringResource(R.string.nuevo_alias), color = Info) },
+                            label = { Text(stringResource(R.string.nuevo_alias), color = MaterialTheme.colorScheme.onBackground) },
                             modifier = Modifier.fillMaxWidth(),
                             colors = OutlinedTextFieldDefaults.colors(
-                                focusedTextColor = Info,
-                                unfocusedTextColor = Info,
+                                focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                                unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
                                 disabledTextColor = MaterialTheme.colorScheme.surfaceVariant,
                                 errorTextColor = MaterialTheme.colorScheme.error,
                                 errorContainerColor = MaterialTheme.colorScheme.error.copy(
@@ -148,7 +148,7 @@ fun PerfilScreen(modifier: Modifier = Modifier, viewModel: WallXViewModel) {
                                 cursorColor = Info,
 
                                 focusedBorderColor = Info,
-                                unfocusedBorderColor = Info.copy(0.8f),
+                                unfocusedBorderColor = MaterialTheme.colorScheme.onBackground.copy(0.8f),
                                 disabledBorderColor = MaterialTheme.colorScheme.surfaceVariant,
                                 errorBorderColor = MaterialTheme.colorScheme.error,
 
